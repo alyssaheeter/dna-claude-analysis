@@ -1,5 +1,10 @@
 # DNA Analysis with Claude
 
+[![Python 3.6+](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/downloads/)
+[![Claude Code](https://img.shields.io/badge/built%20with-Claude%20Code-blueviolet)](https://claude.ai)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/shmlkv/dna-claude-analysis?style=social)](https://github.com/shmlkv/dna-claude-analysis)
+
 Analyze your genetic data through conversation with Claude. Works with 23andMe, AncestryDNA, MyHeritage, Nebula, and other DNA testing services. Run scripts, explore your genome, and get personalized explanations — all in natural dialogue.
 
 ## Why Claude + DNA?
