@@ -11,7 +11,7 @@ from datetime import datetime
 
 # Paths
 BASE_PATH = "/Users/sh/Library/Mobile Documents/com~apple~CloudDocs/dna"
-GENOME_FILE = f"{BASE_PATH}/data/genome_Andre_Sh_v5_Full_20260106100611.txt"
+GENOME_FILE = f"{BASE_PATH}/data/my_dna_file.txt"
 REPORTS_PATH = f"{BASE_PATH}/reports"
 
 # =============================================================================
