@@ -7,6 +7,9 @@ data/*.vcf
 # Analysis reports (generated)
 reports/
 
+# Generated personal DNA webpage (contains derived health data)
+webpage/dna_terminal.html
+
 # macOS
 .DS_Store
 .AppleDouble
