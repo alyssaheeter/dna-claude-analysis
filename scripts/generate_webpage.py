@@ -4,7 +4,7 @@
 Genotypes are read live from the genome file; English interpretations come from
 the INTERP tables below, which were curated from the reports/ output. A genotype
 with no entry in a table is shown as "no interpretation" rather than guessed.
-CSS is reused from webpage/example.html so styling follows STYLE_GUIDE.md.
+CSS lives in webpage/brand.css (Nocturne Hothouse tokens) and is inlined.
 """
 import os
 import re
@@ -12,9 +12,78 @@ from datetime import datetime
 from html import escape
 
 BASE_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-GENOME_FILE = f"{BASE_PATH}/data/my_dna_file.txt"
-OUT_FILE = f"{BASE_PATH}/webpage/dna_terminal.html"
-STYLE_SRC = f"{BASE_PATH}/webpage/example.html"
+GENOME_FILE = os.environ.get('GENOME_FILE', f"{BASE_PATH}/data/my_dna_file.txt")
+OUT_FILE = os.environ.get('OUT_FILE', f"{BASE_PATH}/webpage/dna_terminal.html")
+CSS_FILE = f"{BASE_PATH}/webpage/brand.css"
+ASSET_DIR = f"{BASE_PATH}/webpage/assets"
+OWNER_NAME = os.environ.get('OWNER_NAME', '').strip() or 'Genome notes'
+
+
+def load_css():
+    with open(CSS_FILE, encoding='utf-8') as f:
+        return f.read()
+
+
+def inline_svg(name):
+    """Return webpage/assets/<name>.svg as an inline fragment (XML prolog and comments stripped)."""
+    with open(f"{ASSET_DIR}/{name}.svg", encoding='utf-8') as f:
+        svg = f.read()
+    svg = re.sub(r'<\?xml[^>]*\?>|<!--.*?-->|<!DOCTYPE[^>]*>', '', svg, flags=re.S)
+    return svg.strip()
+
+
+def wordmark(owner):
+    first, _, rest = owner.partition(' ')
+    caps = f'<span class="caps">{escape(rest.strip().upper())}</span>' if rest.strip() else ''
+    return f'<span class="wordmark"><span class="script">{escape(first)}</span>{caps}</span>'
+
+
+def decorative(name):
+    """An asset as an inline decorative graphic."""
+    return inline_svg(name).replace('<svg ', '<svg aria-hidden="true" focusable="false" ', 1)
+
+
+def sprite():
+    """One hidden SVG sprite: `sword` (line art) and `heart` (built from webpage/assets/heart.svg)."""
+    heart = inline_svg('heart')
+    box = re.search(r'viewBox="([^"]+)"', heart).group(1)
+    shapes = re.sub(r'^<svg[^>]*>|</svg>$', '', heart).strip()
+    sword = ('<symbol id="sword" viewBox="0 0 130 30"><g fill="none" stroke="currentColor" stroke-width="2.2" '
+             'stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="15" r="3.4"/><path d="M8.4 15H20M21 2V28"/>'
+             '<path d="M23 12.4L128 15L23 17.6Z"/></g></symbol>')
+    return (f'<svg style="display:none" aria-hidden="true" focusable="false">{sword}'
+            f'<symbol id="heart" viewBox="{box}">{shapes}</symbol></svg>')
+
+
+def divider(i):
+    """Decorative gilded rule with a small centred sword (a heart on every third)."""
+    glyph = 'heart' if i % 3 == 2 else 'sword'
+    return (f'<div class="divider {glyph}" aria-hidden="true"><svg focusable="false"><use href="#{glyph}"/></svg></div>')
+
+
+def hero(owner, flagged, ask, found, has_questions=None):
+    """Compact introduction above the summary. Counts only; zero-safe when no markers were readable."""
+    if has_questions is None:
+        has_questions = ask > 0
+    if found == 0:
+        sentence = 'No markers were readable in this file, so there is nothing to report.'
+    elif flagged == 0:
+        sentence = (f'{found} marker{"s" if found != 1 else ""} could be read on this chip. None of the displayed markers '
+                    f'differ from the typical result, so there is nothing to follow up.')
+    else:
+        sentence = (f'{found} marker{"s" if found != 1 else ""} could be read on this chip, {flagged} differ'
+                    f'{"s" if flagged == 1 else ""} from the typical result, and {ask} {"has" if ask == 1 else "have"} '
+                    f'a sensible follow-up.')
+    secondary = '<a class="btn btn-secondary" href="#questions">Questions for my clinician</a>' if has_questions else ''
+    botanical = (f'<div class="botanical" aria-hidden="true"><span class="leaf l1">{inline_svg("leaf")}</span>'
+                 f'<span class="leaf l2">{inline_svg("leaf")}</span><span class="heart h1">{decorative("heart")}</span>'
+                 f'<span class="heart h2">{decorative("heart")}</span></div>')
+    return (f'<div id="hero" class="hero" role="region" aria-labelledby="hero-title"><div class="hero-body">'
+            f'<p class="kicker">{escape(owner.upper())} &middot; THE SHORT VERSION</p>'
+            f'<h1 id="hero-title">What your DNA can, and can\'t,<br><em>tell you.</em></h1>'
+            f'<p class="hero-sentence">{escape(sentence)}</p>'
+            f'<p class="hero-actions"><a class="btn btn-primary" href="#status">See key takeaways</a>{secondary}</p>'
+            f"</div>{botanical}</div>")
 
 
 META = {'source': 'Unknown', 'chip': 'Unknown', 'y_calls': 0, 'x_calls': 0}
@@ -66,52 +135,112 @@ def norm(g):
     return ''.join(sorted(g))
 
 
-# rsid -> (gene, label, {sorted genotype: (status, text)})
-# status: normal | moderate | risk | info | na
+# Follow-up suggestions for flagged markers, keyed by rsID: (priority, text).
+# Wording is deliberately "ask about", never a diagnosis or a dose instruction.
+ACT = {
+    'rs4244285': (1, "Tell your pharmacist or prescriber you may be an intermediate CYP2C19 metabolizer before starting clopidogrel, some acid reducers or some antidepressants. Clinical-grade testing can confirm.", "Does a likely intermediate CYP2C19 metabolizer status matter for any medicine I take or might be prescribed?"),
+    'rs10757274': (2, "Standard cardiovascular screening applies (blood pressure, lipids). Family history matters more than this one marker.", "Given my family history, are my blood pressure and cholesterol screening intervals right?"),
+    'rs7903146': (3, "Standard diabetes screening applies (fasting glucose or HbA1c). Activity, weight and diet matter far more than this one marker.", "Should I have fasting glucose or HbA1c checked, and how often?"),
+    'rs3923809': (4, "If you have restless-legs symptoms, ask about a ferritin (iron stores) blood test.", "If I have restless-legs symptoms, should my ferritin (iron stores) be checked?"),
+    'rs2282679': (5, "Ask whether a 25(OH)D (vitamin D) blood test makes sense; supplementation should follow the blood level, not this genotype.", "Would a 25(OH)D (vitamin D) blood test be useful for me?"),
+    'rs7041': (5, "Ask whether a 25(OH)D (vitamin D) blood test makes sense; supplementation should follow the blood level, not this genotype.", "Would a 25(OH)D (vitamin D) blood test be useful for me?"),
+    'rs9923231': (6, "If warfarin is ever prescribed, mention this result; dosing is guided by clinical testing and INR monitoring.", "If I am ever prescribed warfarin, should dosing use genetic testing or INR monitoring alone?"),
+}
+
+# Strength of the evidence behind each section's markers (judgement, shown as a badge).
+EVIDENCE = {
+    'ancestry': ('weak', 'A few single markers cannot estimate ancestry'),
+    'health': ('moderate', 'Mixed: Factor V/HFE are well established, most others are modest risk shifts'),
+    'nutrition': ('moderate', 'Some markers are well studied; effects on real diets are small'),
+    'sports': ('weak', 'Single-marker athletic prediction is weak'),
+    'psychology': ('weak', 'Psychological genetics has very small effect sizes'),
+    'cognitive': ('weak', 'Cognition is highly polygenic; single markers explain little'),
+    'longevity': ('weak', 'Longevity associations are inconsistent across studies'),
+    'sleep': ('weak', 'Chronotype markers are weak; restless-legs markers are moderate'),
+    'immunity': ('moderate', 'Autoimmune and allergy associations are real but modest'),
+    'pain': ('weak', 'Pain-sensitivity markers are weak predictors'),
+    'detox': ('moderate', 'Drug-metabolism genes are well studied; the rest is modest'),
+    'skin': ('weak', 'Skin and acne associations are weak'),
+    'vision': ('moderate', 'Eye-disease associations are real but modest'),
+    'traits': ('moderate', 'Eye colour is a strong predictor; hair traits are not'),
+    'pharma': ('established', 'CYP2C19, VKORC1, SLCO1B1 and TPMT have clinical guidelines'),
+    'carrier': ('established', 'Carrier variants are well characterised, but this chip tests very few'),
+}
+
+ST = {
+    'normal': ('✓', 'TYPICAL'),
+    'info': ('○', 'INFO'),
+    'moderate': ('▲', 'FLAGGED · MODERATE'),
+    'risk': ('▲▲', 'FLAGGED · HIGH'),
+    'na': ('–', 'NO READING'),
+    'none': ('–', 'NOT TESTED'),
+}
+
+
 def row(rsid, gene, table):
+    """One marker row. table maps sorted genotype -> (status, plain-English meaning)."""
     STATS['total'] += 1
     g = geno(rsid)
+    idx = len(RESULTS)
     if g is None:
+        st, text = 'none', 'This chip does not test this marker'
         RESULTS.append({'section': None, 'rsid': rsid, 'gene': gene, 'g': None, 'st': 'na', 'text': ''})
-        return f'<tr><td>{rsid}</td><td>{escape(gene)}</td><td class="geno">--</td><td class="status-na">NOT ON CHIP</td><td>Not covered by this array</td></tr>'
-    STATS['found'] += 1
-    st, text = table.get(norm(g), ('na', 'No interpretation available for this genotype'))
-    RESULTS.append({'section': None, 'rsid': rsid, 'gene': gene, 'g': g, 'st': st, 'text': text})
-    return (f'<tr><td>{rsid}</td><td>{escape(gene)}</td><td class="geno">{g}</td>'
-            f'<td class="status-{st}">{ {"normal":"NORMAL","moderate":"MODERATE","risk":"HIGH","info":"INFO","na":"N/A"}[st] }</td>'
-            f'<td>{escape(text)}</td></tr>')
+    else:
+        STATS['found'] += 1
+        st, text = table.get(norm(g), ('na', 'No interpretation available for this genotype'))
+        act = ACT.get(rsid) if st in ('moderate', 'risk') else None
+        RESULTS.append({'section': None, 'rsid': rsid, 'gene': gene, 'g': g, 'st': st, 'text': text,
+                        'act': act[1] if act else None, 'pri': act[0] if act else None, 'q': act[2] if act else None})
+    icon, label = ST[st]
+    flag = ' flag' if st in ('moderate', 'risk') else ''
+    q = escape(f'{gene} {rsid} {text} {label}'.lower(), quote=True)
+    return (f'<tr class="r{flag}" data-q="{q}"><td data-label="Status"><span class="st status-{"na" if st == "none" else st}">'
+            f'<span aria-hidden="true">{icon}</span> {label}</span></td>'
+            f'<td class="c-mean" data-label="What it means"><span class="mt">{escape(text)}<!--X{idx}--></span></td>'
+            f'<td class="geno" data-label="Your result">{escape(g) if g else "--"}</td>'
+            f'<td class="c-mark" data-label="Marker">{escape(gene)} · {rsid}</td></tr>')
 
 
 def table(rows):
     body = '\n'.join(rows)
-    return ('<table><tr><th>SNP</th><th>Gene</th><th>Genotype</th><th>Status</th><th>Interpretation</th></tr>\n'
-            f'{body}\n</table>')
+    return ('<table><thead><tr><th scope="col">Status</th><th scope="col">What it means</th>'
+            '<th scope="col">Your result</th><th scope="col">Marker</th></tr></thead>\n'
+            f'<tbody>{body}</tbody></table>')
 
 
 def sub(title, rows):
-    return f'<div class="subsection"><div class="subsection-title">{escape(title)}</div>{table(rows)}</div>'
+    return f'<div class="subsection"><h3 class="subsection-title">{escape(title)}</h3>{table(rows)}</div>'
 
 
 def finding(kind, icon, gene, desc):
-    return (f'<div class="finding {kind}"><div class="finding-icon">{icon}</div><div class="finding-content">'
+    return (f'<div class="finding {kind}"><div class="finding-icon" aria-hidden="true">{icon}</div><div class="finding-content">'
             f'<div class="finding-gene">{escape(gene)}</div><div class="finding-desc">{escape(desc)}</div></div></div>')
 
 
-def profile(title, value, desc, color='var(--cyan)'):
+def profile(title, value, desc, tone='info'):
+    """A value box; `tone` is good, info, moderate or high and maps to a status colour class in brand.css."""
     return (f'<div class="profile-box"><div class="profile-title">{escape(title)}</div>'
-            f'<div class="profile-value" style="color: {color};">{escape(value)}</div>'
+            f'<div class="profile-value tone-{tone}">{escape(value)}</div>'
             f'<div class="profile-desc">{escape(desc)}</div></div>')
 
 
 def disclaimer(text, critical=False):
-    style = ' style="background: rgba(255, 51, 51, 0.1); border-color: var(--red); color: var(--red);"' if critical else ''
-    return f'<div class="disclaimer"{style}><strong>! Important</strong> {escape(text)}</div>'
+    cls = 'disclaimer critical' if critical else 'disclaimer'
+    return f'<div class="{cls}" role="note"><strong>! Important</strong> {escape(text)}</div>'
+
+
+def note(text):
+    return f'<p class="note">{escape(text)}</p>'
+
+
+SEC_TITLE = {}
 
 
 def section(sid, title, badge_cls, badge, content):
     mine = [r for r in RESULTS if r['section'] is None]
     for r in mine:
         r['section'] = sid
+    SEC_TITLE[sid] = title
     found_rows = [r for r in mine if r['g']]
     n_risk = sum(r['st'] == 'risk' for r in found_rows)
     n_mod = sum(r['st'] == 'moderate' for r in found_rows)
@@ -120,12 +249,16 @@ def section(sid, title, badge_cls, badge, content):
     elif n_risk:
         badge_cls, badge = 'risk', f'{n_risk} HIGH, {n_mod} MODERATE'
     elif n_mod:
-        badge_cls, badge = 'moderate', f'{n_mod} MODERATE MARKER{"S" if n_mod > 1 else ""}'
+        badge_cls, badge = 'moderate', f'{n_mod} MODERATE FLAG{"S" if n_mod > 1 else ""}'
     elif mine:
         badge_cls, badge = 'good', 'NO FLAGS'
-    return (f'<section id="{sid}"><div class="section-header"><span class="section-title">// {escape(title)}</span>'
-            f'<span class="section-badge {badge_cls}">{escape(badge)}</span></div>'
-            f'<div class="section-content">{content}</div></section>')
+    ev, ev_text = EVIDENCE[sid]
+    opened = ' open' if (n_risk or n_mod) else ''
+    return (f'<section id="{sid}" aria-labelledby="h-{sid}"><details class="sec"{opened}>'
+            f'<summary class="section-header"><h2 class="section-title" id="h-{sid}">{escape(title)}</h2>'
+            f'<span class="badges"><span class="ev ev-{ev}" title="{escape(ev_text, quote=True)}">EVIDENCE: {ev.upper()}</span>'
+            f'<span class="section-badge {badge_cls}">{escape(badge)}</span></span></summary>'
+            f'<div class="section-content"><p class="ev-note">{escape(ev_text)}.</p>{content}</div></details></section>')
 
 
 MED = ("Genes indicate predisposition, not destiny. This page is informational only and is not medical advice; "
@@ -135,7 +268,7 @@ MED = ("Genes indicate predisposition, not destiny. This page is informational o
 sections = []
 
 # ANCESTRY
-anc = disclaimer("Only a handful of ancestry-informative markers are tested here; this is NOT an ethnicity estimate. "
+anc = note("Only a handful of ancestry-informative markers are tested here; this is NOT an ethnicity estimate. "
                  "Use your AncestryDNA ethnicity results (or GEDmatch / DNA.Land) for real ancestry.")
 anc += sub('Ancestry-informative markers', [
     row('rs1426654', 'SLC24A5', {'AA': ('info', 'European-type light-skin variant')}),
@@ -148,7 +281,7 @@ anc += sub('Ancestry-informative markers', [
 sections.append(section('ancestry', 'ANCESTRY', 'moderate', 'LIMITED DATA', anc))
 
 # HEALTH
-h = disclaimer(MED)
+h = ''
 h += sub('Cardiovascular', [
     row('rs10757274', '9p21 locus', {'AG': ('moderate', 'Slightly increased coronary artery disease risk (heterozygous)')}),
     row('rs6025', 'Factor V Leiden', {'CC': ('normal', 'No Factor V Leiden mutation')}),
@@ -195,7 +328,7 @@ _actn3 = geno('rs1815739')
 s = ''
 if _actn3:
     _prof = {'CC': ('POWER-LEANING (RR)', 'Two functional ACTN3 copies'), 'CT': ('ALL-ROUNDER (RX)', 'One functional ACTN3 copy; versatile fiber mix'), 'TT': ('ENDURANCE-LEANING (XX)', 'No functional ACTN3; slow-twitch bias')}.get(norm(_actn3), (_actn3, 'ACTN3 rs1815739'))
-    s += '<div class="two-cols">' + profile('Athlete profile (ACTN3)', _prof[0], _prof[1], 'var(--green)') + '</div>'
+    s += '<div class="two-cols">' + profile('Athlete profile (ACTN3)', _prof[0], _prof[1], 'good') + '</div>'
 s += sub('Performance markers', [
     row('rs1815739', 'ACTN3', {'CT': ('info', 'RX: one functional copy; versatile fiber mix')}),
     row('rs8192678', 'PPARGC1A', {'CT': ('normal', 'Gly/Ser; moderate endurance potential')}),
@@ -208,13 +341,13 @@ s += sub('Performance markers', [
 sections.append(section('sports', 'SPORTS / FITNESS', 'good', 'BALANCED', s))
 
 # PSYCHOLOGY
-p = disclaimer("Psychological genetics has small effect sizes. Do not read these as personality or diagnosis.")
+p = note("Psychological genetics has small effect sizes. Do not read these as personality or diagnosis.")
 _comt, _bdnf = geno('rs4680'), geno('rs6265')
 _boxes = []
 if _comt:
     _boxes.append(profile('COMT type', {'AG': 'VAL/MET (AG)', 'GG': 'VAL/VAL (GG)', 'AA': 'MET/MET (AA)'}[norm(_comt)] if norm(_comt) in ('AG', 'GG', 'AA') else _comt, 'rs4680: dopamine clearance in prefrontal cortex'))
 if _bdnf:
-    _boxes.append(profile('BDNF', {'CC': 'VAL/VAL (CC)', 'CT': 'VAL/MET (CT)', 'TT': 'MET/MET (TT)'}.get(norm(_bdnf), _bdnf), 'rs6265: activity-dependent BDNF release; exercise helps', 'var(--amber)' if norm(_bdnf) == 'TT' else 'var(--cyan)'))
+    _boxes.append(profile('BDNF', {'CC': 'VAL/VAL (CC)', 'CT': 'VAL/MET (CT)', 'TT': 'MET/MET (TT)'}.get(norm(_bdnf), _bdnf), 'rs6265: activity-dependent BDNF release; exercise helps', 'moderate' if norm(_bdnf) == 'TT' else 'info'))
 if _boxes:
     p += '<div class="two-cols">' + ''.join(_boxes) + '</div>'
 p += sub('Markers', [
@@ -228,7 +361,7 @@ if _missing:
 sections.append(section('psychology', 'PSYCHOLOGY', 'moderate', 'MIXED', p))
 
 # COGNITIVE
-c = disclaimer("Cognition is highly polygenic; single variants explain very little.")
+c = note("Cognition is highly polygenic; single variants explain very little.")
 c += sub('Cognitive markers', [
     row('rs4680', 'COMT', {'AG': ('info', 'Balanced cognitive flexibility')}),
     row('rs6265', 'BDNF', {'TT': ('moderate', 'Met/Met; regular aerobic exercise is the best-supported offset')}),
@@ -257,9 +390,10 @@ sections.append(section('longevity', 'LONGEVITY', 'good', 'FAVORABLE MARKERS', l
 sl = ''
 _boxes = []
 if geno('rs4753426'):
-    _boxes.append(profile('Chronotype', {'CC': 'EVENING-LEANING', 'TT': 'MORNING-LEANING'}.get(norm(geno('rs4753426')), 'INTERMEDIATE'), 'From MTNR1B rs4753426 (one marker; weak evidence)', 'var(--amber)'))
+    _boxes.append(profile('Chronotype', {'CC': 'EVENING-LEANING', 'TT': 'MORNING-LEANING'}.get(norm(geno('rs4753426')), 'INTERMEDIATE'), 'From MTNR1B rs4753426 (one marker; weak evidence)', 'moderate'))
 if geno('rs3923809'):
-    _boxes.append(profile('Restless legs (BTBD9)', {'AA': 'ELEVATED RISK', 'GG': 'NOT ELEVATED'}.get(norm(geno('rs3923809')), 'INTERMEDIATE'), 'From rs3923809; if symptomatic, check iron (ferritin) with a clinician', 'var(--amber)'))
+    _boxes.append(profile('Restless legs (BTBD9)', {'AA': 'ELEVATED RISK', 'GG': 'NOT ELEVATED'}.get(norm(geno('rs3923809')), 'INTERMEDIATE'), 'From rs3923809; if symptomatic, check iron (ferritin) with a clinician',
+                  {'AA': 'high', 'GG': 'good'}.get(norm(geno('rs3923809')), 'moderate')))
 if _boxes:
     sl += '<div class="two-cols">' + ''.join(_boxes) + '</div>'
 sl += sub('Sleep markers', [
@@ -370,24 +504,33 @@ cr += sub('Tested carrier variants', [
 ])
 sections.append(section('carrier', 'CARRIER STATUS', 'good', 'NO CARRIER VARIANTS FOUND', cr))
 
-# ---------------------------------------------------------------- status
-total = STATS['total']
-found = STATS['found']
+# ---------------------------------------------------------------- summary
+total = len({r['rsid'] for r in RESULTS})
+found = len({r['rsid'] for r in RESULTS if r['g']})
 snps = len(GENOME)
-def _dedupe(rows):
+FLAGGED = [r for r in RESULTS if r['g'] and r['st'] in ('moderate', 'risk')]
+
+
+def by_gene(rows):
+    """Keep the first row per gene so a repeated marker is listed once."""
     seen, out = set(), []
     for r in rows:
-        k = (r['gene'], r['g'])
-        if k not in seen:
-            seen.add(k)
+        if r['gene'] not in seen:
+            seen.add(r['gene'])
             out.append(r)
     return out
 
 
-_found_rows = [r for r in RESULTS if r['g']]
-_alerts = _dedupe([r for r in _found_rows if r['st'] == 'risk'] + [r for r in _found_rows if r['st'] == 'moderate'])[:10]
-_good = _dedupe([r for r in _found_rows if r['st'] == 'normal' and r['section'] in ('longevity', 'health', 'sports', 'pain', 'nutrition')])[:6]
-_missing_key = [name for rs, name in (('rs429358', 'APOE'), ('rs762551', 'CYP1A2')) if geno(rs) is None]
+ask = by_gene(sorted([r for r in FLAGGED if r['act']], key=lambda r: r['pri']))[:7]
+ask_genes = {r['gene'] for r in ask}
+know = by_gene([r for r in FLAGGED if r['gene'] not in ask_genes])
+good = by_gene([r for r in RESULTS if r['g'] and r['st'] == 'normal' and r['section'] in ('health', 'pharma', 'longevity', 'carrier')])[:6]
+
+not_tested = [r['gene'] for r in by_gene([r for r in RESULTS if r['g'] is None])]
+for rs, name in (('rs429358', 'APOE'), ('rs762551', 'CYP1A2'), ('rs2802292', 'FOXO3')):
+    if geno(rs) is None and name not in not_tested:
+        not_tested.append(name)
+
 if META['y_calls'] > 100:
     _sex = 'Male (XY)'
 elif META['x_calls'] > 1000:
@@ -396,71 +539,197 @@ else:
     _sex = 'Unknown'
 
 
-def _alert(cls, icon, text):
-    return f'<div class="alert-item {cls}"><span class="alert-icon">{icon}</span><span>{escape(text)}</span></div>'
+def li(icon, cls, head, body=''):
+    b = f'<div class="tk-act">→ {escape(body)}</div>' if body else ''
+    return f'<li class="tk {cls}"><span class="tk-icon" aria-hidden="true">{icon}</span><div><div class="tk-head">{head}</div>{b}</div></li>'
 
 
-alerts_html = ''.join(_alert('warning', '!', f"{r['gene']} {r['g']}: {r['text']}") for r in _alerts)
-if _missing_key:
-    alerts_html += _alert('warning', '!', ', '.join(_missing_key) + ' not on this chip: unknown')
-if not alerts_html:
-    alerts_html = _alert('success', '+', 'No flagged markers among those displayed')
-good_html = ''.join(_alert('success', '+', f"{r['gene']} {r['g']}: {r['text']}") for r in _good) \
-    or _alert('warning', '!', 'No highlighted markers')
+def tier(title, cls, items, empty):
+    inner = ''.join(items) or f'<li class="tk">{escape(empty)}</li>'
+    return f'<div class="tier {cls}"><h3 class="tier-title">{escape(title)}</h3><ul>{inner}</ul></div>'
+
+
+ask_items = [li('▲', 'amber', f"<strong>{escape(r['gene'])}</strong> ({escape(r['g'])}): {escape(r['text'])}", r['act']) for r in ask]
+know_items = [li('▲', 'amber', f"<strong>{escape(r['gene'])}</strong> ({escape(r['g'])}): {escape(r['text'])}") for r in know[:6]]
+if len(know) > 6:
+    know_items.append(f'<li class="tk more">+ {len(know) - 6} more flagged markers in the sections below</li>')
+good_items = [li('✓', 'green', f"<strong>{escape(r['gene'])}</strong>: {escape(r['text'])}") for r in good]
+nt_items = [li('–', 'gray', escape(', '.join(not_tested)) + ' are not on this chip, so their results are unknown. '
+               'A consumer SNP array also misses most clinically important variants (for example most BRCA1/BRCA2 and CFTR variants); '
+               'ask a clinician about clinical testing if it matters to you.')] if not_tested else []
+
+questions = ''.join(f'<li>{escape(r["q"])}</li>' for r in by_gene(ask) if r['q'])
+questions_html = (f'<div class="tier questions" id="questions"><h3 class="tier-title">Questions to bring to a clinician or pharmacist</h3>'
+                  f'<ol>{questions}</ol></div>') if questions else ''
+
+n_flag_rows = len({r['rsid'] for r in FLAGGED})
+if found == 0:
+    _lead = 'No markers could be read on this chip, so there is nothing to report.'
+elif n_flag_rows == 0:
+    _lead = (f'<strong>None</strong> of the displayed markers read on this chip ({found}) differ from the typical result, '
+             f'so there is nothing to follow up.')
+else:
+    _lead = (f'<strong>{n_flag_rows} of {found}</strong> distinct markers read on this chip differ from the typical result, and '
+             f'<strong>{len(ask)}</strong> of them have a sensible follow-up.')
+lede = (f'<p class="lede">{_lead} Each marker has a small effect on its own. '
+        f'Informational only, not medical advice.</p>')
+
+legend = '''<details class="legend"><summary>How to read the statuses</summary><dl>
+<dt><span class="st status-normal">✓ TYPICAL</span></dt><dd>The common or reference result. Nothing to act on.</dd>
+<dt><span class="st status-info">○ INFO</span></dt><dd>A trait or characteristic. No risk is implied.</dd>
+<dt><span class="st status-moderate">▲ FLAGGED · MODERATE</span></dt><dd>Differs from typical with a small to moderate effect. Usually worth awareness, not worry.</dd>
+<dt><span class="st status-risk">▲▲ FLAGGED · HIGH</span></dt><dd>A larger effect. Worth discussing with a clinician.</dd>
+<dt><span class="st status-na">– NO READING / NOT TESTED</span></dt><dd>No interpretation for this result, or the chip does not test the marker.</dd>
+</dl><p>Evidence badges: <strong>ESTABLISHED</strong> = clinical guidelines exist; <strong>MODERATE</strong> = real but modest; <strong>WEAK</strong> = inconsistent or very small effects.</p></details>'''
+
+toolbar = '''<div class="toolbar" role="search"><label class="sr" for="q">Search markers by gene, rsID or keyword</label>
+<input id="q" type="search" placeholder="Search gene, rsID or keyword" autocomplete="off">
+<button type="button" id="flagonly" aria-pressed="false">Flagged only</button>
+<button type="button" id="expandall">Expand all</button><button type="button" id="collapseall">Collapse all</button>
+<span id="count" role="status" aria-live="polite"></span></div>'''
+
+hero_html = hero(OWNER_NAME, n_flag_rows, len(ask), found, has_questions=bool(questions))
 
 status = f'''
-<div class="status-box" id="status">
-  <div class="status-header">// SYSTEM STATUS</div>
+<div class="status-box" id="status" tabindex="-1">
+  <h2 class="status-header">KEY TAKEAWAYS</h2>
+  {lede}
+  {tier('Ask about / act on', 'tier-ask', ask_items, 'No flagged markers have a standard follow-up.')}
+  {tier('Worth knowing', 'tier-know', know_items, 'No other flagged markers.')}
+  {tier('Good news', 'tier-good', good_items, 'No highlighted markers.')}
+  {tier('Not tested on this chip', 'tier-nt', nt_items, 'All displayed markers were on the chip.')}
+  {questions_html}
   <div class="status-grid">
     <div class="status-item"><span class="status-label">GENOME:</span><span class="status-value">{escape(META['source'])}</span></div>
     <div class="status-item"><span class="status-label">SEX:</span><span class="status-value">{_sex}</span></div>
     <div class="status-item"><span class="status-label">SNPs:</span><span class="status-value">{snps:,}</span></div>
     <div class="status-item"><span class="status-label">CHIP:</span><span class="status-value">{escape(META['chip'])}</span></div>
   </div>
-  <div class="alerts-grid">
-    <div class="alerts-column warnings"><h3>// ALERTS</h3>{alerts_html}</div>
-    <div class="alerts-column highlights"><h3>// HIGHLIGHTS</h3>{good_html}</div>
-  </div>
   <div class="progress-bar"><div class="progress-track">
     <div class="progress-fill" style="flex: {found};"></div><div class="progress-empty" style="flex: {total - found};"></div></div>
     <div class="progress-label">{found}/{total} displayed markers present on this chip</div></div>
   {disclaimer(MED)}
+  {legend}
+  {toolbar}
 </div>'''
 
-NAV = [('status', 'STATUS'), ('ancestry', 'ANCESTRY'), ('health', 'HEALTH'), ('nutrition', 'NUTRITION'), ('sports', 'SPORTS'),
+# ---------------------------------------------------------------- assembly
+NAV = [('status', 'SUMMARY'), ('ancestry', 'ANCESTRY'), ('health', 'HEALTH'), ('nutrition', 'NUTRITION'), ('sports', 'SPORTS'),
        ('psychology', 'PSYCH'), ('cognitive', 'COGNITIVE'), ('longevity', 'LONGEVITY'), ('sleep', 'SLEEP'),
        ('immunity', 'IMMUNITY'), ('pain', 'PAIN'), ('detox', 'DETOX'), ('skin', 'SKIN'), ('vision', 'VISION'),
        ('traits', 'TRAITS'), ('pharma', 'PHARMA'), ('carrier', 'CARRIER')]
 nav = '\n'.join(f'<a href="#{i}">{t}</a>' for i, t in NAV)
 
-with open(STYLE_SRC, encoding='utf-8') as f:
-    src = f.read()
-css = re.search(r'<style>(.*?)</style>', src, re.S).group(1)
-js = re.search(r'<script>(.*?)</script>', src, re.S).group(1)
+body = '\n'.join(sec + (divider(i) if i < len(sections) - 1 else '') for i, sec in enumerate(sections))
+# cross-references: a marker that also appears in other sections says where
+for idx, r in enumerate(RESULTS):
+    others = [SEC_TITLE[x['section']] for j, x in enumerate(RESULTS)
+              if j != idx and x['rsid'] == r['rsid'] and x['g'] and x['section'] != r['section']]
+    others = list(dict.fromkeys(others))
+    tag = f' <span class="xref">↺ also in {escape(", ".join(others))}</span>' if (r['g'] and others) else ''
+    body = body.replace(f'<!--X{idx}-->', tag)
+
+footer = (f'<footer><h2 class="status-header">ABOUT THIS DATA</h2><p>Source: {escape(META["source"])} raw data ({snps:,} SNPs, {escape(META["chip"])}). '
+          f'Generated {datetime.now():%Y-%m-%d %H:%M} by scripts/generate_webpage.py. A consumer array reads selected positions, not your whole genome, '
+          f'and is not clinical-grade; confirm anything that matters in an accredited clinical lab before acting. '
+          f'Interpretations are general population associations, not a diagnosis.</p></footer>')
+
+EXTRA_JS = r'''
+(function () {
+  var hdr = document.querySelector('header');
+  function setH() { document.documentElement.style.setProperty('--hh', hdr.offsetHeight + 'px'); }
+  setH(); addEventListener('resize', setH);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(setH);
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var links = Array.prototype.slice.call(document.querySelectorAll('nav a'));
+  var secs = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+
+  function go(id) {
+    var t = document.querySelector(id); if (!t) return;
+    var d = t.querySelector('details'); if (d) d.open = true;
+    t.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    t.setAttribute('tabindex', '-1'); t.focus({ preventScroll: true });
+    history.replaceState(null, '', id);
+  }
+  links.forEach(function (a) { a.addEventListener('click', function (e) { e.preventDefault(); go(a.getAttribute('href')); }); });
+  if (location.hash) go(location.hash);
+
+  function active() {
+    var y = hdr.offsetHeight + 40, cur = 0;
+    secs.forEach(function (s, i) { if (s && s.getBoundingClientRect().top <= y) cur = i; });
+    links.forEach(function (a, i) {
+      if (i === cur) { a.setAttribute('aria-current', 'true'); } else { a.removeAttribute('aria-current'); }
+    });
+    var c = links[cur]; if (c && c.scrollIntoView && innerWidth <= 768) { nav_center(c); }
+  }
+  function nav_center(c) { var n = c.parentNode; n.scrollLeft = c.offsetLeft - n.clientWidth / 2 + c.clientWidth / 2; }
+  addEventListener('scroll', active, { passive: true }); active();
+
+  var q = document.getElementById('q'), flag = document.getElementById('flagonly'), count = document.getElementById('count');
+  var rows = Array.prototype.slice.call(document.querySelectorAll('tr.r'));
+  var sections = Array.prototype.slice.call(document.querySelectorAll('section[id]'));
+  function filter() {
+    var term = q.value.trim().toLowerCase(), only = flag.getAttribute('aria-pressed') === 'true', shown = 0;
+    rows.forEach(function (r) {
+      var ok = (!only || r.classList.contains('flag')) && (!term || r.dataset.q.indexOf(term) > -1);
+      r.hidden = !ok; if (ok) shown++;
+    });
+    var active_filter = term || only;
+    document.querySelectorAll('.subsection').forEach(function (s) {
+      s.hidden = !!active_filter && !s.querySelector('tr.r:not([hidden])');
+    });
+    sections.forEach(function (s) {
+      var any = !!s.querySelector('tr.r:not([hidden])');
+      s.hidden = !!active_filter && !any;
+      if (active_filter && any) s.querySelector('details').open = true;
+    });
+    count.textContent = active_filter ? (shown ? shown + ' of ' + rows.length + ' markers shown' : 'No markers match') : '';
+  }
+  q.addEventListener('input', filter);
+  flag.addEventListener('click', function () {
+    flag.setAttribute('aria-pressed', flag.getAttribute('aria-pressed') === 'true' ? 'false' : 'true'); filter();
+  });
+  function setAll(v) { document.querySelectorAll('details.sec').forEach(function (d) { d.open = v; }); }
+  document.getElementById('expandall').addEventListener('click', function () { setAll(true); });
+  document.getElementById('collapseall').addEventListener('click', function () { setAll(false); });
+  var saved = [];
+  addEventListener('beforeprint', function () {
+    saved = Array.prototype.map.call(document.querySelectorAll('details'), function (d) { return d.open; });
+    document.querySelectorAll('details').forEach(function (d) { d.open = true; });
+  });
+  addEventListener('afterprint', function () {
+    document.querySelectorAll('details').forEach(function (d, i) { d.open = saved[i]; });
+  });
+})();
+'''
 
 html = f'''<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DNA TERMINAL v1.0</title>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<style>{css}</style>
+<title>{escape(OWNER_NAME)} | genome summary</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
+<style>{load_css()}</style>
 </head>
 <body>
+{sprite()}
+<a class="skip" href="#status">Skip to summary</a>
 <header>
-  <div class="header-top"><div class="logo">DNA TERMINAL v1.0</div>
+  <div class="header-top"><div class="logo">{inline_svg("mark").replace("<svg ", '<svg data-brand="mark" role="img" aria-label="Three of Swords mark" ', 1)}{wordmark(OWNER_NAME)}</div>
   <div class="timestamp">{datetime.now():%Y-%m-%d %H:%M}</div></div>
-  <nav>{nav}</nav>
+  <nav aria-label="Sections">{nav}</nav>
 </header>
-<main>
+<main id="main">
+{hero_html}
 {status}
-{chr(10).join(sections)}
+{body}
+{footer}
 </main>
-<script>{js}</script>
+<script>{EXTRA_JS}</script>
 </body>
 </html>'''
 
 with open(OUT_FILE, 'w', encoding='utf-8') as f:
     f.write(html)
-print(f"Wrote {OUT_FILE}: {found}/{total} markers present")
+print(f"Wrote {OUT_FILE}: {found}/{total} markers present, {n_flag_rows} flagged, {len(ask)} follow-ups")
