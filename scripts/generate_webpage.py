@@ -197,7 +197,7 @@ def row(rsid, gene, table):
     return (f'<tr class="r{flag}" data-q="{q}"><td data-label="Status"><span class="st status-{"na" if st == "none" else st}">'
             f'<span aria-hidden="true">{icon}</span> {label}</span></td>'
             f'<td class="c-mean" data-label="What it means"><span class="mt">{escape(text)}<!--X{idx}--></span></td>'
-            f'<td class="geno" data-label="Your result">{g or "--"}</td>'
+            f'<td class="geno" data-label="Your result">{escape(g) if g else "--"}</td>'
             f'<td class="c-mark" data-label="Marker">{escape(gene)} · {rsid}</td></tr>')
 
 
@@ -217,15 +217,16 @@ def finding(kind, icon, gene, desc):
             f'<div class="finding-gene">{escape(gene)}</div><div class="finding-desc">{escape(desc)}</div></div></div>')
 
 
-def profile(title, value, desc, color='var(--cyan)'):
+def profile(title, value, desc, tone='info'):
+    """A value box; `tone` is good, info, moderate or high and maps to a status colour class in brand.css."""
     return (f'<div class="profile-box"><div class="profile-title">{escape(title)}</div>'
-            f'<div class="profile-value" style="color: {color};">{escape(value)}</div>'
+            f'<div class="profile-value tone-{tone}">{escape(value)}</div>'
             f'<div class="profile-desc">{escape(desc)}</div></div>')
 
 
 def disclaimer(text, critical=False):
-    style = ' style="background: rgba(255, 51, 51, 0.1); border-color: var(--red); color: var(--red);"' if critical else ''
-    return f'<div class="disclaimer" role="note"{style}><strong>! Important</strong> {escape(text)}</div>'
+    cls = 'disclaimer critical' if critical else 'disclaimer'
+    return f'<div class="{cls}" role="note"><strong>! Important</strong> {escape(text)}</div>'
 
 
 def note(text):
@@ -254,7 +255,7 @@ def section(sid, title, badge_cls, badge, content):
     ev, ev_text = EVIDENCE[sid]
     opened = ' open' if (n_risk or n_mod) else ''
     return (f'<section id="{sid}" aria-labelledby="h-{sid}"><details class="sec"{opened}>'
-            f'<summary class="section-header"><h2 class="section-title" id="h-{sid}">// {escape(title)}</h2>'
+            f'<summary class="section-header"><h2 class="section-title" id="h-{sid}">{escape(title)}</h2>'
             f'<span class="badges"><span class="ev ev-{ev}" title="{escape(ev_text, quote=True)}">EVIDENCE: {ev.upper()}</span>'
             f'<span class="section-badge {badge_cls}">{escape(badge)}</span></span></summary>'
             f'<div class="section-content"><p class="ev-note">{escape(ev_text)}.</p>{content}</div></details></section>')
@@ -327,7 +328,7 @@ _actn3 = geno('rs1815739')
 s = ''
 if _actn3:
     _prof = {'CC': ('POWER-LEANING (RR)', 'Two functional ACTN3 copies'), 'CT': ('ALL-ROUNDER (RX)', 'One functional ACTN3 copy; versatile fiber mix'), 'TT': ('ENDURANCE-LEANING (XX)', 'No functional ACTN3; slow-twitch bias')}.get(norm(_actn3), (_actn3, 'ACTN3 rs1815739'))
-    s += '<div class="two-cols">' + profile('Athlete profile (ACTN3)', _prof[0], _prof[1], 'var(--green)') + '</div>'
+    s += '<div class="two-cols">' + profile('Athlete profile (ACTN3)', _prof[0], _prof[1], 'good') + '</div>'
 s += sub('Performance markers', [
     row('rs1815739', 'ACTN3', {'CT': ('info', 'RX: one functional copy; versatile fiber mix')}),
     row('rs8192678', 'PPARGC1A', {'CT': ('normal', 'Gly/Ser; moderate endurance potential')}),
@@ -346,7 +347,7 @@ _boxes = []
 if _comt:
     _boxes.append(profile('COMT type', {'AG': 'VAL/MET (AG)', 'GG': 'VAL/VAL (GG)', 'AA': 'MET/MET (AA)'}[norm(_comt)] if norm(_comt) in ('AG', 'GG', 'AA') else _comt, 'rs4680: dopamine clearance in prefrontal cortex'))
 if _bdnf:
-    _boxes.append(profile('BDNF', {'CC': 'VAL/VAL (CC)', 'CT': 'VAL/MET (CT)', 'TT': 'MET/MET (TT)'}.get(norm(_bdnf), _bdnf), 'rs6265: activity-dependent BDNF release; exercise helps', 'var(--amber)' if norm(_bdnf) == 'TT' else 'var(--cyan)'))
+    _boxes.append(profile('BDNF', {'CC': 'VAL/VAL (CC)', 'CT': 'VAL/MET (CT)', 'TT': 'MET/MET (TT)'}.get(norm(_bdnf), _bdnf), 'rs6265: activity-dependent BDNF release; exercise helps', 'moderate' if norm(_bdnf) == 'TT' else 'info'))
 if _boxes:
     p += '<div class="two-cols">' + ''.join(_boxes) + '</div>'
 p += sub('Markers', [
@@ -389,9 +390,10 @@ sections.append(section('longevity', 'LONGEVITY', 'good', 'FAVORABLE MARKERS', l
 sl = ''
 _boxes = []
 if geno('rs4753426'):
-    _boxes.append(profile('Chronotype', {'CC': 'EVENING-LEANING', 'TT': 'MORNING-LEANING'}.get(norm(geno('rs4753426')), 'INTERMEDIATE'), 'From MTNR1B rs4753426 (one marker; weak evidence)', 'var(--amber)'))
+    _boxes.append(profile('Chronotype', {'CC': 'EVENING-LEANING', 'TT': 'MORNING-LEANING'}.get(norm(geno('rs4753426')), 'INTERMEDIATE'), 'From MTNR1B rs4753426 (one marker; weak evidence)', 'moderate'))
 if geno('rs3923809'):
-    _boxes.append(profile('Restless legs (BTBD9)', {'AA': 'ELEVATED RISK', 'GG': 'NOT ELEVATED'}.get(norm(geno('rs3923809')), 'INTERMEDIATE'), 'From rs3923809; if symptomatic, check iron (ferritin) with a clinician', 'var(--amber)'))
+    _boxes.append(profile('Restless legs (BTBD9)', {'AA': 'ELEVATED RISK', 'GG': 'NOT ELEVATED'}.get(norm(geno('rs3923809')), 'INTERMEDIATE'), 'From rs3923809; if symptomatic, check iron (ferritin) with a clinician',
+                  {'AA': 'high', 'GG': 'good'}.get(norm(geno('rs3923809')), 'moderate')))
 if _boxes:
     sl += '<div class="two-cols">' + ''.join(_boxes) + '</div>'
 sl += sub('Sleep markers', [
@@ -547,8 +549,8 @@ def tier(title, cls, items, empty):
     return f'<div class="tier {cls}"><h3 class="tier-title">{escape(title)}</h3><ul>{inner}</ul></div>'
 
 
-ask_items = [li('▲', 'amber', f"<strong>{escape(r['gene'])}</strong> ({r['g']}): {escape(r['text'])}", r['act']) for r in ask]
-know_items = [li('▲', 'amber', f"<strong>{escape(r['gene'])}</strong> ({r['g']}): {escape(r['text'])}") for r in know[:6]]
+ask_items = [li('▲', 'amber', f"<strong>{escape(r['gene'])}</strong> ({escape(r['g'])}): {escape(r['text'])}", r['act']) for r in ask]
+know_items = [li('▲', 'amber', f"<strong>{escape(r['gene'])}</strong> ({escape(r['g'])}): {escape(r['text'])}") for r in know[:6]]
 if len(know) > 6:
     know_items.append(f'<li class="tk more">+ {len(know) - 6} more flagged markers in the sections below</li>')
 good_items = [li('✓', 'green', f"<strong>{escape(r['gene'])}</strong>: {escape(r['text'])}") for r in good]
@@ -590,7 +592,7 @@ hero_html = hero(OWNER_NAME, n_flag_rows, len(ask), found, has_questions=bool(qu
 
 status = f'''
 <div class="status-box" id="status" tabindex="-1">
-  <h2 class="status-header">// KEY TAKEAWAYS</h2>
+  <h2 class="status-header">KEY TAKEAWAYS</h2>
   {lede}
   {tier('Ask about / act on', 'tier-ask', ask_items, 'No flagged markers have a standard follow-up.')}
   {tier('Worth knowing', 'tier-know', know_items, 'No other flagged markers.')}
@@ -627,7 +629,7 @@ for idx, r in enumerate(RESULTS):
     tag = f' <span class="xref">↺ also in {escape(", ".join(others))}</span>' if (r['g'] and others) else ''
     body = body.replace(f'<!--X{idx}-->', tag)
 
-footer = (f'<footer><h2 class="status-header">// ABOUT THIS DATA</h2><p>Source: {escape(META["source"])} raw data ({snps:,} SNPs, {escape(META["chip"])}). '
+footer = (f'<footer><h2 class="status-header">ABOUT THIS DATA</h2><p>Source: {escape(META["source"])} raw data ({snps:,} SNPs, {escape(META["chip"])}). '
           f'Generated {datetime.now():%Y-%m-%d %H:%M} by scripts/generate_webpage.py. A consumer array reads selected positions, not your whole genome, '
           f'and is not clinical-grade; confirm anything that matters in an accredited clinical lab before acting. '
           f'Interpretations are general population associations, not a diagnosis.</p></footer>')

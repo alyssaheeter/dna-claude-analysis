@@ -82,7 +82,7 @@ Rules:
 
 | Component | Notes |
 |-----------|-------|
-| Header and wordmark | Fixed, `--ground` with a 1px gold bottom rule. Brand mark (`assets/mark.svg`, "Three of Swords mark", `role="img"`), wordmark = Pinyon name + spaced Cormorant capitals (default "Genome Notes", set with `OWNER_NAME`), timestamp. Nav is uppercase 12px, gold underline on hover, `aria-current="true"` on the section in view |
+| Header and wordmark | Fixed, `--ground` with a 1px gold bottom rule. Brand mark (`assets/mark.svg`, "Three of Swords mark", `role="img"`), wordmark = Pinyon name + spaced Cormorant capitals (default "Genome notes", set with `OWNER_NAME`), timestamp. Nav is uppercase 12px, gold underline on hover, `aria-current="true"` on the section in view |
 | Hero (`#hero`) | Bordered panel before the summary. Kicker in spaced gold capitals, Cormorant h1 with an italic blush second line, one derived sentence, buttons `.btn-primary` (garnet fill, ivory text, pill, 44px) and `.btn-secondary` (gold outline). Both link to anchors on the page. At most 240px tall at 1280px |
 | Botanical art | `.botanical`, `aria-hidden`, absolute at the right of the hero: two leaves (`assets/leaf.svg`) and two hearts (`assets/heart.svg`). A scaled-down version of the kit art (no sword sprays). Narrows under 900px, removed under 640px |
 | Status box | `.status-box`: panel with gold border, summary grid and progress strip |
@@ -93,7 +93,7 @@ Rules:
 | Tables | Columns Status, What it means, Your result, Marker. Flagged rows are weight 500 with an icon. Under 640px each row becomes a stacked card with `data-label` captions and a garnet left rail on flagged rows |
 | Badges | `.section-badge` good (sage on tinted sage), moderate (gold on tinted gold), risk (ivory text on garnet fill); `.ev` evidence pills: Established (sage), Moderate (muted), Weak (gold) |
 | Dividers | `.divider` between sections: a gilded 1px line with a small centred sword glyph, a heart on every third; `aria-hidden`; both glyphs come from the one sprite |
-| Findings, profile boxes, disclaimers | `.finding` cards with a 3px left rail by level, `.profile-box`, and at most three `.disclaimer` boxes (general, pharma, carrier) |
+| Findings, profile boxes, disclaimers | `.finding` cards with a 3px left rail by level, `.profile-box`, and at most three `.disclaimer` boxes (general in gold; pharma and carrier are `.disclaimer.critical`: 2px garnet border, garnet-tint fill, rose heading). `.profile-value` takes a tone class: `tone-good` sage, `tone-info` blush, `tone-moderate` gold, `tone-high` rose. Inline `style` attributes carry no colour tokens |
 | Footer | Panel with gold top rule: provenance and limits |
 
 Motion: transitions on nav, buttons and summaries only when `prefers-reduced-motion: no-preference`; a blanket rule disables animation and transition when reduced motion is requested.
@@ -107,7 +107,7 @@ Motion: transitions on nav, buttons and summaries only when `prefers-reduced-mot
 | over 900px | Full hero with botanical art, wrapped nav |
 | 641 to 900px | Hero right padding 200px, smaller art |
 | up to 768px | Tighter gutters, single-column grids, one-row horizontally scrolling nav |
-| up to 640px | Hero reduced to the kicker (h1 stays for screen readers, art, sentence and buttons hidden), tables become stacked cards, smaller wordmark |
+| up to 640px | Hero reduced to the kicker (h1 stays for screen readers, art, sentence and buttons hidden), tables become stacked cards, smaller wordmark that wraps instead of clipping a long `OWNER_NAME` |
 | 320px | No horizontal scroll; the longest section title wraps (`overflow-wrap: anywhere`) |
 
 Fixed header height is the `--hh` variable, used for `scroll-padding-top` and the top padding of `main`.
@@ -120,7 +120,9 @@ Fixed header height is the `--hh` variable, used for `scroll-padding-top` and th
 
 ## Print
 
-`@media print` swaps the tokens to dark ink on a white page, hides the header, toolbar, skip link, botanical art and dividers, opens every section, avoids breaking rows and panels, and keeps the risk badge as a dark red fill with white text.
+`@media print` swaps the tokens to dark ink on a white page and hides the header, toolbar, skip link, hero (art, text and buttons) and dividers, so page 1 starts with the key takeaways. Rows, tiers and findings do not split across pages; the status box and sections may, because they are taller than a page. Section badges print as a 1px outlined pill in dark ink (the risk badge in `#a00`, about 7.7:1 on white), never as a fill, because browsers drop backgrounds by default. The open-section +/- marker is not printed.
+
+Remaining print caveats: see the "Honest limits" and "Deferred minors" lists in `webpage/DESIGN_REVIEW.md` section 6.
 
 ---
 
@@ -179,4 +181,5 @@ The script needs Playwright and a Chromium binary, is dev-only, and exits non-ze
 - [ ] `node scripts/check_webpage.js` reports all checks PASS
 - [ ] No DNA data or personal name committed (`OWNER_NAME` is optional)
 - [ ] Disclaimers present (general, pharma, carrier, footer)
+- [ ] Critical findings highlighted: pharma and carrier disclaimers (`.disclaimer.critical`) have a garnet border and rose heading, and high-risk values use rose (`--rose` text, garnet only as a fill or border)
 - [ ] Fonts look right on your own machine (Jost, Cormorant Garamond, Pinyon Script)

@@ -95,6 +95,8 @@ Re-run: `cd scripts && python3 generate_webpage.py && cd .. && node scripts/chec
 
 ## 6. Brand pass (Nocturne Hothouse)
 
+> Sections 1 to 5 describe the pre-brand page (the terminal look, and the 31-check figure in section 5). Section 6 and the STYLE_GUIDE describe the current page, checked by the brand and usability checks listed below.
+
 The page was restyled from the terminal look to the Nocturne Hothouse brand kit (Kit 01). All styling now lives in `webpage/brand.css`; the usability work in sections 1 to 5 was kept and is re-checked by the same script.
 
 ### Brand rubric (B1 to B5, measured by `scripts/check_webpage.js`)
@@ -109,9 +111,9 @@ The page was restyled from the terminal look to the Nocturne Hothouse brand kit 
 
 ### Final results
 
-`node scripts/check_webpage.js`: **72 of 72 checks pass**, exit 0.
+`node scripts/check_webpage.js`: **83 of 83 checks pass**, exit 0.
 
-`B1: 6/6   B2: 7/7   B3: 4/4   B4: 5/5   B5: 19/19   R1: 4/4   R2: 2/2   R3: 3/3   R4: 2/2   R5: 5/5   R6: 1/1   R7: 6/6   R8: 8/8`
+`B1: 6/6   B2: 10/10   B3: 7/7   B4: 5/5   B5: 24/24   R1: 4/4   R2: 2/2   R3: 3/3   R4: 2/2   R5: 5/5   R6: 1/1   R7: 6/6   R8: 8/8`
 
 All 16 `*_analysis.py` scripts ran without failure.
 
@@ -126,23 +128,21 @@ Screenshots reviewed at 1280x900, 390x844 and 320x844, plus a print-to-PDF rende
 
 Concerns seen in the screenshots (not fixed in this task):
 
-1. **Print, page 1 is mostly empty.** The hero prints on page 1, then the status box (`break-inside: avoid-page`) moves whole to page 2, leaving about three quarters of page 1 blank.
-2. **Print, primary button.** In print `--ivory` becomes `#000`, so the "See key takeaways" label is black on a `#a00` fill (roughly 2.7:1 by calculation). The B5 print check measures only `.section-badge` and `.st`, not buttons. The buttons are also useless on paper, so hiding `.hero-actions` in print would be the simplest fix.
+1. **Print, page 1 was mostly empty (fixed).** The hero printed on page 1, then the status box moved whole to page 2, leaving about three quarters of page 1 blank. `break-inside: avoid-page` was set on the status box, on every section and on the footer, so tall sections left gaps too. Fixed by hiding `#hero` in print and dropping `avoid-page` (rows, tiers and findings still use `avoid`). A4 print render (Playwright, backgrounds off): 20 pages before, 15 after, and page 1 now begins with "KEY TAKEAWAYS".
+2. **Print, primary button and badges (fixed).** These were visible with default print settings (backgrounds off). The primary button printed black on `#a00` (about 2.7:1) and the HIGH risk badge printed as white text with no fill (1.0:1 against the white page). The B5 print check blended each badge's background into its contrast, so it passed while the page was wrong. Fixed by hiding `.hero-actions` with the hero, printing every section badge as a 1px outlined pill in dark ink (risk `#a00`, 7.75:1 on white), and making the check measure against white unless `print-color-adjust: exact`. New checks cover badge borders, the hero hide, break-inside values and the open-section marker.
 3. At 390px and 320px the hero is a single kicker pill with no headline; this is intentional, noted only because it is a big departure from the kit's hero.
 
 ### Deferred minors
 
-- No print-media check beyond the print block assertions.
 - The control-border check measures only against `--ground`.
 - The `networkidle` timeout is swallowed silently.
 - Other waits are still a fixed 400ms.
 - The Good-news tier title is gold.
-- The luminance helper is copied in several places in the check script.
 - The garnet check matches the exact colour only.
 - `tokenRGB` assumes `#RRGGBB`.
 - The reduced-motion check only guards the blanket rule.
 - The B4 panel and 26px checks read only the first element.
-- The fonts-blocked fallback assertion is declaration-only.
+- The fonts-blocked fallback assertion is declaration-only (it now also asserts that at least one font request was aborted).
 - The forced-colours border check is partly satisfied by Chromium itself.
 - Hero overlap is not sampled at 641 or 901px.
 - The fixture temp path is fixed and has no `finally`.

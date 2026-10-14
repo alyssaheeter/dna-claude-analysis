@@ -42,12 +42,12 @@ header {
     padding: 12px 24px;
 }
 .header-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-.logo { display: flex; align-items: center; gap: 12px; color: var(--gold); }
+.logo { display: flex; align-items: center; gap: 12px; color: var(--gold); min-width: 0; }
 .logo svg { width: 28px; height: 32px; flex: none; }
-.wordmark { display: inline-flex; align-items: baseline; gap: 10px; white-space: nowrap; }
+.wordmark { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 0 10px; min-width: 0; }
 .wordmark .script { font-family: "Pinyon Script", "Snell Roundhand", cursive; font-size: 30px; line-height: 1; color: var(--gold); }
 .wordmark .caps { font-family: var(--serif); font-weight: 500; font-size: 15px; letter-spacing: .34em; color: var(--ivory); }
-.timestamp { color: var(--muted); font-size: 13px; }
+.timestamp { color: var(--muted); font-size: 13px; flex: none; margin-left: 12px; }
 nav { display: flex; flex-wrap: wrap; gap: 4px 16px; }
 nav a {
     color: var(--muted); text-decoration: none; font-size: 12px; text-transform: uppercase;
@@ -219,6 +219,10 @@ tr.flag td.c-mean { font-weight: 500; color: var(--ivory); }
 .profile-box { background: var(--ground); padding: 16px; margin-bottom: 16px; border: 1px solid var(--line); }
 .profile-title { color: var(--blush); font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
 .profile-value { font-family: var(--serif); font-size: 22px; font-weight: 600; color: var(--ivory); margin-bottom: 8px; }
+.profile-value.tone-good { color: var(--sage); }
+.profile-value.tone-info { color: var(--blush); }
+.profile-value.tone-moderate { color: var(--gold); }
+.profile-value.tone-high { color: var(--rose); }
 .profile-desc { color: var(--muted); font-size: 13px; }
 .two-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .alerts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
@@ -227,6 +231,8 @@ tr.flag td.c-mean { font-weight: 500; color: var(--ivory); }
     background: rgba(201, 166, 107, 0.1); border: 1px solid var(--gold); padding: 16px;
     margin-bottom: 24px; font-size: 13px; color: var(--gold);
 }
+.disclaimer.critical { background: rgba(143, 38, 56, 0.28); border: 2px solid var(--garnet); color: var(--ivory); }
+.disclaimer.critical strong { color: var(--rose); }
 .disclaimer strong { display: block; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px; }
 
 footer { margin-top: 40px; border: 1px solid var(--line); border-top: 1px solid var(--gold); background: var(--panel); padding: 20px; color: var(--muted); }
@@ -268,6 +274,7 @@ footer p { max-width: 90ch; }
     .kicker { margin: 0; letter-spacing: .16em; }
     .section-title { letter-spacing: .5px; }
     .wordmark .script { font-size: 26px; }
+    .wordmark .caps { overflow-wrap: anywhere; min-width: 0; }
     .wordmark .caps { letter-spacing: .24em; font-size: 13px; }
     table, thead, tbody, tr, td { display: block; width: 100%; }
     thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
@@ -287,10 +294,12 @@ footer p { max-width: 90ch; }
     :root { --ground: #fff; --panel: #fff; --ivory: #000; --gold: #5a3d00; --garnet: #a00; --blush: #045;
             --sage: #064; --rose: #a00; --muted: #333; --control: #555; --line: #555; --line-soft: #ccc; }
     body { background: #fff; color: #000; }
-    header, .toolbar, .skip, .botanical, .divider { display: none !important; }
+    header, .toolbar, .skip, .botanical, .divider, #hero { display: none !important; }
     main { padding-top: 0; }
-    .status-box, section, footer { break-inside: avoid-page; }
-    tr { break-inside: avoid; }
-    .section-badge.risk { background: #a00; color: #fff; }
-    details.sec > summary .section-title::before { content: ""; }
+    /* No avoid-page on .status-box or section: they are taller than a page and would leave big gaps. */
+    .tier, tr, .finding { break-inside: avoid; }
+    /* Default print drops backgrounds, so every badge keeps a border and a dark-ink colour; none relies on a fill. */
+    .section-badge, .section-badge.good, .section-badge.moderate, .section-badge.risk { background: none; border: 1px solid currentColor; }
+    .section-badge.risk { color: #a00; }
+    details.sec > summary .section-title::before, details.sec[open] > summary .section-title::before { content: ""; }
 }

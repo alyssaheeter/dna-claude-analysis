@@ -13,11 +13,15 @@ catch (e) { ({ chromium } = require(path.join(process.env.NODE_PATH || '/opt/nod
 
 const FILE = 'file://' + path.resolve(__dirname, '../webpage/dna_terminal.html');
 const ROOT = path.resolve(__dirname, '..');
-function generateWith(genome, out) {
+function generateWith(genome, out, extraEnv) {
   execFileSync('python3', ['scripts/generate_webpage.py'], { cwd: ROOT, stdio: 'pipe',
-    env: Object.assign({}, process.env, { GENOME_FILE: path.resolve(ROOT, genome), OUT_FILE: out }) });
+    env: Object.assign({}, process.env, { GENOME_FILE: path.resolve(ROOT, genome), OUT_FILE: out }, extraEnv || {}) });
   return out;
 }
+// One WCAG helper for the whole script: the pages hand back plain [r, g, b] values.
+const lum = ([r, g, b]) => { const f = c => { c /= 255; return c <= .03928 ? c / 12.92 : Math.pow((c + .055) / 1.055, 2.4); }; return .2126 * f(r) + .7152 * f(g) + .0722 * f(b); };
+const ratio = (a, b) => (Math.max(lum(a), lum(b)) + .05) / (Math.min(lum(a), lum(b)) + .05);
+const hexRGB = h => { h = h.trim().replace('#', ''); return [0, 2, 4].map(i => parseInt(h.substr(i, 2), 16)); };
 const results = [];
 const check = (id, name, ok, detail) => results.push({ id, name, ok, detail });
 
@@ -71,7 +75,6 @@ async function main() {
   await page.evaluate(() => document.querySelectorAll('details').forEach(d => d.open = true));
 
   const d = await page.evaluate(() => {
-    const lum = ([r, g, b]) => { const f = c => { c /= 255; return c <= .03928 ? c / 12.92 : Math.pow((c + .055) / 1.055, 2.4); }; return .2126 * f(r) + .7152 * f(g) + .0722 * f(b); };
     const parse = s => { const m = s.match(/[\d.]+/g).map(Number); return { r: m[0], g: m[1], b: m[2], a: m[3] === undefined ? 1 : m[3] }; };
     const bgOf = el => {
       const layers = [];
@@ -80,7 +83,7 @@ async function main() {
       layers.reverse().forEach(c => { base = { r: c.r * c.a + base.r * (1 - c.a), g: c.g * c.a + base.g * (1 - c.a), b: c.b * c.a + base.b * (1 - c.a) }; });
       return [base.r, base.g, base.b];
     };
-    const fails = [], small = []; const seen = new Set();
+    const small = [], texts = [];
     document.querySelectorAll('body *').forEach(el => {
       if (el.closest('thead') && getComputedStyle(el).position === 'absolute') return;
       const txt = [...el.childNodes].some(n => n.nodeType === 3 && n.textContent.trim());
@@ -90,10 +93,7 @@ async function main() {
       const fs = parseFloat(cs.fontSize);
       if (fs < 12) small.push(el.tagName + '.' + el.className + ' ' + fs);
       const c = parse(cs.color);
-      const bg = bgOf(el); const L1 = lum([c.r, c.g, c.b]), L2 = lum(bg);
-      const ratio = (Math.max(L1, L2) + .05) / (Math.min(L1, L2) + .05);
-      const key = el.tagName + '.' + el.className + cs.color;
-      if (ratio < 4.5 && !seen.has(key)) { seen.add(key); fails.push(`${key} ${ratio.toFixed(2)}`); }
+      texts.push({ key: el.tagName + '.' + el.className + cs.color, fg: [c.r, c.g, c.b], bg: bgOf(el) });
     });
     const bodyFs = parseFloat(getComputedStyle(document.querySelector('td.c-mean')).fontSize);
     const ask = [...document.querySelectorAll('.tier-ask li.tk')];
@@ -101,7 +101,7 @@ async function main() {
     const secs = [...document.querySelectorAll('section[id]')];
     const rows = [...document.querySelectorAll('tr.r')];
     return {
-      fails, small, bodyFs,
+      texts, small, bodyFs,
       askN: ask.length, askGenes: genes, askAllAct: ask.every(l => l.querySelector('.tk-act')),
       secs: secs.length, dividers: document.querySelectorAll('.divider').length,
       dividersHidden: [...document.querySelectorAll('.divider')].every(x => x.getAttribute('aria-hidden') === 'true'),
@@ -126,6 +126,9 @@ async function main() {
     };
   });
 
+  const fails = []; { const seen = new Set();
+    for (const t of d.texts) { const r = ratio(t.fg, t.bg); if (r < 4.5 && !seen.has(t.key)) { seen.add(t.key); fails.push(`${t.key} ${r.toFixed(2)}`); } } }
+  d.fails = fails;
   check('R1', 'top tier has 1-7 items', d.askN >= 1 && d.askN <= 7, `${d.askN} items`);
   check('R1', 'no gene repeated in the top tier', new Set(d.askGenes).size === d.askGenes.length, d.askGenes.join(', '));
   check('R2', 'every top-tier item has an ask/do line', d.askAllAct, '');
@@ -158,24 +161,20 @@ async function main() {
 
   // B1 derived-token and control contrast
   const cc = await page.evaluate(() => {
-    const lum = ([r, g, b]) => { const f = c => { c /= 255; return c <= .03928 ? c / 12.92 : Math.pow((c + .055) / 1.055, 2.4); }; return .2126 * f(r) + .7152 * f(g) + .0722 * f(b); };
-    const ratio = (a, b) => (Math.max(lum(a), lum(b)) + .05) / (Math.min(lum(a), lum(b)) + .05);
-    const hex = h => { h = h.trim().replace('#', ''); return [0, 2, 4].map(i => parseInt(h.substr(i, 2), 16)); };
-    const root = getComputedStyle(document.documentElement), tk = n => hex(root.getPropertyValue(n));
+    const root = getComputedStyle(document.documentElement);
     const rgba = s => s.match(/[\d.]+/g).map(Number);
-    const ground = tk('--ground'), out = {};
-    for (const t of ['--sage', '--rose', '--muted']) out[t] = [ratio(tk(t), ground), ratio(tk(t), tk('--panel'))];
     const ctl = {};
-    for (const sel of ['.toolbar input', '.toolbar button']) {
-      const c = rgba(getComputedStyle(document.querySelector(sel)).borderTopColor), a = c[3] === undefined ? 1 : c[3];
-      ctl[sel] = ratio([0, 1, 2].map(i => c[i] * a + ground[i] * (1 - a)), ground);
-    }
-    return { out, ctl };
+    for (const sel of ['.toolbar input', '.toolbar button']) ctl[sel] = rgba(getComputedStyle(document.querySelector(sel)).borderTopColor);
+    return { ground: root.getPropertyValue('--ground'), panel: root.getPropertyValue('--panel'), ctl,
+             tok: { '--sage': root.getPropertyValue('--sage'), '--rose': root.getPropertyValue('--rose'), '--muted': root.getPropertyValue('--muted') } };
   });
+  cc.out = {}; cc.ctlR = {};
+  for (const [t, v] of Object.entries(cc.tok)) cc.out[t] = [ratio(hexRGB(v), hexRGB(cc.ground)), ratio(hexRGB(v), hexRGB(cc.panel))];
+  for (const [sel, c] of Object.entries(cc.ctl)) { const a = c[3] === undefined ? 1 : c[3], g = hexRGB(cc.ground); cc.ctlR[sel] = ratio([0, 1, 2].map(i => c[i] * a + g[i] * (1 - a)), g); }
   const tokBad = Object.entries(cc.out).filter(([, v]) => v[0] < 4.5 || v[1] < 4.5).map(([k, v]) => `${k} ${v.map(x => x.toFixed(2))}`);
   check('B1', '--sage, --rose, --muted reach 4.5:1 on --ground and --panel', tokBad.length === 0, tokBad.join('; ') || JSON.stringify(cc.out));
-  const ctlBad = Object.entries(cc.ctl).filter(([, v]) => v < 3);
-  check('B1', 'toolbar input and button borders reach 3:1 against --ground', ctlBad.length === 0, JSON.stringify(cc.ctl));
+  const ctlBad = Object.entries(cc.ctlR).filter(([, v]) => v < 3);
+  check('B1', 'toolbar input and button borders reach 3:1 against --ground', ctlBad.length === 0, JSON.stringify(cc.ctlR));
 
   // B2 header, hero and brand mark
   const h = await page.evaluate(() => {
@@ -212,14 +211,11 @@ async function main() {
   check('B2', 'no horizontal scroll at 320px with the hero', m320.sw <= m320.iw, '');
 
   // ---------- B3 takeaways, tables, badges and status colours
-  const lumN = ([r, g, b]) => { const f = c => { c /= 255; return c <= .03928 ? c / 12.92 : Math.pow((c + .055) / 1.055, 2.4); }; return .2126 * f(r) + .7152 * f(g) + .0722 * f(b); };
-  const ratio = (a, b) => (Math.max(lumN(a), lumN(b)) + .05) / (Math.min(lumN(a), lumN(b)) + .05);
   const tokVals = await page.evaluate(() => { const s = getComputedStyle(document.documentElement); const o = {}; for (const t of ['--ground', '--panel', '--sage', '--rose', '--muted', '--gold', '--blush']) o[t] = s.getPropertyValue(t).trim(); return o; });
-  const tokenRGB = t => { const h = tokVals[t].replace('#', ''); return [0, 2, 4].map(i => parseInt(h.substr(i, 2), 16)); };
+  const tokenRGB = t => hexRGB(tokVals[t]);
   const GROUND = tokenRGB('--ground'), PANEL = tokenRGB('--panel');
   const b3 = await page.evaluate(() => {
     const parse = s => { const m = s.match(/[\d.]+/g).map(Number); return { r: m[0], g: m[1], b: m[2], a: m[3] === undefined ? 1 : m[3] }; };
-    const lum = ([r, g, b]) => { const f = c => { c /= 255; return c <= .03928 ? c / 12.92 : Math.pow((c + .055) / 1.055, 2.4); }; return .2126 * f(r) + .7152 * f(g) + .0722 * f(b); };
     const bgOf = el => {
       const layers = [];
       for (let e = el; e; e = e.parentElement) { const c = parse(getComputedStyle(e).backgroundColor); if (c.a > 0) { layers.push(c); if (c.a >= .99) break; } }
@@ -233,7 +229,7 @@ async function main() {
       const cs = getComputedStyle(el); if (cs.display === 'none' || cs.visibility === 'hidden') return;
       scanned++;
       const c = parse(cs.color);
-      if (c.r === 143 && c.g === 38 && c.b === 56 && lum(bgOf(el)) < 0.2) garnetText.push(el.tagName + '.' + el.className);
+      if (c.r === 143 && c.g === 38 && c.b === 56) garnetText.push({ name: el.tagName + '.' + el.className, bg: bgOf(el) });
     });
     const ask = document.querySelector('.tier-ask'), at = document.querySelector('.tier-ask .tier-title');
     return {
@@ -242,9 +238,36 @@ async function main() {
     };
   });
   check('B3', 'status tokens meet 4.5:1 on ground and panel', ['--sage', '--rose', '--muted', '--gold', '--blush'].every(t => ratio(tokenRGB(t), GROUND) >= 4.5 && ratio(tokenRGB(t), PANEL) >= 4.5), '');
-  check('B3', 'garnet is never used as text on a dark ground', b3.scanned > 50 && b3.garnetText.length === 0, b3.garnetText.join(', ') || `${b3.scanned} text elements scanned`);
+  const garnetDark = b3.garnetText.filter(t => lum(t.bg) < 0.2).map(t => t.name);
+  check('B3', 'garnet is never used as text on a dark ground', b3.scanned > 50 && garnetDark.length === 0, garnetDark.join(', ') || `${b3.scanned} text elements scanned`);
   check('B3', 'top tier has a 3px gold rule and spaced Jost capitals title', b3.askBorder === 'rgb(201, 166, 107)' && b3.askBorderW === '3px' && /^"?Jost/.test(b3.askTitleFont) && b3.askTitleLs > 0, `${b3.askBorder} ${b3.askBorderW} ${b3.askTitleFont} ls=${b3.askTitleLs}`);
   check('B3', 'flagged rows keep weight 500 over typical 400 and an icon (R6 still holds)', Number(d.flaggedBold) === 500 && Number(d.typicalBold) === 400 && d.flaggedIcon, `${d.flaggedBold}/${d.typicalBold}`);
+
+  // ---------- B3 every custom property used resolves to a token defined on :root
+  const tk = await page.evaluate(() => {
+    const root = getComputedStyle(document.documentElement);
+    const used = (text, where) => [...text.matchAll(/var\(\s*(--[\w-]+)/g)].map(m => ({ name: m[1], where }));
+    const refs = [];
+    document.querySelectorAll('[style]').forEach(e => refs.push(...used(e.getAttribute('style'), 'style@' + e.tagName + '.' + e.className)));
+    const inline = refs.length;
+    for (const sh of [...document.styleSheets].filter(x => !x.href)) refs.push(...used([...sh.cssRules].map(r => r.cssText).join('\n'), 'stylesheet'));
+    const missing = refs.filter(r => !root.getPropertyValue(r.name).trim()).map(r => `${r.name} in ${r.where}`);
+    // self-test: the detector must flag an undefined token and accept a defined one
+    const probe = used('color: var(--no-such-token)', 'probe').concat(used('color: var(--gold)', 'probe'));
+    const probeMissing = probe.filter(r => !root.getPropertyValue(r.name).trim()).map(r => r.name);
+    return { inline, total: refs.length, missing: [...new Set(missing)], probeMissing };
+  });
+  check('B3', 'every var(--token) in style attributes and the stylesheet resolves to a token on :root', tk.total >= 20 && tk.missing.length === 0 && tk.probeMissing.length === 1 && tk.probeMissing[0] === '--no-such-token', tk.missing.slice(0, 6).join('; ') || `${tk.total} references (${tk.inline} inline), detector self-test ok`);
+  const tone = await page.evaluate(() => {
+    const cols = [...document.querySelectorAll('.profile-value')].map(e => getComputedStyle(e).color);
+    const body = getComputedStyle(document.body).color;
+    const crit = [...document.querySelectorAll('.disclaimer')].filter(e => /medic|clinical|negative carrier/i.test(e.textContent) && e.closest('#pharma, #carrier'));
+    const gen = document.querySelector('.status-box .disclaimer');
+    const c = crit[0], cs = c && getComputedStyle(c), hs = c && getComputedStyle(c.querySelector('strong'));
+    return { cols, body, n: crit.length, border: cs && cs.borderTopColor, head: hs && hs.color, genBorder: getComputedStyle(gen).borderTopColor, genHead: getComputedStyle(gen.querySelector('strong')).color, bw: cs && cs.borderTopWidth };
+  });
+  check('B3', 'profile values carry a status tone, not plain body ivory', tone.cols.length >= 4 && tone.cols.every(c => c !== tone.body), `${tone.cols.length} values; body ${tone.body}; ${[...new Set(tone.cols)].join(' | ')}`);
+  check('B3', 'critical disclaimers (pharma, carrier): garnet border, rose heading, distinct from the general gold one', tone.n === 2 && tone.border === 'rgb(143, 38, 56)' && tone.head === 'rgb(229, 140, 152)' && tone.genBorder === 'rgb(201, 166, 107)', JSON.stringify(tone));
 
   // ---------- B4 section panels, dividers, motion
   check('B4', 'one divider between each pair of sections, all aria-hidden', d.dividers === d.secs - 1 && d.dividersHidden, `${d.dividers}`);
@@ -281,7 +304,6 @@ async function main() {
   check('R5', 'repeated markers carry an "also in" cross-reference', xref > 0, `${xref}`);
 
   // ---------- B5 resilience
-  const lumB = ([r, g, b]) => { const f = c => { c /= 255; return c <= .03928 ? c / 12.92 : Math.pow((c + .055) / 1.055, 2.4); }; return .2126 * f(r) + .7152 * f(g) + .0722 * f(b); };
   // fonts blocked
   {
     const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
@@ -294,7 +316,7 @@ async function main() {
       body: getComputedStyle(document.body).fontFamily, title: getComputedStyle(document.querySelector('.section-title')).fontFamily }));
     await pg.setViewportSize({ width: 320, height: 844 }); await pg.waitForTimeout(200);
     const sw = await pg.evaluate(() => ({ sw: document.documentElement.scrollWidth, iw: innerWidth }));
-    check('B5', 'fonts blocked: no horizontal scroll at 320px and takeaways still on the first screen', sw.sw <= sw.iw && f.visibleTop >= 2, `${f.visibleTop} visible, scrollWidth ${sw.sw} vs ${sw.iw}, ${aborted} font requests aborted`);
+    check('B5', 'fonts blocked: no horizontal scroll at 320px and takeaways still on the first screen', aborted > 0 && sw.sw <= sw.iw && f.visibleTop >= 2, `${f.visibleTop} visible, scrollWidth ${sw.sw} vs ${sw.iw}, ${aborted} font requests aborted`);
     check('B5', 'fonts blocked: body falls back to a sans stack and titles to a serif stack', /sans-serif$/.test(f.body) && /[^-]serif$/.test(f.title), `${f.body} | ${f.title}`);
     await ctx.close();
   }
@@ -311,6 +333,37 @@ async function main() {
       && /none of the displayed markers/i.test(x.hero) && /no flagged markers|No other flagged markers/i.test(x.text), `${x.secs} sections; ${x.hero}`);
     check('B5', 'fixture page: no horizontal scroll', x.sw <= x.iw, '');
     await pg.close();
+    try { fs.unlinkSync(out); } catch (e) {}
+  }
+  // untrusted genotype text is escaped
+  {
+    const evil = '<img src=x onerror=alert(1)>';
+    const tmpG = path.join(require('os').tmpdir(), 'brand_evil_genome.txt');
+    fs.writeFileSync(tmpG, fs.readFileSync(path.join(ROOT, 'tests/fixtures/minimal_23andme.txt'), 'utf8').replace(/^(rs4680\t\d+\t\d+\t).*$/m, '$1' + evil));
+    const out = generateWith(tmpG, '/tmp/brand_evil.html');
+    const html = fs.readFileSync(out, 'utf8');
+    const pg = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+    await pg.goto('file://' + out); await pg.waitForTimeout(200);
+    const inj = await pg.evaluate(() => ({ imgs: document.querySelectorAll('img[src="x"]').length, geno: [...document.querySelectorAll('td.geno')].some(c => c.textContent.includes('<img src=x')) }));
+    check('B5', 'genome-derived text is escaped: a markup genotype renders as text and injects nothing', html.includes('&lt;img src=x') && !html.includes('<img src=x') && inj.imgs === 0 && inj.geno, `escaped ${html.includes('&lt;img src=x')}, raw ${html.includes('<img src=x')}, injected ${inj.imgs}, shown as text ${inj.geno}`);
+    await pg.close();
+    for (const f of [tmpG, out]) { try { fs.unlinkSync(f); } catch (e) {} }
+  }
+  // a long owner name keeps the header inside the viewport
+  {
+    const out = generateWith('tests/fixtures/minimal_23andme.txt', '/tmp/brand_longname.html', { OWNER_NAME: 'Alexandria Consiglia-Montgomery' });
+    for (const w of [320, 390]) {
+      const pg = await browser.newPage({ viewport: { width: w, height: 844 } });
+      await pg.goto('file://' + out); await pg.waitForTimeout(250);
+      const o = await pg.evaluate(() => {
+        const out = [...document.querySelectorAll('header *')].filter(e => !e.closest('nav') && e.getBoundingClientRect().width > 0 && e.getBoundingClientRect().right > innerWidth + 0.5).map(e => e.tagName + '.' + e.className);
+        const caps = document.querySelector('.wordmark .caps'), ts = document.querySelector('.timestamp');
+        const cr = caps.getBoundingClientRect();
+        return { out, capsText: caps.textContent, capsClipped: caps.scrollWidth > caps.clientWidth + 1 || cr.right > innerWidth + 0.5, tsLeft: ts.getBoundingClientRect().left, tsRight: ts.getBoundingClientRect().right, sw: document.documentElement.scrollWidth, iw: innerWidth };
+      });
+      check('B2', `long owner name at ${w}px: header stays inside the viewport and the timestamp is visible`, o.out.length === 0 && !o.capsClipped && o.tsLeft >= 0 && o.tsRight <= o.iw && o.sw <= o.iw && /MONTGOMERY/.test(o.capsText), JSON.stringify(o));
+      await pg.close();
+    }
     try { fs.unlinkSync(out); } catch (e) {}
   }
   // forced colours
@@ -342,15 +395,29 @@ async function main() {
       const num = s => s.match(/[\d.]+/g).map(Number);
       const rows = [...document.querySelectorAll('.section-badge, .st')].filter(e => getComputedStyle(e).display !== 'none').map(e => {
         const cs = getComputedStyle(e); let bg = num(cs.backgroundColor); const a = bg.length === 4 ? bg[3] : 1; bg = bg.slice(0, 3).map(c => c * a + 255 * (1 - a));
-        return { cls: e.className, fg: num(cs.color).slice(0, 3), bg: bg.slice(0, 3) };
+        // Default print drops backgrounds, so measure against white unless the element forces them back on.
+        const exact = (cs.printColorAdjust || cs.webkitPrintColorAdjust) === 'exact';
+        return { cls: e.className, fg: num(cs.color).slice(0, 3), bg: exact ? bg.slice(0, 3) : [255, 255, 255] };
       });
+      const hasBorder = e => { const cs = getComputedStyle(e); return cs.borderTopStyle !== 'none' && parseFloat(cs.borderTopWidth) >= 1; };
+      const mk = [...document.querySelectorAll('.section-badge')].map(e => ({ cls: e.className, border: hasBorder(e) }));
+      const hs = n => { const e = document.querySelector(n); return e ? getComputedStyle(e) : null; };
+      const open = document.querySelector('details.sec[open] > summary .section-title');
+      const marker = open ? getComputedStyle(open, '::before').content : 'missing';
       const bot = document.querySelector('.botanical');
       return { bg: getComputedStyle(document.body).backgroundColor, ink: num(getComputedStyle(document.body).color).slice(0, 3), rows,
-        art: bot ? getComputedStyle(bot).display : 'missing', hdr: getComputedStyle(document.querySelector('header')).display };
+        art: bot ? getComputedStyle(bot).display : 'missing', hdr: getComputedStyle(document.querySelector('header')).display,
+        hero: hs('#hero') && hs('#hero').display, actions: document.querySelector('.hero-actions') ? (document.querySelector('.hero-actions').getClientRects().length === 0 ? 'none' : 'rendered') : 'missing',
+        statusBreak: hs('.status-box').breakInside, secBreak: hs('section[id]').breakInside, tierBreak: hs('.tier').breakInside,
+        markers: mk, marker };
     });
-    const worst = pr.rows.map(r => ({ cls: r.cls, c: (Math.max(lumB(r.fg), lumB(r.bg)) + .05) / (Math.min(lumB(r.fg), lumB(r.bg)) + .05) })).sort((a, b) => a.c - b.c)[0];
-    check('B5', 'print: white page, dark ink', pr.bg === 'rgb(255, 255, 255)' && lumB(pr.ink) < 0.2, `${pr.bg} ink ${pr.ink}`);
+    const worst = pr.rows.map(r => ({ cls: r.cls, c: (Math.max(lum(r.fg), lum(r.bg)) + .05) / (Math.min(lum(r.fg), lum(r.bg)) + .05) })).sort((a, b) => a.c - b.c)[0];
+    check('B5', 'print: white page, dark ink', pr.bg === 'rgb(255, 255, 255)' && lum(pr.ink) < 0.2, `${pr.bg} ink ${pr.ink}`);
     check('B5', 'print: badges and statuses reach 4.5:1 on white', pr.rows.length > 0 && worst.c >= 4.5, `${pr.rows.length} measured, worst ${worst && worst.cls} ${worst && worst.c.toFixed(2)}`);
+    check('B5', 'print: every section badge has its own border (no reliance on background fills)', pr.markers.length >= 16 && pr.markers.every(m => m.border), pr.markers.filter(m => !m.border).map(m => m.cls).join(', ') || `${pr.markers.length} badges`);
+    check('B5', 'print: hero (art, text and buttons) is not printed, so page 1 starts with the takeaways', pr.hero === 'none' && pr.actions === 'none', `hero ${pr.hero}, actions ${pr.actions}`);
+    check('B5', 'print: status box and sections may split across pages; tiers stay whole', pr.statusBreak !== 'avoid-page' && pr.secBreak !== 'avoid-page' && /avoid/.test(pr.tierBreak), `${pr.statusBreak} / ${pr.secBreak} / tier ${pr.tierBreak}`);
+    check('B5', 'print: the open-section +/- marker is not printed', pr.marker === 'none' || pr.marker === '""' || pr.marker === 'normal', pr.marker);
     check('B5', 'print: hero art and header are not displayed', pr.art === 'none' && pr.hdr === 'none', `${pr.art}/${pr.hdr}`);
     await pg.close();
   }
@@ -387,7 +454,8 @@ async function main() {
       const longest = titles.reduce((a, b) => (b.textContent.length > a.textContent.length ? b : a));
       return { n: titles.length, over: over.map(e => e.textContent.trim()), longest: longest.textContent.trim(), fs: getComputedStyle(longest).fontSize, ofw: getComputedStyle(longest).overflowWrap, sw: document.documentElement.scrollWidth, iw: innerWidth };
     });
-    check('B5', 'section titles fit at 320px, longest included', t.n >= 16 && t.over.length === 0 && t.sw <= t.iw && t.ofw === 'anywhere' && t.fs === '26px', `${t.n} titles, longest "${t.longest}" at ${t.fs}, overflowing: ${t.over.join(',')}`);
+    check('B2', 'visible headings carry no terminal "//" prefix', await page.evaluate(() => [...document.querySelectorAll('h2, h3')].every(h => !/^\s*\/\//.test(h.textContent))), '');
+  check('B5', 'section titles fit at 320px, longest included', t.n >= 16 && t.over.length === 0 && t.sw <= t.iw && t.ofw === 'anywhere' && t.fs === '26px', `${t.n} titles, longest "${t.longest}" at ${t.fs}, overflowing: ${t.over.join(',')}`);
     await pg.close();
     const dp = await browser.newPage({ viewport: { width: 1280, height: 900 } });
     await dp.goto(FILE); await dp.waitForTimeout(250);
