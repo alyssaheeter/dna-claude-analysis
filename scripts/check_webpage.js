@@ -5,11 +5,19 @@
  * Exits non-zero if any check fails.
  */
 const path = require('path');
+const fs = require('fs');
+const { execFileSync } = require('child_process');
 let chromium;
 try { ({ chromium } = require('playwright')); }
 catch (e) { ({ chromium } = require(path.join(process.env.NODE_PATH || '/opt/node22/lib/node_modules', 'playwright'))); }
 
 const FILE = 'file://' + path.resolve(__dirname, '../webpage/dna_terminal.html');
+const ROOT = path.resolve(__dirname, '..');
+function generateWith(genome, out) {
+  execFileSync('python3', ['scripts/generate_webpage.py'], { cwd: ROOT, stdio: 'pipe',
+    env: Object.assign({}, process.env, { GENOME_FILE: path.resolve(ROOT, genome), OUT_FILE: out }) });
+  return out;
+}
 const results = [];
 const check = (id, name, ok, detail) => results.push({ id, name, ok, detail });
 
@@ -271,6 +279,122 @@ async function main() {
   check('R5', 'nav jump opens the section, marks it current, and lands below the header', ph.open && ph.cur === 'PHARMA' && ph.top >= ph.hdr - 2, JSON.stringify(ph));
   const xref = await page.evaluate(() => document.querySelectorAll('.xref').length);
   check('R5', 'repeated markers carry an "also in" cross-reference', xref > 0, `${xref}`);
+
+  // ---------- B5 resilience
+  const lumB = ([r, g, b]) => { const f = c => { c /= 255; return c <= .03928 ? c / 12.92 : Math.pow((c + .055) / 1.055, 2.4); }; return .2126 * f(r) + .7152 * f(g) + .0722 * f(b); };
+  // fonts blocked
+  {
+    const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
+    let aborted = 0;
+    await ctx.route(/fonts\.(googleapis|gstatic)\.com/, r => { aborted++; return r.abort(); });
+    const pg = await ctx.newPage();
+    await pg.goto(FILE); await pg.waitForTimeout(400);
+    const f = await pg.evaluate(() => ({
+      visibleTop: [...document.querySelectorAll('.tier-ask li.tk')].filter(l => { const r = l.getBoundingClientRect(); return r.top >= 0 && r.bottom <= innerHeight; }).length,
+      body: getComputedStyle(document.body).fontFamily, title: getComputedStyle(document.querySelector('.section-title')).fontFamily }));
+    await pg.setViewportSize({ width: 320, height: 844 }); await pg.waitForTimeout(200);
+    const sw = await pg.evaluate(() => ({ sw: document.documentElement.scrollWidth, iw: innerWidth }));
+    check('B5', 'fonts blocked: no horizontal scroll at 320px and takeaways still on the first screen', sw.sw <= sw.iw && f.visibleTop >= 2, `${f.visibleTop} visible, scrollWidth ${sw.sw} vs ${sw.iw}, ${aborted} font requests aborted`);
+    check('B5', 'fonts blocked: body falls back to a sans stack and titles to a serif stack', /sans-serif$/.test(f.body) && /[^-]serif$/.test(f.title), `${f.body} | ${f.title}`);
+    await ctx.close();
+  }
+  // different genome
+  {
+    const out = generateWith('tests/fixtures/minimal_23andme.txt', '/tmp/brand_fixture.html');
+    check('B5', 'minimal 23andMe genome generates a page', fs.existsSync(out), out);
+    const pg = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+    await pg.goto('file://' + out); await pg.waitForTimeout(300);
+    const x = await pg.evaluate(() => ({ text: document.body.innerText, secs: document.querySelectorAll('section[id]').length,
+      hero: document.querySelector('#hero .hero-sentence').textContent, sw: document.documentElement.scrollWidth, iw: innerWidth,
+      tiers: [...document.querySelectorAll('.tier')].map(t => t.textContent) }));
+    check('B5', 'fixture page: no "0 of 0", hero and tiers show empty-state wording', !/\b0 of 0\b/.test(x.text) && x.secs === 16
+      && /none of the displayed markers/i.test(x.hero) && /no flagged markers|No other flagged markers/i.test(x.text), `${x.secs} sections; ${x.hero}`);
+    check('B5', 'fixture page: no horizontal scroll', x.sw <= x.iw, '');
+    await pg.close();
+    try { fs.unlinkSync(out); } catch (e) {}
+  }
+  // forced colours
+  {
+    const pg = await browser.newPage({ viewport: { width: 390, height: 844 } });
+    await pg.emulateMedia({ forcedColors: 'active' });
+    await pg.goto(FILE); await pg.waitForTimeout(300);
+    await pg.evaluate(() => document.querySelectorAll('details').forEach(d => d.open = true));
+    const fc = await pg.evaluate(() => {
+      const sts = [...document.querySelectorAll('.st')];
+      const bad = sts.filter(e => { const cs = getComputedStyle(e), r = e.getBoundingClientRect(); return e.textContent.trim().length <= 3 || cs.display === 'none' || cs.visibility === 'hidden' || r.width <= 0 || r.height <= 0; });
+      const sec = getComputedStyle(document.querySelector('section[id]')).borderTopColor, pill = getComputedStyle(document.querySelector('.ev')).borderTopColor;
+      const probe = document.createElement('i'); probe.style.color = 'CanvasText'; document.body.appendChild(probe);
+      const ct = getComputedStyle(probe).color; probe.remove();
+      return { n: sts.length, bad: bad.length, sw: document.documentElement.scrollWidth, iw: innerWidth, forced: matchMedia('(forced-colors: active)').matches, sec, pill, ct };
+    });
+    check('B5', 'forced colours: every status keeps visible text', fc.forced && fc.n > 0 && fc.bad === 0, `${fc.n} statuses, ${fc.bad} bad, forced=${fc.forced}`);
+    check('B5', 'forced colours: no horizontal scroll at 390px', fc.sw <= fc.iw, `${fc.sw} vs ${fc.iw}`);
+    check('B5', 'forced colours: panels and pills use CanvasText borders', fc.sec === fc.ct && fc.pill === fc.ct, `${fc.sec} | ${fc.pill} vs ${fc.ct}`);
+    await pg.close();
+  }
+  // print
+  {
+    const pg = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+    await pg.goto(FILE); await pg.waitForTimeout(300);
+    await pg.emulateMedia({ media: 'print' });
+    await pg.evaluate(() => document.querySelectorAll('details').forEach(d => d.open = true));
+    const pr = await pg.evaluate(() => {
+      const num = s => s.match(/[\d.]+/g).map(Number);
+      const rows = [...document.querySelectorAll('.section-badge, .st')].filter(e => getComputedStyle(e).display !== 'none').map(e => {
+        const cs = getComputedStyle(e); let bg = num(cs.backgroundColor); const a = bg.length === 4 ? bg[3] : 1; bg = bg.slice(0, 3).map(c => c * a + 255 * (1 - a));
+        return { cls: e.className, fg: num(cs.color).slice(0, 3), bg: bg.slice(0, 3) };
+      });
+      const bot = document.querySelector('.botanical');
+      return { bg: getComputedStyle(document.body).backgroundColor, ink: num(getComputedStyle(document.body).color).slice(0, 3), rows,
+        art: bot ? getComputedStyle(bot).display : 'missing', hdr: getComputedStyle(document.querySelector('header')).display };
+    });
+    const worst = pr.rows.map(r => ({ cls: r.cls, c: (Math.max(lumB(r.fg), lumB(r.bg)) + .05) / (Math.min(lumB(r.fg), lumB(r.bg)) + .05) })).sort((a, b) => a.c - b.c)[0];
+    check('B5', 'print: white page, dark ink', pr.bg === 'rgb(255, 255, 255)' && lumB(pr.ink) < 0.2, `${pr.bg} ink ${pr.ink}`);
+    check('B5', 'print: badges and statuses reach 4.5:1 on white', pr.rows.length > 0 && worst.c >= 4.5, `${pr.rows.length} measured, worst ${worst && worst.cls} ${worst && worst.c.toFixed(2)}`);
+    check('B5', 'print: hero art and header are not displayed', pr.art === 'none' && pr.hdr === 'none', `${pr.art}/${pr.hdr}`);
+    await pg.close();
+  }
+
+  // ---------- B5 carried-in: hero art never overlaps hero text
+  for (const w of [701, 800, 900, 1000, 1100, 1280]) {
+    const pg = await browser.newPage({ viewport: { width: w, height: 900 } });
+    await pg.goto(FILE); await pg.waitForTimeout(250);
+    const o = await pg.evaluate(() => {
+      const art = document.querySelector('.botanical').getBoundingClientRect();
+      const walker = document.createTreeWalker(document.querySelector('#hero .hero-body'), NodeFilter.SHOW_TEXT);
+      let n, count = 0; const hits = [];
+      while ((n = walker.nextNode())) {
+        if (!n.textContent.trim()) continue;
+        const rg = document.createRange(); rg.selectNodeContents(n);
+        for (const r of rg.getClientRects()) {
+          if (r.width === 0) continue; count++;
+          if (r.left < art.right && r.right > art.left && r.top < art.bottom && r.bottom > art.top) hits.push(`${n.textContent.trim().slice(0, 20)}@${Math.round(r.right)}`);
+        }
+      }
+      return { count, hits, artLeft: Math.round(art.left), hero: Math.round(document.querySelector('#hero').getBoundingClientRect().height), sw: document.documentElement.scrollWidth, iw: innerWidth };
+    });
+    check('B5', `hero art does not overlap hero text at ${w}px`, o.count > 0 && o.hits.length === 0 && o.sw <= o.iw && (w !== 1280 || o.hero <= 240), `${o.count} line boxes, art at x=${o.artLeft}, hero ${o.hero}px ${o.hits.join(',')}`);
+    await pg.close();
+  }
+
+  // ---------- B5 carried-in: longest section title at 320px, divider glyphs render
+  {
+    const pg = await browser.newPage({ viewport: { width: 320, height: 844 } });
+    await pg.goto(FILE); await pg.waitForTimeout(250);
+    const t = await pg.evaluate(() => {
+      const titles = [...document.querySelectorAll('.section-title')];
+      const over = titles.filter(e => { const h = e.closest('.section-header').getBoundingClientRect(), r = e.getBoundingClientRect(); return r.right > h.right + 0.5 || e.scrollWidth > e.clientWidth + 1; });
+      const longest = titles.reduce((a, b) => (b.textContent.length > a.textContent.length ? b : a));
+      return { n: titles.length, over: over.map(e => e.textContent.trim()), longest: longest.textContent.trim(), fs: getComputedStyle(longest).fontSize, ofw: getComputedStyle(longest).overflowWrap, sw: document.documentElement.scrollWidth, iw: innerWidth };
+    });
+    check('B5', 'section titles fit at 320px, longest included', t.n >= 16 && t.over.length === 0 && t.sw <= t.iw && t.ofw === 'anywhere' && t.fs === '26px', `${t.n} titles, longest "${t.longest}" at ${t.fs}, overflowing: ${t.over.join(',')}`);
+    await pg.close();
+    const dp = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+    await dp.goto(FILE); await dp.waitForTimeout(250);
+    const dv = await dp.evaluate(() => { const us = [...document.querySelectorAll('.divider svg use')]; return { n: us.length, zero: us.filter(u => { const r = u.getBoundingClientRect(); return r.width <= 0 || r.height <= 0; }).length, kinds: new Set(us.map(u => u.getAttribute('href'))).size }; });
+    check('B5', 'every divider glyph (sword and heart) renders with a non-zero box', dv.n > 0 && dv.kinds === 2 && dv.zero === 0, `${dv.n} glyphs, ${dv.kinds} kinds, ${dv.zero} empty`);
+    await dp.close();
+  }
 
   await browser.close();
 

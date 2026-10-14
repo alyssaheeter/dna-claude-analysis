@@ -67,6 +67,9 @@ def hero(owner, flagged, ask, found, has_questions=None):
         has_questions = ask > 0
     if found == 0:
         sentence = 'No markers were readable in this file, so there is nothing to report.'
+    elif flagged == 0:
+        sentence = (f'{found} marker{"s" if found != 1 else ""} could be read on this chip. None of the displayed markers '
+                    f'differ from the typical result, so there is nothing to follow up.')
     else:
         sentence = (f'{found} marker{"s" if found != 1 else ""} could be read on this chip, {flagged} differ'
                     f'{"s" if flagged == 1 else ""} from the typical result, and {ask} {"has" if ask == 1 else "have"} '
@@ -558,8 +561,15 @@ questions_html = (f'<div class="tier questions" id="questions"><h3 class="tier-t
                   f'<ol>{questions}</ol></div>') if questions else ''
 
 n_flag_rows = len({r['rsid'] for r in FLAGGED})
-lede = (f'<p class="lede"><strong>{n_flag_rows} of {found}</strong> distinct markers read on this chip differ from the typical result, and '
-        f'<strong>{len(ask)}</strong> of them have a sensible follow-up. Each marker has a small effect on its own. '
+if found == 0:
+    _lead = 'No markers could be read on this chip, so there is nothing to report.'
+elif n_flag_rows == 0:
+    _lead = (f'<strong>None</strong> of the displayed markers read on this chip ({found}) differ from the typical result, '
+             f'so there is nothing to follow up.')
+else:
+    _lead = (f'<strong>{n_flag_rows} of {found}</strong> distinct markers read on this chip differ from the typical result, and '
+             f'<strong>{len(ask)}</strong> of them have a sensible follow-up.')
+lede = (f'<p class="lede">{_lead} Each marker has a small effect on its own. '
         f'Informational only, not medical advice.</p>')
 
 legend = '''<details class="legend"><summary>How to read the statuses</summary><dl>

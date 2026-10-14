@@ -69,7 +69,7 @@ main {
 
 /* ---- hero ---- */
 .hero {
-    position: relative; overflow: hidden; margin-bottom: 24px; padding: 14px 24px 16px;
+    position: relative; overflow: hidden; margin-bottom: 24px; padding: 14px 364px 16px 24px;
     border: 1px solid var(--line-soft); border-radius: 10px; background: var(--ground);
 }
 .hero-body { position: relative; z-index: 1; max-width: 780px; }
@@ -164,7 +164,7 @@ section { border: 1px solid rgba(201, 166, 107, 0.4); margin-bottom: 0; backgrou
 }
 details.sec > summary.section-header { cursor: pointer; list-style: none; flex-wrap: wrap; gap: 8px; }
 details.sec > summary::-webkit-details-marker { display: none; }
-.section-title { font-family: var(--serif); font-weight: 500; font-size: 26px; letter-spacing: 1px; color: var(--gold); }
+.section-title { font-family: var(--serif); font-weight: 500; font-size: 26px; letter-spacing: 1px; color: var(--gold); overflow-wrap: anywhere; min-width: 0; }
 details.sec > summary .section-title::before { content: "+ "; color: var(--gold); }
 details.sec[open] > summary .section-title::before { content: "\2212  "; }
 .section-content { padding: 20px; }
@@ -266,7 +266,7 @@ footer p { max-width: 90ch; }
     .botanical, .hero-sentence, .hero-actions { display: none; }
     .hero h1 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
     .kicker { margin: 0; letter-spacing: .16em; }
-    .section-title { font-size: 22px; letter-spacing: .5px; }
+    .section-title { letter-spacing: .5px; }
     .wordmark .script { font-size: 26px; }
     .wordmark .caps { letter-spacing: .24em; font-size: 13px; }
     table, thead, tbody, tr, td { display: block; width: 100%; }
@@ -274,7 +274,14 @@ footer p { max-width: 90ch; }
     tr.r { border: 1px solid var(--line); margin-bottom: 10px; padding: 8px 10px; background: var(--ground); }
     tr.r td { border: 0; padding: 3px 0; display: flex; gap: 10px; }
     tr.r td::before { content: attr(data-label); flex: 0 0 104px; color: var(--muted); font-size: 12px; text-transform: uppercase; }
+    tr.r td .st { white-space: normal; min-width: 0; }
     tr.flag { border-left: 3px solid var(--garnet); }
+}
+@media (forced-colors: active) {
+    section, .status-box, .tier, .hero, footer, .finding, .profile-box, .disclaimer, .toolbar input, .toolbar button,
+    .btn, .ev, .section-badge, tr.r { border-color: CanvasText; }
+    .section-badge { border: 1px solid CanvasText; }
+    .st { forced-color-adjust: auto; }
 }
 @media print {
     :root { --ground: #fff; --panel: #fff; --ivory: #000; --gold: #5a3d00; --garnet: #a00; --blush: #045;
