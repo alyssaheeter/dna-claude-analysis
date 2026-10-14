@@ -4,7 +4,7 @@
 Genotypes are read live from the genome file; English interpretations come from
 the INTERP tables below, which were curated from the reports/ output. A genotype
 with no entry in a table is shown as "no interpretation" rather than guessed.
-CSS is reused from webpage/example.html so styling follows STYLE_GUIDE.md.
+CSS lives in webpage/brand.css (Nocturne Hothouse tokens) and is inlined.
 """
 import os
 import re
@@ -12,9 +12,14 @@ from datetime import datetime
 from html import escape
 
 BASE_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-GENOME_FILE = f"{BASE_PATH}/data/my_dna_file.txt"
-OUT_FILE = f"{BASE_PATH}/webpage/dna_terminal.html"
-STYLE_SRC = f"{BASE_PATH}/webpage/example.html"
+GENOME_FILE = os.environ.get('GENOME_FILE', f"{BASE_PATH}/data/my_dna_file.txt")
+OUT_FILE = os.environ.get('OUT_FILE', f"{BASE_PATH}/webpage/dna_terminal.html")
+CSS_FILE = f"{BASE_PATH}/webpage/brand.css"
+
+
+def load_css():
+    with open(CSS_FILE, encoding='utf-8') as f:
+        return f.read()
 
 
 META = {'source': 'Unknown', 'chip': 'Unknown', 'y_calls': 0, 'x_calls': 0}
@@ -554,107 +559,6 @@ footer = (f'<footer><h2 class="status-header">// ABOUT THIS DATA</h2><p>Source: 
           f'and is not clinical-grade; confirm anything that matters in an accredited clinical lab before acting. '
           f'Interpretations are general population associations, not a diagnosis.</p></footer>')
 
-with open(STYLE_SRC, encoding='utf-8') as f:
-    src = f.read()
-css = re.search(r'<style>(.*?)</style>', src, re.S).group(1)
-# accessibility: nothing below 12px
-css = re.sub(r'font-size:\s*(\d+)px', lambda m: f'font-size: {max(int(m.group(1)), 12)}px', css)
-
-EXTRA_CSS = r'''
-:root { --gray: #8c8c8c; --red: #ff5555; --hh: 120px; }
-html { scroll-padding-top: calc(var(--hh) + 12px); }
-[hidden] { display: none !important; }
-main { padding-top: calc(var(--hh) + 16px); }
-.skip { position: absolute; left: 8px; top: -60px; background: var(--green); color: var(--bg); padding: 8px 12px; z-index: 2000; font-weight: 700; }
-.skip:focus { top: 8px; }
-.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-a:focus-visible, summary:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
-    outline: 2px solid var(--cyan); outline-offset: 2px; }
-nav a[aria-current="true"] { color: var(--green); border-bottom-color: var(--green); }
-h1, h2, h3 { font-size: inherit; font-weight: inherit; }
-.status-header { font-size: 14px; }
-.lede { color: var(--white); margin-bottom: 20px; max-width: 80ch; }
-.lede strong { color: var(--green); }
-.tier { margin-bottom: 22px; }
-.tier-title { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: var(--gray-light); margin-bottom: 8px;
-    padding-bottom: 6px; border-bottom: 1px dashed var(--gray); }
-.tier ul, .tier ol { list-style: none; }
-.tier ol { list-style: decimal; padding-left: 22px; color: var(--white); }
-.tier ol li { margin-bottom: 6px; }
-.tk { display: flex; gap: 10px; padding: 8px 0; color: var(--white); overflow-wrap: anywhere; }
-.tk-icon { flex: none; width: 20px; font-weight: 700; }
-.tk.amber .tk-icon { color: var(--amber); } .tk.green .tk-icon { color: var(--green); } .tk.gray .tk-icon { color: var(--gray-light); }
-.tk-head strong { color: var(--white); }
-.tk-act { color: var(--cyan); margin-top: 2px; }
-.tk.more { color: var(--gray-light); }
-.tier-ask { border-left: 3px solid var(--amber); padding-left: 14px; }
-.tier-ask .tier-title { color: var(--amber); }
-.tier-good .tier-title { color: var(--green); }
-.questions { border: 1px solid var(--gray); padding: 14px 16px; background: var(--bg-light); }
-.status-grid { margin-top: 8px; }
-.toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 18px; }
-.toolbar input { flex: 1 1 220px; min-width: 0; background: var(--bg); color: var(--white); border: 1px solid var(--gray);
-    padding: 10px 12px; font: inherit; font-size: 14px; }
-.toolbar button { background: var(--bg-light); color: var(--white); border: 1px solid var(--gray); padding: 10px 14px;
-    font: inherit; font-size: 13px; cursor: pointer; min-height: 44px; }
-.toolbar button[aria-pressed="true"] { background: var(--green); color: var(--bg); border-color: var(--green); font-weight: 700; }
-#count { color: var(--gray-light); font-size: 13px; }
-.legend { margin-top: 16px; color: var(--white); }
-.legend summary { cursor: pointer; color: var(--cyan); padding: 6px 0; }
-.legend dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; margin: 10px 0; }
-.legend p { color: var(--gray-light); }
-details.sec > summary.section-header { cursor: pointer; list-style: none; flex-wrap: wrap; gap: 8px; }
-details.sec > summary::-webkit-details-marker { display: none; }
-details.sec > summary .section-title::before { content: "+ "; color: var(--green-dim); }
-details.sec[open] > summary .section-title::before { content: "− "; }
-.badges { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-.ev { font-size: 12px; padding: 2px 8px; border: 1px solid var(--gray); color: var(--gray-light); letter-spacing: 1px; }
-.ev-established { color: var(--green); border-color: var(--green-dim); }
-.ev-weak { color: var(--amber); border-color: var(--amber); }
-.ev-note { color: var(--gray-light); margin-bottom: 14px; }
-.note { color: var(--gray-light); margin-bottom: 14px; padding-left: 12px; border-left: 2px solid var(--gray); }
-.subsection-title { margin: 6px 0 8px; }
-td, th { text-align: left; vertical-align: top; }
-table { font-size: 13px; }
-td.c-mark { color: var(--gray-light); }
-td.c-mean, .mt { overflow-wrap: break-word; min-width: 0; }
-tr.flag td.c-mean { font-weight: 700; color: var(--white); }
-.st { white-space: nowrap; font-weight: 700; letter-spacing: .5px; }
-.xref { display: inline-block; margin-left: 6px; color: var(--gray-light); font-weight: 400; }
-footer { margin-top: 40px; border: 1px solid var(--gray); padding: 20px; color: var(--gray-light); }
-footer p { max-width: 90ch; }
-@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
-@media (max-width: 768px) {
-    header { padding: 8px 14px; }
-    .header-top { margin-bottom: 6px; }
-    nav { flex-wrap: nowrap; overflow-x: auto; gap: 0 4px; -webkit-overflow-scrolling: touch; }
-    nav a { white-space: nowrap; padding: 12px 8px; }
-    main { padding-left: 12px; padding-right: 12px; }
-    .status-box { padding: 14px; }
-    .section-content { padding: 12px; }
-    .legend dl { grid-template-columns: 1fr; }
-    .tier-ask { padding-left: 10px; }
-}
-@media (max-width: 640px) {
-    table, thead, tbody, tr, td { display: block; width: 100%; }
-    thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
-    tr.r { border: 1px solid var(--gray); margin-bottom: 10px; padding: 8px 10px; background: var(--bg-light); }
-    tr.r td { border: 0; padding: 3px 0; display: flex; gap: 10px; }
-    tr.r td::before { content: attr(data-label); flex: 0 0 104px; color: var(--gray-light); font-size: 12px; text-transform: uppercase; }
-    tr.flag { border-left: 3px solid var(--amber); }
-}
-@media print {
-    :root { --bg: #fff; --bg-light: #fff; --bg-section: #fff; --green: #064; --green-dim: #064; --amber: #7a4b00;
-            --red: #a00; --cyan: #045; --gray: #555; --gray-light: #333; --white: #000; }
-    body { background: #fff; color: #000; }
-    header, .toolbar, .skip { display: none !important; }
-    main { padding-top: 0; }
-    .status-box, section, footer { break-inside: avoid-page; }
-    tr { break-inside: avoid; }
-    details.sec > summary .section-title::before { content: ""; }
-}
-'''
-
 EXTRA_JS = r'''
 (function () {
   var hdr = document.querySelector('header');
@@ -730,8 +634,8 @@ html = f'''<!DOCTYPE html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DNA Terminal: genome summary</title>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<style>{css}{EXTRA_CSS}</style>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
+<style>{load_css()}</style>
 </head>
 <body>
 <a class="skip" href="#status">Skip to summary</a>

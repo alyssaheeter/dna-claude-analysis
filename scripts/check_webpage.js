@@ -16,6 +16,15 @@ const check = (id, name, ok, detail) => results.push({ id, name, ok, detail });
 async function main() {
   const browser = await chromium.launch({ executablePath: process.env.PLAYWRIGHT_CHROMIUM || undefined, args: ['--no-sandbox'] });
 
+  // ---------- B1 request audit: only file:// and Google Fonts hosts
+  const hosts = new Set();
+  const auditPage = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+  auditPage.on('request', req => { try { hosts.add(new URL(req.url()).hostname); } catch (e) { hosts.add(req.url()); } });
+  await auditPage.goto(FILE); await auditPage.waitForTimeout(400);
+  const badHosts = [...hosts].filter(h => !['', 'fonts.googleapis.com', 'fonts.gstatic.com'].includes(h));
+  check('B1', 'requests only go to file or Google Fonts hosts', badHosts.length === 0, badHosts.join(', ') || [...hosts].join(','));
+  await auditPage.close();
+
   // ---------- R8 responsive: no horizontal scroll, header never covers content
   for (const w of [1280, 390, 320]) {
     const page = await browser.newPage({ viewport: { width: w, height: 844 } });
@@ -120,6 +129,17 @@ async function main() {
   check('R7', 'skip link, nav label, main landmark', d.skip && d.navLabel && d.main, '');
   check('R7', ':focus-visible and reduced-motion rules present', d.focusCss && d.reduceCss, '');
   check('R8', 'print stylesheet present', d.printCss, '');
+
+  // B1 tokens and fonts
+  const tok = await page.evaluate(() => {
+    const s = getComputedStyle(document.documentElement), g = n => s.getPropertyValue(n).trim().toLowerCase();
+    return { ground: g('--ground'), panel: g('--panel'), ivory: g('--ivory'), gold: g('--gold'), garnet: g('--garnet'), blush: g('--blush'),
+             body: getComputedStyle(document.body).fontFamily, title: getComputedStyle(document.querySelector('.section-title')).fontFamily };
+  });
+  check('B1', 'kit 01 palette tokens are exact', tok.ground === '#121d17' && tok.panel === '#1e2e25' && tok.ivory === '#f1e9d6'
+    && tok.gold === '#c9a66b' && tok.garnet === '#8f2638' && tok.blush === '#e8c3bc', JSON.stringify(tok));
+  check('B1', 'body is Jost, titles are Cormorant Garamond', /^"?Jost/.test(tok.body) && /^"?Cormorant Garamond/.test(tok.title), `${tok.body} | ${tok.title}`);
+  check('B1', 'ground colour is the page background', await page.evaluate(() => getComputedStyle(document.body).backgroundColor) === 'rgb(18, 29, 23)', '');
 
   // keyboard: first Tab reaches the skip link
   await page.keyboard.press('Tab');
