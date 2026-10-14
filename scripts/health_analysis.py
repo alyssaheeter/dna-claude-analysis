@@ -506,6 +506,8 @@ def load_genome():
             parts = line.strip().split('\t')
             if len(parts) >= 4:
                 rsid, chrom, pos, genotype = parts[0], parts[1], parts[2], parts[3]
+                if len(parts) >= 5:  # AncestryDNA format: separate allele columns
+                    genotype = '--' if parts[3] + parts[4] == '00' else parts[3] + parts[4]
                 genome[rsid] = {
                     'chromosome': chrom,
                     'position': pos,
@@ -859,6 +861,7 @@ def main():
     for category, results in all_results.items():
         report = generate_category_report(category, results, genome)
         report_path = f"{REPORTS_PATH}/{category}/report.md"
+        os.makedirs(os.path.dirname(report_path), exist_ok=True)
         with open(report_path, 'w', encoding='utf-8') as f:
             f.write(report)
         print(f"      → {report_path}")

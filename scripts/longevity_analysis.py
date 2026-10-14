@@ -427,7 +427,8 @@ def load_genome():
             parts = line.strip().split('\t')
             if len(parts) >= 4:
                 rsid = parts[0]
-                genotype = parts[3]
+                genotype = parts[3] + parts[4] if len(parts) >= 5 else parts[3]
+                genotype = '--' if genotype == '00' else genotype
                 genome[rsid] = genotype
     return genome
 
@@ -464,10 +465,15 @@ def determine_apoe_genotype(genome):
         # Manual determination based on individual SNPs
         # rs429358: C=ε4, T=not ε4
         # rs7412: T=ε2, C=not ε2
-        e4_count = rs429358.count('C')
-        e2_count = rs7412.count('T')
+        if len(rs429358) != 2 or len(rs7412) != 2:
+            e4_count = e2_count = None
+        else:
+            e4_count = rs429358.count('C')
+            e2_count = rs7412.count('T')
 
-        if e4_count == 0 and e2_count == 0:
+        if e4_count is None:
+            genotype = "Unknown"
+        elif e4_count == 0 and e2_count == 0:
             genotype = "ε3/ε3"
         elif e4_count == 0 and e2_count == 1:
             genotype = "ε2/ε3"
