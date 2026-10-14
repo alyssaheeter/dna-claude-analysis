@@ -19,476 +19,476 @@ REPORTS_PATH = f"{BASE_PATH}/reports"
 
 HEALTH_SNPS = {
     "cardiovascular": {
-        "name": "Сердечно-сосудистые заболевания",
+        "name": "Cardiovascular Disease",
         "snps": {
             "rs10757274": {
                 "gene": "9p21",
-                "description": "ИБС, инфаркт миокарда",
+                "description": "Coronary artery disease, myocardial infarction",
                 "risk_allele": "G",
                 "interpretation": {
-                    "GG": ("high", "Повышенный риск ИБС (гомозигота)"),
-                    "AG": ("moderate", "Умеренно повышенный риск ИБС (гетерозигота)"),
-                    "AA": ("normal", "Нормальный риск"),
+                    "GG": ("high", "Increased CAD risk (homozygous)"),
+                    "AG": ("moderate", "Moderately increased CAD risk (heterozygous)"),
+                    "AA": ("normal", "Normal risk"),
                 }
             },
             "rs1333049": {
                 "gene": "9p21",
-                "description": "ИБС, коронарная болезнь сердца",
+                "description": "CAD, coronary heart disease",
                 "risk_allele": "C",
                 "interpretation": {
-                    "CC": ("high", "Повышенный риск ИБС"),
-                    "CG": ("moderate", "Умеренно повышенный риск"),
-                    "GG": ("normal", "Нормальный риск"),
+                    "CC": ("high", "Increased CAD risk"),
+                    "CG": ("moderate", "Moderately increased risk"),
+                    "GG": ("normal", "Normal risk"),
                 }
             },
             "rs1801133": {
                 "gene": "MTHFR C677T",
-                "description": "Гомоцистеин, риск тромбов",
+                "description": "Homocysteine, clotting risk",
                 "risk_allele": "T",
                 "interpretation": {
-                    "TT": ("high", "Сниженная активность MTHFR (~30%), повышен гомоцистеин"),
-                    "CT": ("moderate", "Умеренно сниженная активность (~65%)"),
-                    "AG": ("moderate", "Гетерозигота C677T - умеренно сниженная активность (~65%)"),
-                    "CC": ("normal", "Нормальная активность MTHFR"),
-                    "AA": ("normal", "Нормальная активность MTHFR"),
+                    "TT": ("high", "Reduced MTHFR activity (~30%), elevated homocysteine"),
+                    "CT": ("moderate", "Moderately reduced activity (~65%)"),
+                    "AG": ("moderate", "C677T heterozygous - moderately reduced activity (~65%)"),
+                    "CC": ("normal", "Normal MTHFR activity"),
+                    "AA": ("normal", "Normal MTHFR activity"),
                 }
             },
             "rs1801131": {
                 "gene": "MTHFR A1298C",
-                "description": "Метаболизм фолатов",
+                "description": "Folate metabolism",
                 "risk_allele": "C",
                 "interpretation": {
-                    "CC": ("moderate", "Сниженная активность MTHFR"),
-                    "AC": ("low", "Незначительное снижение"),
-                    "GT": ("normal", "Нормальная активность A1298C"),
-                    "TT": ("normal", "Нормальная активность"),
-                    "AA": ("normal", "Нормальная активность"),
+                    "CC": ("moderate", "Reduced MTHFR activity"),
+                    "AC": ("low", "Slight reduction"),
+                    "GT": ("normal", "Normal A1298C activity"),
+                    "TT": ("normal", "Normal activity"),
+                    "AA": ("normal", "Normal activity"),
                 }
             },
             "rs6025": {
                 "gene": "Factor V Leiden",
-                "description": "Тромбофилия",
+                "description": "Thrombophilia",
                 "risk_allele": "A",
                 "interpretation": {
-                    "AA": ("high", "Фактор V Лейден - высокий риск тромбозов!"),
-                    "AG": ("high", "Носитель Factor V Leiden - повышенный риск тромбозов"),
-                    "AC": ("high", "Носитель Factor V Leiden - повышенный риск тромбозов"),
-                    "GG": ("normal", "Нет мутации Factor V Leiden"),
-                    "CC": ("normal", "Нет мутации Factor V Leiden"),
-                    "CG": ("normal", "Нет мутации Factor V Leiden"),
+                    "AA": ("high", "Factor V Leiden - high thrombosis risk!"),
+                    "AG": ("high", "Factor V Leiden carrier - increased thrombosis risk"),
+                    "AC": ("high", "Factor V Leiden carrier - increased thrombosis risk"),
+                    "GG": ("normal", "No Factor V Leiden mutation"),
+                    "CC": ("normal", "No Factor V Leiden mutation"),
+                    "CG": ("normal", "No Factor V Leiden mutation"),
                 }
             },
             "rs1799963": {
                 "gene": "Prothrombin G20210A",
-                "description": "Тромбозы венозные",
+                "description": "Venous thrombosis",
                 "risk_allele": "A",
                 "interpretation": {
-                    "AA": ("high", "Гомозигота - высокий риск тромбозов"),
-                    "AG": ("high", "Носитель - повышенный риск тромбозов"),
-                    "GG": ("normal", "Нет мутации протромбина"),
+                    "AA": ("high", "Homozygous - high thrombosis risk"),
+                    "AG": ("high", "Carrier - increased thrombosis risk"),
+                    "GG": ("normal", "No prothrombin mutation"),
                 }
             },
             "rs1800562": {
                 "gene": "HFE C282Y",
-                "description": "Гемохроматоз (накопление железа)",
+                "description": "Hemochromatosis (iron accumulation)",
                 "risk_allele": "A",
                 "interpretation": {
-                    "AA": ("high", "Гомозигота C282Y - высокий риск гемохроматоза"),
-                    "AG": ("moderate", "Носитель C282Y"),
-                    "GG": ("normal", "Нет мутации C282Y"),
+                    "AA": ("high", "C282Y homozygous - high hemochromatosis risk"),
+                    "AG": ("moderate", "C282Y carrier"),
+                    "GG": ("normal", "No C282Y mutation"),
                 }
             },
         }
     },
 
     "oncology": {
-        "name": "Онкологические маркеры",
+        "name": "Oncology Markers",
         "snps": {
             "rs1042522": {
                 "gene": "TP53 Arg72Pro",
-                "description": "Общий риск рака",
+                "description": "General cancer risk",
                 "risk_allele": "C",
                 "interpretation": {
-                    "CC": ("moderate", "Pro/Pro - немного повышен риск некоторых раков"),
-                    "CG": ("normal", "Arg/Pro - гетерозигота"),
-                    "GG": ("normal", "Arg/Arg - стандартный вариант"),
+                    "CC": ("moderate", "Pro/Pro - slightly increased risk of some cancers"),
+                    "CG": ("normal", "Arg/Pro - heterozygous"),
+                    "GG": ("normal", "Arg/Arg - standard variant"),
                 }
             },
             "rs1800566": {
                 "gene": "NQO1",
-                "description": "Детоксикация канцерогенов",
+                "description": "Carcinogen detoxification",
                 "risk_allele": "T",
                 "interpretation": {
-                    "TT": ("high", "Нет активности NQO1 - сниженная детоксикация"),
-                    "CT": ("moderate", "Сниженная активность NQO1"),
-                    "CC": ("normal", "Нормальная детоксикация"),
+                    "TT": ("high", "No NQO1 activity - reduced detoxification"),
+                    "CT": ("moderate", "Reduced NQO1 activity"),
+                    "CC": ("normal", "Normal detoxification"),
                 }
             },
             "rs1695": {
                 "gene": "GSTP1",
-                "description": "Детоксикация",
+                "description": "Detoxification",
                 "risk_allele": "G",
                 "interpretation": {
-                    "GG": ("moderate", "Сниженная детоксикация через GSTP1"),
-                    "AG": ("low", "Немного сниженная активность"),
-                    "AA": ("normal", "Нормальная активность GSTP1"),
+                    "GG": ("moderate", "Reduced detoxification via GSTP1"),
+                    "AG": ("low", "Slightly reduced activity"),
+                    "AA": ("normal", "Normal GSTP1 activity"),
                 }
             },
             "rs1048943": {
                 "gene": "CYP1A1",
-                "description": "Метаболизм канцерогенов",
+                "description": "Carcinogen metabolism",
                 "risk_allele": "G",
                 "interpretation": {
-                    "GG": ("moderate", "Повышенная активация канцерогенов"),
-                    "AG": ("low", "Немного повышена"),
-                    "AA": ("normal", "Нормальный метаболизм"),
+                    "GG": ("moderate", "Increased carcinogen activation"),
+                    "AG": ("low", "Slightly increased"),
+                    "AA": ("normal", "Normal metabolism"),
                 }
             },
         }
     },
 
     "neurology": {
-        "name": "Неврология и психическое здоровье",
+        "name": "Neurology and Mental Health",
         "snps": {
             "rs429358": {
-                "gene": "APOE (ε4 маркер 1)",
-                "description": "Болезнь Альцгеймера",
+                "gene": "APOE (ε4 marker 1)",
+                "description": "Alzheimer's disease",
                 "risk_allele": "C",
                 "interpretation": {
-                    "CC": ("high", "Вероятно ε4/ε4 - значительно повышен риск"),
-                    "CT": ("moderate", "Вероятно носитель ε4"),
-                    "TT": ("normal", "Нет аллеля ε4"),
+                    "CC": ("high", "Probably ε4/ε4 - significantly increased risk"),
+                    "CT": ("moderate", "Probably ε4 carrier"),
+                    "TT": ("normal", "No ε4 allele"),
                 }
             },
             "rs7412": {
-                "gene": "APOE (ε маркер 2)",
-                "description": "Болезнь Альцгеймера",
+                "gene": "APOE (ε marker 2)",
+                "description": "Alzheimer's disease",
                 "risk_allele": "C",
                 "interpretation": {
-                    "CC": ("info", "Используется для определения APOE генотипа"),
-                    "CT": ("info", "Используется для определения APOE генотипа"),
-                    "TT": ("info", "Используется для определения APOE генотипа"),
+                    "CC": ("info", "Used to determine APOE genotype"),
+                    "CT": ("info", "Used to determine APOE genotype"),
+                    "TT": ("info", "Used to determine APOE genotype"),
                 }
             },
             "rs6265": {
                 "gene": "BDNF Val66Met",
-                "description": "Память, нейропластичность, депрессия",
+                "description": "Memory, neuroplasticity, depression",
                 "risk_allele": "A",
                 "interpretation": {
-                    "AA": ("moderate", "Met/Met - сниженная секреция BDNF, риск депрессии"),
-                    "TT": ("moderate", "Met/Met - сниженная секреция BDNF, риск депрессии"),
-                    "AG": ("low", "Val/Met - немного сниженная секреция"),
-                    "CT": ("low", "Val/Met - немного сниженная секреция"),
-                    "GG": ("normal", "Val/Val - нормальная секреция BDNF"),
-                    "CC": ("normal", "Val/Val - нормальная секреция BDNF"),
+                    "AA": ("moderate", "Met/Met - reduced BDNF secretion, depression risk"),
+                    "TT": ("moderate", "Met/Met - reduced BDNF secretion, depression risk"),
+                    "AG": ("low", "Val/Met - slightly reduced secretion"),
+                    "CT": ("low", "Val/Met - slightly reduced secretion"),
+                    "GG": ("normal", "Val/Val - normal BDNF secretion"),
+                    "CC": ("normal", "Val/Val - normal BDNF secretion"),
                 }
             },
             "rs4680": {
                 "gene": "COMT Val158Met",
-                "description": "Стресс, тревожность, когнитивные функции",
+                "description": "Stress, anxiety, cognitive function",
                 "risk_allele": "A",
                 "interpretation": {
-                    "AA": ("info", "Met/Met - 'Worrier' - лучше когнитивно, но выше тревожность"),
-                    "AG": ("info", "Val/Met - сбалансированный тип"),
-                    "GG": ("info", "Val/Val - 'Warrior' - устойчив к стрессу, хуже память"),
+                    "AA": ("info", "Met/Met - 'Worrier' - better cognition, but higher anxiety"),
+                    "AG": ("info", "Val/Met - balanced type"),
+                    "GG": ("info", "Val/Val - 'Warrior' - stress-resistant, poorer memory"),
                 }
             },
             "rs1800497": {
                 "gene": "DRD2/ANKK1 Taq1A",
-                "description": "Дофамин, зависимости",
+                "description": "Dopamine, addictions",
                 "risk_allele": "A",
                 "interpretation": {
-                    "AA": ("moderate", "A1/A1 - меньше D2 рецепторов, риск зависимостей"),
-                    "AG": ("low", "A1/A2 - умеренно снижены D2 рецепторы"),
-                    "GG": ("normal", "A2/A2 - нормальное количество D2 рецепторов"),
+                    "AA": ("moderate", "A1/A1 - fewer D2 receptors, addiction risk"),
+                    "AG": ("low", "A1/A2 - moderately reduced D2 receptors"),
+                    "GG": ("normal", "A2/A2 - normal number of D2 receptors"),
                 }
             },
             "rs53576": {
                 "gene": "OXTR",
-                "description": "Окситоцин, эмпатия, социальность",
+                "description": "Oxytocin, empathy, sociability",
                 "risk_allele": "A",
                 "interpretation": {
-                    "AA": ("info", "Ниже эмпатия и социальная чувствительность"),
-                    "AG": ("info", "Средний уровень"),
-                    "GG": ("info", "Выше эмпатия и социальная чувствительность"),
+                    "AA": ("info", "Lower empathy and social sensitivity"),
+                    "AG": ("info", "Average level"),
+                    "GG": ("info", "Higher empathy and social sensitivity"),
                 }
             },
         }
     },
 
     "diabetes": {
-        "name": "Диабет и метаболизм",
+        "name": "Diabetes and Metabolism",
         "snps": {
             "rs7903146": {
                 "gene": "TCF7L2",
-                "description": "Диабет 2 типа (главный маркер)",
+                "description": "Type 2 diabetes (main marker)",
                 "risk_allele": "T",
                 "interpretation": {
-                    "TT": ("high", "Значительно повышен риск СД2 (~80%)"),
-                    "CT": ("moderate", "Повышен риск СД2 (~40%)"),
-                    "CC": ("normal", "Нормальный риск"),
+                    "TT": ("high", "Significantly increased T2D risk (~80%)"),
+                    "CT": ("moderate", "Increased T2D risk (~40%)"),
+                    "CC": ("normal", "Normal risk"),
                 }
             },
             "rs1801282": {
                 "gene": "PPARG Pro12Ala",
-                "description": "Инсулин, ожирение",
+                "description": "Insulin, obesity",
                 "risk_allele": "C",
                 "interpretation": {
-                    "CC": ("normal", "Pro/Pro - стандартный вариант"),
-                    "CG": ("protective", "Pro/Ala - защитный эффект против СД2"),
-                    "GG": ("protective", "Ala/Ala - защитный эффект"),
+                    "CC": ("normal", "Pro/Pro - standard variant"),
+                    "CG": ("protective", "Pro/Ala - protective effect against T2D"),
+                    "GG": ("protective", "Ala/Ala - protective effect"),
                 }
             },
             "rs5219": {
                 "gene": "KCNJ11",
-                "description": "Диабет 2 типа",
+                "description": "Type 2 diabetes",
                 "risk_allele": "T",
                 "interpretation": {
-                    "TT": ("moderate", "Повышен риск СД2"),
-                    "CT": ("low", "Немного повышен риск"),
-                    "CC": ("normal", "Нормальный риск"),
+                    "TT": ("moderate", "Increased T2D risk"),
+                    "CT": ("low", "Slightly increased risk"),
+                    "CC": ("normal", "Normal risk"),
                 }
             },
             "rs9939609": {
                 "gene": "FTO",
-                "description": "Ожирение (главный маркер)",
+                "description": "Obesity (main marker)",
                 "risk_allele": "A",
                 "interpretation": {
-                    "AA": ("high", "Повышен риск ожирения (+3кг в среднем)"),
-                    "AT": ("moderate", "Умеренно повышен риск (+1.5кг)"),
-                    "TT": ("normal", "Нормальный риск"),
+                    "AA": ("high", "Increased obesity risk (+3 kg on average)"),
+                    "AT": ("moderate", "Moderately increased risk (+1.5 kg)"),
+                    "TT": ("normal", "Normal risk"),
                 }
             },
             "rs17782313": {
                 "gene": "MC4R",
-                "description": "Аппетит, ожирение",
+                "description": "Appetite, obesity",
                 "risk_allele": "C",
                 "interpretation": {
-                    "CC": ("moderate", "Повышен аппетит и риск ожирения"),
-                    "CT": ("low", "Немного повышен риск"),
-                    "TT": ("normal", "Нормальный контроль аппетита"),
+                    "CC": ("moderate", "Increased appetite and obesity risk"),
+                    "CT": ("low", "Slightly increased risk"),
+                    "TT": ("normal", "Normal appetite control"),
                 }
             },
         }
     },
 
     "autoimmune": {
-        "name": "Аутоиммунные заболевания",
+        "name": "Autoimmune Diseases",
         "snps": {
             "rs2187668": {
                 "gene": "HLA-DQ2.5",
-                "description": "Целиакия",
+                "description": "Celiac disease",
                 "risk_allele": "T",
                 "interpretation": {
-                    "TT": ("high", "HLA-DQ2.5 - высокий риск целиакии"),
-                    "CT": ("moderate", "Носитель HLA-DQ2.5"),
-                    "CC": ("normal", "Низкий риск целиакии"),
+                    "TT": ("high", "HLA-DQ2.5 - high celiac disease risk"),
+                    "CT": ("moderate", "HLA-DQ2.5 carrier"),
+                    "CC": ("normal", "Low celiac disease risk"),
                 }
             },
             "rs7454108": {
                 "gene": "HLA-DQ8",
-                "description": "Целиакия, диабет 1 типа",
+                "description": "Celiac disease, type 1 diabetes",
                 "risk_allele": "C",
                 "interpretation": {
-                    "CC": ("moderate", "HLA-DQ8 - риск целиакии и СД1"),
-                    "CT": ("low", "Носитель"),
-                    "TT": ("normal", "Низкий риск"),
+                    "CC": ("moderate", "HLA-DQ8 - celiac disease and T1D risk"),
+                    "CT": ("low", "Carrier"),
+                    "TT": ("normal", "Low risk"),
                 }
             },
             "rs2476601": {
                 "gene": "PTPN22",
-                "description": "Аутоиммунные (RA, SLE, СД1)",
+                "description": "Autoimmune (RA, SLE, T1D)",
                 "risk_allele": "A",
                 "interpretation": {
-                    "AA": ("high", "Высокий риск аутоиммунных заболеваний"),
-                    "AG": ("moderate", "Повышен риск аутоиммунных"),
-                    "GG": ("normal", "Нормальный риск"),
+                    "AA": ("high", "High risk of autoimmune diseases"),
+                    "AG": ("moderate", "Increased autoimmune risk"),
+                    "GG": ("normal", "Normal risk"),
                 }
             },
             "rs3135388": {
                 "gene": "HLA-DRB1",
-                "description": "Рассеянный склероз",
+                "description": "Multiple sclerosis",
                 "risk_allele": "A",
                 "interpretation": {
-                    "AA": ("moderate", "Повышен риск рассеянного склероза"),
-                    "AG": ("low", "Немного повышен риск"),
-                    "GG": ("normal", "Нормальный риск"),
+                    "AA": ("moderate", "Increased multiple sclerosis risk"),
+                    "AG": ("low", "Slightly increased risk"),
+                    "GG": ("normal", "Normal risk"),
                 }
             },
         }
     },
 
     "pharmacogenomics": {
-        "name": "Фармакогеномика",
+        "name": "Pharmacogenomics",
         "snps": {
             "rs4244285": {
                 "gene": "CYP2C19*2",
-                "description": "Метаболизм: Клопидогрел, омепразол, антидепрессанты",
+                "description": "Metabolism: Clopidogrel, omeprazole, antidepressants",
                 "risk_allele": "A",
                 "interpretation": {
-                    "AA": ("high", "Плохой метаболизатор - клопидогрел НЕ эффективен!"),
-                    "AG": ("moderate", "Промежуточный метаболизатор"),
-                    "GG": ("normal", "Нормальный метаболизатор"),
+                    "AA": ("high", "Poor metabolizer - clopidogrel NOT effective!"),
+                    "AG": ("moderate", "Intermediate metabolizer"),
+                    "GG": ("normal", "Normal metabolizer"),
                 }
             },
             "rs4986893": {
                 "gene": "CYP2C19*3",
-                "description": "Метаболизм антидепрессантов",
+                "description": "Antidepressant metabolism",
                 "risk_allele": "A",
                 "interpretation": {
-                    "AA": ("high", "Плохой метаболизатор"),
-                    "AG": ("moderate", "Промежуточный"),
-                    "GG": ("normal", "Нормальный метаболизатор"),
+                    "AA": ("high", "Poor metabolizer"),
+                    "AG": ("moderate", "Intermediate"),
+                    "GG": ("normal", "Normal metabolizer"),
                 }
             },
             "rs1065852": {
                 "gene": "CYP2D6",
-                "description": "Метаболизм: Кодеин, тамоксифен, антидепрессанты",
+                "description": "Metabolism: Codeine, tamoxifen, antidepressants",
                 "risk_allele": "A",
                 "interpretation": {
-                    "AA": ("high", "Плохой метаболизатор - кодеин не работает"),
-                    "AG": ("moderate", "Промежуточный метаболизатор"),
-                    "GG": ("normal", "Нормальный метаболизатор"),
+                    "AA": ("high", "Poor metabolizer - codeine does not work"),
+                    "AG": ("moderate", "Intermediate metabolizer"),
+                    "GG": ("normal", "Normal metabolizer"),
                 }
             },
             "rs9923231": {
                 "gene": "VKORC1",
-                "description": "Чувствительность к Варфарину",
+                "description": "Warfarin sensitivity",
                 "risk_allele": "T",
                 "interpretation": {
-                    "TT": ("high", "Высокая чувствительность - нужна низкая доза варфарина"),
-                    "CT": ("moderate", "Средняя чувствительность"),
-                    "CC": ("normal", "Стандартная доза варфарина"),
+                    "TT": ("high", "High sensitivity - low warfarin dose needed"),
+                    "CT": ("moderate", "Moderate sensitivity"),
+                    "CC": ("normal", "Standard warfarin dose"),
                 }
             },
             "rs1799853": {
                 "gene": "CYP2C9*2",
-                "description": "Метаболизм: Варфарин, НПВС",
+                "description": "Metabolism: Warfarin, NSAIDs",
                 "risk_allele": "T",
                 "interpretation": {
-                    "TT": ("high", "Плохой метаболизатор - снизить дозу варфарина"),
-                    "CT": ("moderate", "Промежуточный метаболизатор"),
-                    "CC": ("normal", "Нормальный метаболизатор"),
+                    "TT": ("high", "Poor metabolizer - reduce warfarin dose"),
+                    "CT": ("moderate", "Intermediate metabolizer"),
+                    "CC": ("normal", "Normal metabolizer"),
                 }
             },
             "rs1057910": {
                 "gene": "CYP2C9*3",
-                "description": "Метаболизм варфарина",
+                "description": "Warfarin metabolism",
                 "risk_allele": "C",
                 "interpretation": {
-                    "CC": ("high", "Плохой метаболизатор"),
-                    "AC": ("moderate", "Промежуточный"),
-                    "AA": ("normal", "Нормальный метаболизатор"),
+                    "CC": ("high", "Poor metabolizer"),
+                    "AC": ("moderate", "Intermediate"),
+                    "AA": ("normal", "Normal metabolizer"),
                 }
             },
             "rs4149056": {
                 "gene": "SLCO1B1",
-                "description": "Транспорт статинов (риск миопатии)",
+                "description": "Statin transport (myopathy risk)",
                 "risk_allele": "C",
                 "interpretation": {
-                    "CC": ("high", "Высокий риск миопатии от статинов!"),
-                    "CT": ("moderate", "Повышен риск миопатии"),
-                    "TT": ("normal", "Нормальный риск"),
+                    "CC": ("high", "High risk of statin-induced myopathy!"),
+                    "CT": ("moderate", "Increased myopathy risk"),
+                    "TT": ("normal", "Normal risk"),
                 }
             },
             "rs1800460": {
                 "gene": "TPMT",
-                "description": "Метаболизм азатиоприна",
+                "description": "Azathioprine metabolism",
                 "risk_allele": "A",
                 "interpretation": {
-                    "AA": ("high", "Плохой метаболизатор - токсичность азатиоприна!"),
-                    "TT": ("high", "Плохой метаболизатор - токсичность азатиоприна!"),
-                    "AG": ("moderate", "Промежуточный - снизить дозу"),
-                    "CT": ("moderate", "Промежуточный - снизить дозу"),
-                    "GG": ("normal", "Нормальный метаболизатор"),
-                    "CC": ("normal", "Нормальный метаболизатор"),
+                    "AA": ("high", "Poor metabolizer - azathioprine toxicity!"),
+                    "TT": ("high", "Poor metabolizer - azathioprine toxicity!"),
+                    "AG": ("moderate", "Intermediate - reduce dose"),
+                    "CT": ("moderate", "Intermediate - reduce dose"),
+                    "GG": ("normal", "Normal metabolizer"),
+                    "CC": ("normal", "Normal metabolizer"),
                 }
             },
         }
     },
 
     "other": {
-        "name": "Другие важные маркеры",
+        "name": "Other Important Markers",
         "snps": {
             "rs1800629": {
                 "gene": "TNF-α",
-                "description": "Воспаление",
+                "description": "Inflammation",
                 "risk_allele": "A",
                 "interpretation": {
-                    "AA": ("moderate", "Повышенная продукция TNF-α, хроническое воспаление"),
-                    "AG": ("low", "Немного повышена"),
-                    "GG": ("normal", "Нормальный уровень"),
+                    "AA": ("moderate", "Increased TNF-α production, chronic inflammation"),
+                    "AG": ("low", "Slightly increased"),
+                    "GG": ("normal", "Normal level"),
                 }
             },
             "rs1143634": {
                 "gene": "IL-1β",
-                "description": "Воспаление",
+                "description": "Inflammation",
                 "risk_allele": "T",
                 "interpretation": {
-                    "TT": ("moderate", "Повышенное воспаление"),
-                    "CT": ("low", "Немного повышено"),
-                    "AG": ("low", "Немного повышена продукция IL-1β"),
-                    "CC": ("normal", "Нормальный уровень"),
-                    "AA": ("normal", "Нормальный уровень"),
+                    "TT": ("moderate", "Increased inflammation"),
+                    "CT": ("low", "Slightly increased"),
+                    "AG": ("low", "Slightly increased IL-1β production"),
+                    "CC": ("normal", "Normal level"),
+                    "AA": ("normal", "Normal level"),
                 }
             },
             "rs1800795": {
                 "gene": "IL-6",
-                "description": "Воспаление, иммунитет",
+                "description": "Inflammation, immunity",
                 "risk_allele": "C",
                 "interpretation": {
-                    "CC": ("moderate", "Повышенная продукция IL-6"),
-                    "CG": ("low", "Умеренно повышена"),
-                    "GG": ("normal", "Нормальный уровень"),
+                    "CC": ("moderate", "Increased IL-6 production"),
+                    "CG": ("low", "Moderately increased"),
+                    "GG": ("normal", "Normal level"),
                 }
             },
             "rs7041": {
                 "gene": "GC (VDBP)",
-                "description": "Метаболизм витамина D",
+                "description": "Vitamin D metabolism",
                 "risk_allele": "T",
                 "interpretation": {
-                    "TT": ("moderate", "Gc1F/1F - сниженный уровень витамина D"),
-                    "GT": ("low", "Немного снижен"),
-                    "AC": ("low", "Gc1S/1F - немного снижен витамин D"),
-                    "GG": ("normal", "Gc1S/1S - нормальный уровень"),
-                    "AA": ("normal", "Нормальный уровень"),
-                    "CC": ("normal", "Нормальный уровень"),
+                    "TT": ("moderate", "Gc1F/1F - reduced vitamin D level"),
+                    "GT": ("low", "Slightly reduced"),
+                    "AC": ("low", "Gc1S/1F - slightly reduced vitamin D"),
+                    "GG": ("normal", "Gc1S/1S - normal level"),
+                    "AA": ("normal", "Normal level"),
+                    "CC": ("normal", "Normal level"),
                 }
             },
             "rs2282679": {
                 "gene": "GC",
-                "description": "Уровень витамина D",
+                "description": "Vitamin D level",
                 "risk_allele": "C",
                 "interpretation": {
-                    "CC": ("moderate", "Сниженный витамин D"),
-                    "AC": ("low", "Немного снижен"),
-                    "GT": ("low", "Немного снижен уровень витамина D"),
-                    "GG": ("normal", "Нормальный уровень"),
-                    "TT": ("normal", "Нормальный уровень"),
-                    "AA": ("normal", "Нормальный уровень"),
+                    "CC": ("moderate", "Reduced vitamin D"),
+                    "AC": ("low", "Slightly reduced"),
+                    "GT": ("low", "Slightly reduced vitamin D level"),
+                    "GG": ("normal", "Normal level"),
+                    "TT": ("normal", "Normal level"),
+                    "AA": ("normal", "Normal level"),
                 }
             },
             "rs855791": {
                 "gene": "TMPRSS6",
-                "description": "Уровень железа",
+                "description": "Iron level",
                 "risk_allele": "T",
                 "interpretation": {
-                    "TT": ("moderate", "Сниженный уровень железа"),
-                    "CT": ("low", "Немного снижен"),
-                    "AG": ("low", "Немного снижен уровень железа"),
-                    "GG": ("normal", "Нормальный уровень железа"),
-                    "AA": ("normal", "Нормальный уровень"),
-                    "CC": ("normal", "Нормальный уровень"),
+                    "TT": ("moderate", "Reduced iron level"),
+                    "CT": ("low", "Slightly reduced"),
+                    "AG": ("low", "Slightly reduced iron level"),
+                    "GG": ("normal", "Normal iron level"),
+                    "AA": ("normal", "Normal level"),
+                    "CC": ("normal", "Normal level"),
                 }
             },
             "rs1799945": {
                 "gene": "HFE H63D",
-                "description": "Гемохроматоз (лёгкая форма)",
+                "description": "Hemochromatosis (mild form)",
                 "risk_allele": "G",
                 "interpretation": {
-                    "GG": ("moderate", "H63D гомозигота - лёгкий риск накопления железа"),
-                    "CG": ("low", "Носитель H63D"),
-                    "CC": ("normal", "Нет мутации H63D"),
+                    "GG": ("moderate", "H63D homozygous - mild risk of iron accumulation"),
+                    "CG": ("low", "H63D carrier"),
+                    "CC": ("normal", "No H63D mutation"),
                 }
             },
         }
@@ -570,14 +570,14 @@ def determine_apoe_genotype(genome):
     # APOE determination table
     # rs429358 (C=ε4), rs7412 (T=ε2)
     apoe_table = {
-        ('TT', 'CC'): ('ε2/ε2', 'protective', 'Защитный генотип - пониженный риск Альцгеймера'),
-        ('TT', 'CT'): ('ε2/ε3', 'protective', 'Немного пониженный риск'),
-        ('CT', 'CC'): ('ε2/ε4', 'moderate', 'Смешанный - один защитный, один рисковый аллель'),
-        ('TT', 'TT'): ('ε3/ε3', 'normal', 'Наиболее распространённый генотип - обычный риск'),
-        ('CT', 'CT'): ('ε3/ε4', 'high', 'Повышенный риск Альцгеймера (~3x)'),
-        ('CC', 'TT'): ('ε4/ε4', 'very_high', 'Значительно повышенный риск Альцгеймера (~12x)'),
-        ('CT', 'TT'): ('ε3/ε4', 'high', 'Повышенный риск Альцгеймера (~3x)'),
-        ('CC', 'CT'): ('ε4/ε4 или ε3/ε4', 'high', 'Повышенный риск'),
+        ('TT', 'CC'): ('ε2/ε2', 'protective', 'Protective genotype - reduced Alzheimer risk'),
+        ('TT', 'CT'): ('ε2/ε3', 'protective', 'Slightly reduced risk'),
+        ('CT', 'CC'): ('ε2/ε4', 'moderate', 'Mixed - one protective, one risk allele'),
+        ('TT', 'TT'): ('ε3/ε3', 'normal', 'Most common genotype - average risk'),
+        ('CT', 'CT'): ('ε3/ε4', 'high', 'Increased Alzheimer risk (~3x)'),
+        ('CC', 'TT'): ('ε4/ε4', 'very_high', 'Significantly increased Alzheimer risk (~12x)'),
+        ('CT', 'TT'): ('ε3/ε4', 'high', 'Increased Alzheimer risk (~3x)'),
+        ('CC', 'CT'): ('ε4/ε4 or ε3/ε4', 'high', 'Increased risk'),
     }
 
     # Normalize genotypes
@@ -597,9 +597,9 @@ def determine_apoe_genotype(genome):
     return {
         'rs429358': rs429358,
         'rs7412': rs7412,
-        'apoe_genotype': 'Не определён',
+        'apoe_genotype': 'Undetermined',
         'risk_level': 'unknown',
-        'interpretation': f'Комбинация {rs429358}/{rs7412} не в таблице'
+        'interpretation': f'Combination {rs429358}/{rs7412} not in lookup table'
     }
 
 
@@ -637,21 +637,21 @@ def determine_mthfr_status(results):
         is_a1298c_hetero = False  # GT likely means normal/normal on this assay
 
     if is_c677t_homo and is_a1298c_homo:
-        status = ('severe', 'Значительное снижение активности MTHFR (~10-20%)')
+        status = ('severe', 'Significant reduction in MTHFR activity (~10-20%)')
     elif is_c677t_homo and is_a1298c_hetero:
-        status = ('severe', 'Значительное снижение активности MTHFR')
+        status = ('severe', 'Significant reduction in MTHFR activity')
     elif is_c677t_homo:
-        status = ('moderate', 'C677T гомозигота - сниженная активность MTHFR (~30%)')
+        status = ('moderate', 'C677T homozygous - reduced MTHFR activity (~30%)')
     elif is_c677t_hetero and is_a1298c_homo:
-        status = ('moderate', 'Компаунд - умеренное снижение активности')
+        status = ('moderate', 'Compound - moderate reduction in activity')
     elif is_c677t_hetero and is_a1298c_hetero:
-        status = ('moderate', 'Компаунд гетерозигота - умеренное снижение')
+        status = ('moderate', 'Compound heterozygous - moderate reduction')
     elif is_c677t_hetero:
-        status = ('mild', 'C677T гетерозигота - незначительное снижение (~65%)')
+        status = ('mild', 'C677T heterozygous - slight reduction (~65%)')
     elif is_a1298c_homo:
-        status = ('mild', 'A1298C гомозигота - незначительное снижение')
+        status = ('mild', 'A1298C homozygous - slight reduction')
     else:
-        status = ('normal', 'Нормальная активность MTHFR')
+        status = ('normal', 'Normal MTHFR activity')
 
     return {
         'c677t': c677t,
@@ -667,12 +667,12 @@ def generate_category_report(category, results, genome):
 
     report = []
     report.append(f"# {cat_info['name']}")
-    report.append(f"\nДата анализа: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
-    report.append("\n## Результаты\n")
+    report.append(f"\nAnalysis date: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
+    report.append("\n## Results\n")
 
     # Statistics
     found = sum(1 for r in results if r['found'])
-    report.append(f"Найдено маркеров: {found}/{len(results)}\n")
+    report.append(f"Markers found: {found}/{len(results)}\n")
 
     # Risk summary
     risk_counts = defaultdict(int)
@@ -681,7 +681,7 @@ def generate_category_report(category, results, genome):
             risk_counts[r['risk_level']] += 1
 
     if risk_counts:
-        report.append("### Сводка по рискам\n")
+        report.append("### Risk summary\n")
         risk_emoji = {
             'high': '🔴',
             'very_high': '🔴🔴',
@@ -695,35 +695,35 @@ def generate_category_report(category, results, genome):
             emoji = risk_emoji.get(risk, '•')
             report.append(f"- {emoji} {risk}: {count}")
 
-    report.append("\n### Детальные результаты\n")
-    report.append("| SNP | Ген | Генотип | Риск | Интерпретация |")
+    report.append("\n### Detailed results\n")
+    report.append("| SNP | Gene | Genotype | Risk | Interpretation |")
     report.append("|-----|-----|---------|------|---------------|")
 
     for r in results:
         if r['found']:
-            risk_label = r['risk_level'] or 'н/д'
-            interp = r['interpretation'] or 'Нет данных'
+            risk_label = r['risk_level'] or 'n/a'
+            interp = r['interpretation'] or 'No data'
             report.append(f"| {r['snp_id']} | {r['gene']} | **{r['genotype']}** | {risk_label} | {interp} |")
         else:
-            report.append(f"| {r['snp_id']} | {r['gene']} | - | - | Не найден в геноме |")
+            report.append(f"| {r['snp_id']} | {r['gene']} | - | - | Not found in genome |")
 
     # Special sections
     if category == 'neurology':
-        report.append("\n### APOE генотип (риск Альцгеймера)\n")
+        report.append("\n### APOE genotype (Alzheimer's risk)\n")
         apoe = determine_apoe_genotype(genome)
         report.append(f"- rs429358: {apoe['rs429358']}")
         report.append(f"- rs7412: {apoe['rs7412']}")
-        report.append(f"- **APOE генотип: {apoe['apoe_genotype']}**")
-        report.append(f"- Риск: {apoe['risk_level']}")
+        report.append(f"- **APOE genotype: {apoe['apoe_genotype']}**")
+        report.append(f"- Risk: {apoe['risk_level']}")
         report.append(f"- {apoe['interpretation']}")
 
     if category == 'cardiovascular':
         mthfr = determine_mthfr_status(results)
         if mthfr:
-            report.append("\n### MTHFR статус\n")
+            report.append("\n### MTHFR status\n")
             report.append(f"- C677T (rs1801133): {mthfr['c677t']}")
             report.append(f"- A1298C (rs1801131): {mthfr['a1298c']}")
-            report.append(f"- **Статус: {mthfr['status']}**")
+            report.append(f"- **Status: {mthfr['status']}**")
             report.append(f"- {mthfr['interpretation']}")
 
     return '\n'.join(report)
@@ -732,15 +732,15 @@ def generate_category_report(category, results, genome):
 def generate_summary_report(all_results, genome):
     """Generate overall summary report"""
     report = []
-    report.append("# 📊 Сводный отчёт по здоровью")
-    report.append(f"\nДата анализа: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
+    report.append("# 📊 Health Summary Report")
+    report.append(f"\nAnalysis date: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
     report.append("\n---\n")
 
-    report.append("## ⚠️ Важные предупреждения\n")
-    report.append("1. **Это НЕ медицинский диагноз** — только информационный анализ")
-    report.append("2. **Наличие риск-аллеля ≠ заболевание** — пенетрантность варьируется")
-    report.append("3. **Большинство болезней полигенные** — зависят от многих генов + среда")
-    report.append("4. **Для медицинских решений** — консультация генетика обязательна\n")
+    report.append("## ⚠️ Important Disclaimers\n")
+    report.append("1. **This is NOT a medical diagnosis** — informational analysis only (not medical advice)")
+    report.append("2. **Having a risk allele ≠ disease** — penetrance varies")
+    report.append("3. **Most diseases are polygenic** — they depend on many genes + environment")
+    report.append("4. **For medical decisions** — consulting a geneticist is mandatory\n")
 
     report.append("---\n")
 
@@ -759,8 +759,8 @@ def generate_summary_report(all_results, genome):
                 protective.append((category, r))
 
     if high_risk:
-        report.append("## 🔴 Маркеры повышенного риска\n")
-        report.append("| Категория | SNP | Ген | Генотип | Описание |")
+        report.append("## 🔴 High-Risk Markers\n")
+        report.append("| Category | SNP | Gene | Genotype | Description |")
         report.append("|-----------|-----|-----|---------|----------|")
         for cat, r in high_risk:
             cat_name = HEALTH_SNPS[cat]['name']
@@ -768,8 +768,8 @@ def generate_summary_report(all_results, genome):
         report.append("")
 
     if moderate_risk:
-        report.append("## 🟡 Маркеры умеренного риска\n")
-        report.append("| Категория | SNP | Ген | Генотип | Описание |")
+        report.append("## 🟡 Moderate-Risk Markers\n")
+        report.append("| Category | SNP | Gene | Genotype | Description |")
         report.append("|-----------|-----|-----|---------|----------|")
         for cat, r in moderate_risk:
             cat_name = HEALTH_SNPS[cat]['name']
@@ -777,8 +777,8 @@ def generate_summary_report(all_results, genome):
         report.append("")
 
     if protective:
-        report.append("## 🛡️ Защитные варианты\n")
-        report.append("| Категория | SNP | Ген | Генотип | Описание |")
+        report.append("## 🛡️ Protective Variants\n")
+        report.append("| Category | SNP | Gene | Genotype | Description |")
         report.append("|-----------|-----|-----|---------|----------|")
         for cat, r in protective:
             cat_name = HEALTH_SNPS[cat]['name']
@@ -787,25 +787,25 @@ def generate_summary_report(all_results, genome):
 
     # Special analyses
     report.append("---\n")
-    report.append("## 🧬 Специальные анализы\n")
+    report.append("## 🧬 Special Analyses\n")
 
     # APOE
     apoe = determine_apoe_genotype(genome)
-    report.append("### APOE (Болезнь Альцгеймера)\n")
-    report.append(f"- **Генотип: {apoe['apoe_genotype']}**")
+    report.append("### APOE (Alzheimer's Disease)\n")
+    report.append(f"- **Genotype: {apoe['apoe_genotype']}**")
     report.append(f"- {apoe['interpretation']}\n")
 
     # MTHFR
     cardio_results = all_results.get('cardiovascular', [])
     mthfr = determine_mthfr_status(cardio_results)
     if mthfr:
-        report.append("### MTHFR (Метаболизм фолатов)\n")
+        report.append("### MTHFR (Folate Metabolism)\n")
         report.append(f"- C677T: {mthfr['c677t']}, A1298C: {mthfr['a1298c']}")
-        report.append(f"- **Статус: {mthfr['status']}**")
+        report.append(f"- **Status: {mthfr['status']}**")
         report.append(f"- {mthfr['interpretation']}\n")
 
     # Pharmacogenomics summary
-    report.append("### 💊 Фармакогеномика - ключевые находки\n")
+    report.append("### 💊 Pharmacogenomics - key findings\n")
     pharma = all_results.get('pharmacogenomics', [])
     important_drugs = []
     for r in pharma:
@@ -815,10 +815,10 @@ def generate_summary_report(all_results, genome):
     if important_drugs:
         report.extend(important_drugs)
     else:
-        report.append("- Нет критических фармакогенетических находок")
+        report.append("- No critical pharmacogenetic findings")
 
     report.append("\n---\n")
-    report.append("## 📈 Статистика анализа\n")
+    report.append("## 📈 Analysis Statistics\n")
 
     total_snps = 0
     found_snps = 0
@@ -826,23 +826,23 @@ def generate_summary_report(all_results, genome):
         total_snps += len(results)
         found_snps += sum(1 for r in results if r['found'])
 
-    report.append(f"- Всего проанализировано SNP: {total_snps}")
-    report.append(f"- Найдено в геноме: {found_snps}")
-    report.append(f"- Не найдено: {total_snps - found_snps}")
+    report.append(f"- Total SNPs analyzed: {total_snps}")
+    report.append(f"- Found in genome: {found_snps}")
+    report.append(f"- Not found: {total_snps - found_snps}")
 
     return '\n'.join(report)
 
 
 def main():
     print("=" * 60)
-    print("АНАЛИЗ ЗДОРОВЬЯ ПО ГЕНОМУ 23andMe")
+    print("23andMe GENOME HEALTH ANALYSIS")
     print("=" * 60)
 
-    print("\n[1/4] Загрузка генома...")
+    print("\n[1/4] Loading genome...")
     genome = load_genome()
-    print(f"      Загружено {len(genome)} SNP")
+    print(f"      Loaded {len(genome)} SNP")
 
-    print("\n[2/4] Анализ маркеров по категориям...")
+    print("\n[2/4] Analyzing markers by category...")
     all_results = {}
 
     for category, cat_info in HEALTH_SNPS.items():
@@ -855,9 +855,9 @@ def main():
 
         # Count found
         found = sum(1 for r in results if r['found'])
-        print(f"        Найдено: {found}/{len(results)}")
+        print(f"        Found: {found}/{len(results)}")
 
-    print("\n[3/4] Генерация отчётов по категориям...")
+    print("\n[3/4] Generating category reports...")
     for category, results in all_results.items():
         report = generate_category_report(category, results, genome)
         report_path = f"{REPORTS_PATH}/{category}/report.md"
@@ -866,7 +866,7 @@ def main():
             f.write(report)
         print(f"      → {report_path}")
 
-    print("\n[4/4] Генерация сводного отчёта...")
+    print("\n[4/4] Generating summary report...")
     summary = generate_summary_report(all_results, genome)
     summary_path = f"{REPORTS_PATH}/health_summary.md"
     with open(summary_path, 'w', encoding='utf-8') as f:
@@ -874,11 +874,11 @@ def main():
     print(f"      → {summary_path}")
 
     print("\n" + "=" * 60)
-    print("АНАЛИЗ ЗАВЕРШЁН")
+    print("ANALYSIS COMPLETE")
     print("=" * 60)
 
     # Print key findings to console
-    print("\n🔑 КЛЮЧЕВЫЕ НАХОДКИ:\n")
+    print("\n🔑 KEY FINDINGS:\n")
 
     for category, results in all_results.items():
         high_risk = [r for r in results if r['risk_level'] in ['high', 'very_high']]

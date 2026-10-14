@@ -19,290 +19,290 @@ REPORTS_PATH = f"{BASE_PATH}/reports"
 
 IMMUNITY_SNPS = {
     "hla_system": {
-        "name": "HLA-система (HLA-B27, целиакия DQ2/DQ8)",
+        "name": "HLA system (HLA-B27, celiac DQ2/DQ8)",
         "snps": {
             "rs4349859": {
                 "gene": "HLA-B27",
-                "description": "Анкилозирующий спондилит, реактивный артрит",
+                "description": "Ankylosing spondylitis, reactive arthritis",
                 "risk_allele": "A",
                 "interpretation": {
-                    "AA": ("high", "HLA-B27 положительный - высокий риск анкилозирующего спондилита"),
-                    "AG": ("moderate", "Носитель HLA-B27 - повышенный риск спондилоартропатий"),
-                    "GG": ("normal", "HLA-B27 отрицательный - нормальный риск"),
+                    "AA": ("high", "HLA-B27 positive - high risk of ankylosing spondylitis"),
+                    "AG": ("moderate", "HLA-B27 carrier - increased risk of spondyloarthropathies"),
+                    "GG": ("normal", "HLA-B27 negative - normal risk"),
                 }
             },
             "rs2187668": {
                 "gene": "HLA-DQ2.5",
-                "description": "Целиакия (главный маркер)",
+                "description": "Celiac disease (main marker)",
                 "risk_allele": "T",
                 "interpretation": {
-                    "TT": ("high", "HLA-DQ2.5 гомозигота - очень высокий риск целиакии"),
-                    "CT": ("moderate", "Носитель HLA-DQ2.5 - повышенный риск целиакии"),
-                    "TC": ("moderate", "Носитель HLA-DQ2.5 - повышенный риск целиакии"),
-                    "CC": ("normal", "Низкий риск целиакии по DQ2.5"),
+                    "TT": ("high", "HLA-DQ2.5 homozygous - very high risk of celiac disease"),
+                    "CT": ("moderate", "HLA-DQ2.5 carrier - increased risk of celiac disease"),
+                    "TC": ("moderate", "HLA-DQ2.5 carrier - increased risk of celiac disease"),
+                    "CC": ("normal", "Low celiac disease risk by DQ2.5"),
                 }
             },
             "rs7454108": {
                 "gene": "HLA-DQ8",
-                "description": "Целиакия, диабет 1 типа",
+                "description": "Celiac disease, type 1 diabetes",
                 "risk_allele": "C",
                 "interpretation": {
-                    "CC": ("moderate", "HLA-DQ8 положительный - риск целиакии и СД1"),
-                    "CT": ("low", "Носитель HLA-DQ8"),
-                    "TC": ("low", "Носитель HLA-DQ8"),
-                    "TT": ("normal", "Низкий риск по HLA-DQ8"),
+                    "CC": ("moderate", "HLA-DQ8 positive - risk of celiac disease and T1D"),
+                    "CT": ("low", "HLA-DQ8 carrier"),
+                    "TC": ("low", "HLA-DQ8 carrier"),
+                    "TT": ("normal", "Low risk by HLA-DQ8"),
                 }
             },
         }
     },
 
     "autoimmune": {
-        "name": "Аутоиммунные риски",
+        "name": "Autoimmune risks",
         "snps": {
             "rs2476601": {
                 "gene": "PTPN22",
-                "description": "Ревматоидный артрит, СД1, СКВ, тиреоидит",
+                "description": "Rheumatoid arthritis, T1D, SLE, thyroiditis",
                 "risk_allele": "A",
                 "interpretation": {
-                    "AA": ("high", "Гомозигота риска - очень высокий риск аутоиммунных заболеваний"),
-                    "AG": ("moderate", "Гетерозигота - повышенный риск RA, СД1, СКВ, тиреоидита"),
-                    "GA": ("moderate", "Гетерозигота - повышенный риск RA, СД1, СКВ, тиреоидита"),
-                    "GG": ("normal", "Нормальный риск аутоиммунных заболеваний"),
+                    "AA": ("high", "Risk homozygote - very high risk of autoimmune diseases"),
+                    "AG": ("moderate", "Heterozygote - increased risk of RA, T1D, SLE, thyroiditis"),
+                    "GA": ("moderate", "Heterozygote - increased risk of RA, T1D, SLE, thyroiditis"),
+                    "GG": ("normal", "Normal risk of autoimmune diseases"),
                 }
             },
             "rs6457617": {
                 "gene": "HLA-DRB1",
-                "description": "Ревматоидный артрит (shared epitope)",
+                "description": "Rheumatoid arthritis (shared epitope)",
                 "risk_allele": "T",
                 "interpretation": {
-                    "TT": ("high", "Высокий риск ревматоидного артрита"),
-                    "CT": ("moderate", "Повышенный риск ревматоидного артрита"),
-                    "TC": ("moderate", "Повышенный риск ревматоидного артрита"),
-                    "CC": ("normal", "Нормальный риск ревматоидного артрита"),
+                    "TT": ("high", "High risk of rheumatoid arthritis"),
+                    "CT": ("moderate", "Increased risk of rheumatoid arthritis"),
+                    "TC": ("moderate", "Increased risk of rheumatoid arthritis"),
+                    "CC": ("normal", "Normal risk of rheumatoid arthritis"),
                 }
             },
             "rs3135388": {
                 "gene": "HLA-DRB1 (MS)",
-                "description": "Рассеянный склероз",
+                "description": "Multiple sclerosis",
                 "risk_allele": "A",
                 "interpretation": {
-                    "AA": ("high", "Высокий риск рассеянного склероза"),
-                    "AG": ("moderate", "Повышенный риск рассеянного склероза"),
-                    "GA": ("moderate", "Повышенный риск рассеянного склероза"),
-                    "GG": ("normal", "Нормальный риск рассеянного склероза"),
+                    "AA": ("high", "High risk of multiple sclerosis"),
+                    "AG": ("moderate", "Increased risk of multiple sclerosis"),
+                    "GA": ("moderate", "Increased risk of multiple sclerosis"),
+                    "GG": ("normal", "Normal risk of multiple sclerosis"),
                 }
             },
             "rs2066847": {
                 "gene": "NOD2",
-                "description": "Болезнь Крона",
+                "description": "Crohn's disease",
                 "risk_allele": "C",
                 "interpretation": {
-                    "CC": ("high", "Высокий риск болезни Крона"),
-                    "CG": ("moderate", "Повышенный риск болезни Крона (2-4x)"),
-                    "GC": ("moderate", "Повышенный риск болезни Крона (2-4x)"),
-                    "--": ("normal", "Инсерция отсутствует - нормальный риск"),
-                    "GG": ("normal", "Нормальный риск болезни Крона"),
+                    "CC": ("high", "High risk of Crohn's disease"),
+                    "CG": ("moderate", "Increased risk of Crohn's disease (2-4x)"),
+                    "GC": ("moderate", "Increased risk of Crohn's disease (2-4x)"),
+                    "--": ("normal", "No insertion - normal risk"),
+                    "GG": ("normal", "Normal risk of Crohn's disease"),
                 }
             },
             "rs3087243": {
                 "gene": "CTLA4",
-                "description": "Аутоиммунный тиреоидит, СД1, RA",
+                "description": "Autoimmune thyroiditis, T1D, RA",
                 "risk_allele": "G",
                 "interpretation": {
-                    "GG": ("moderate", "Повышенный риск аутоиммунных заболеваний"),
-                    "AG": ("low", "Немного повышенный риск"),
-                    "GA": ("low", "Немного повышенный риск"),
-                    "AA": ("normal", "Нормальный риск"),
+                    "GG": ("moderate", "Increased risk of autoimmune diseases"),
+                    "AG": ("low", "Slightly increased risk"),
+                    "GA": ("low", "Slightly increased risk"),
+                    "AA": ("normal", "Normal risk"),
                 }
             },
         }
     },
 
     "cytokines": {
-        "name": "Цитокины (воспалительный ответ)",
+        "name": "Cytokines (inflammatory response)",
         "snps": {
             "rs1800629": {
                 "gene": "TNF-alpha",
-                "description": "Фактор некроза опухоли, воспаление",
+                "description": "Tumor necrosis factor, inflammation",
                 "risk_allele": "A",
                 "interpretation": {
-                    "AA": ("high", "Высокая продукция TNF-alpha - склонность к хроническому воспалению"),
-                    "AG": ("moderate", "Повышенная продукция TNF-alpha"),
-                    "GA": ("moderate", "Повышенная продукция TNF-alpha"),
-                    "GG": ("normal", "Нормальная продукция TNF-alpha"),
+                    "AA": ("high", "High TNF-alpha production - tendency toward chronic inflammation"),
+                    "AG": ("moderate", "Increased TNF-alpha production"),
+                    "GA": ("moderate", "Increased TNF-alpha production"),
+                    "GG": ("normal", "Normal TNF-alpha production"),
                 }
             },
             "rs1800795": {
                 "gene": "IL-6",
-                "description": "Интерлейкин-6, воспаление и иммунитет",
+                "description": "Interleukin-6, inflammation and immunity",
                 "risk_allele": "C",
                 "interpretation": {
-                    "CC": ("high", "Высокая продукция IL-6 - провоспалительный профиль"),
-                    "CG": ("moderate", "Умеренно повышенная продукция IL-6"),
-                    "GC": ("moderate", "Умеренно повышенная продукция IL-6"),
-                    "GG": ("normal", "Нормальная продукция IL-6"),
+                    "CC": ("high", "High IL-6 production - pro-inflammatory profile"),
+                    "CG": ("moderate", "Moderately increased IL-6 production"),
+                    "GC": ("moderate", "Moderately increased IL-6 production"),
+                    "GG": ("normal", "Normal IL-6 production"),
                 }
             },
             "rs1800896": {
                 "gene": "IL-10",
-                "description": "Интерлейкин-10, противовоспалительный",
+                "description": "Interleukin-10, anti-inflammatory",
                 "risk_allele": "A",
                 "interpretation": {
-                    "AA": ("low", "Низкая продукция IL-10 - сниженный противовоспалительный ответ"),
-                    "AG": ("moderate", "Умеренная продукция IL-10"),
-                    "GA": ("moderate", "Умеренная продукция IL-10"),
-                    "GG": ("normal", "Высокая продукция IL-10 - хороший противовоспалительный ответ"),
+                    "AA": ("low", "Low IL-10 production - reduced anti-inflammatory response"),
+                    "AG": ("moderate", "Moderate IL-10 production"),
+                    "GA": ("moderate", "Moderate IL-10 production"),
+                    "GG": ("normal", "High IL-10 production - good anti-inflammatory response"),
                 }
             },
             "rs16944": {
                 "gene": "IL-1beta",
-                "description": "Интерлейкин-1beta, воспаление",
+                "description": "Interleukin-1beta, inflammation",
                 "risk_allele": "A",
                 "interpretation": {
-                    "AA": ("high", "Высокая продукция IL-1beta - провоспалительный профиль"),
-                    "AG": ("moderate", "Умеренно повышенная продукция IL-1beta"),
-                    "GA": ("moderate", "Умеренно повышенная продукция IL-1beta"),
-                    "GG": ("normal", "Нормальная продукция IL-1beta"),
+                    "AA": ("high", "High IL-1beta production - pro-inflammatory profile"),
+                    "AG": ("moderate", "Moderately increased IL-1beta production"),
+                    "GA": ("moderate", "Moderately increased IL-1beta production"),
+                    "GG": ("normal", "Normal IL-1beta production"),
                 }
             },
             "rs20541": {
                 "gene": "IL-13",
-                "description": "Интерлейкин-13, аллергия и астма",
+                "description": "Interleukin-13, allergy and asthma",
                 "risk_allele": "A",
                 "interpretation": {
-                    "AA": ("high", "Высокая продукция IL-13 - риск астмы и аллергии"),
-                    "AG": ("moderate", "Повышенная продукция IL-13"),
-                    "GA": ("moderate", "Повышенная продукция IL-13"),
-                    "GG": ("normal", "Нормальная продукция IL-13"),
+                    "AA": ("high", "High IL-13 production - risk of asthma and allergy"),
+                    "AG": ("moderate", "Increased IL-13 production"),
+                    "GA": ("moderate", "Increased IL-13 production"),
+                    "GG": ("normal", "Normal IL-13 production"),
                 }
             },
         }
     },
 
     "innate_immunity": {
-        "name": "Врождённый иммунитет (TLR, комплемент)",
+        "name": "Innate immunity (TLR, complement)",
         "snps": {
             "rs5743708": {
                 "gene": "TLR2",
-                "description": "Toll-like рецептор 2, бактериальные инфекции",
+                "description": "Toll-like receptor 2, bacterial infections",
                 "risk_allele": "A",
                 "interpretation": {
-                    "AA": ("high", "Нарушение функции TLR2 - сниженная защита от бактерий"),
-                    "AG": ("moderate", "Сниженная функция TLR2"),
-                    "GA": ("moderate", "Сниженная функция TLR2"),
-                    "GG": ("normal", "Нормальная функция TLR2"),
+                    "AA": ("high", "Impaired TLR2 function - reduced protection against bacteria"),
+                    "AG": ("moderate", "Reduced TLR2 function"),
+                    "GA": ("moderate", "Reduced TLR2 function"),
+                    "GG": ("normal", "Normal TLR2 function"),
                 }
             },
             "rs4986790": {
                 "gene": "TLR4",
-                "description": "Toll-like рецептор 4, грам-отрицательные бактерии",
+                "description": "Toll-like receptor 4, gram-negative bacteria",
                 "risk_allele": "G",
                 "interpretation": {
-                    "GG": ("high", "Нарушение функции TLR4 - сниженный ответ на LPS"),
-                    "AG": ("moderate", "Сниженная функция TLR4"),
-                    "GA": ("moderate", "Сниженная функция TLR4"),
-                    "AA": ("normal", "Нормальная функция TLR4"),
+                    "GG": ("high", "Impaired TLR4 function - reduced response to LPS"),
+                    "AG": ("moderate", "Reduced TLR4 function"),
+                    "GA": ("moderate", "Reduced TLR4 function"),
+                    "AA": ("normal", "Normal TLR4 function"),
                 }
             },
             "rs2230199": {
                 "gene": "C3",
-                "description": "Компонент комплемента C3",
+                "description": "Complement component C3",
                 "risk_allele": "G",
                 "interpretation": {
-                    "GG": ("moderate", "C3F/F - повышенная активация комплемента, риск AMD"),
-                    "CG": ("low", "C3S/F - умеренная активация"),
-                    "GC": ("low", "C3S/F - умеренная активация"),
-                    "CC": ("normal", "C3S/S - нормальная активация комплемента"),
+                    "GG": ("moderate", "C3F/F - increased complement activation, AMD risk"),
+                    "CG": ("low", "C3S/F - moderate activation"),
+                    "GC": ("low", "C3S/F - moderate activation"),
+                    "CC": ("normal", "C3S/S - normal complement activation"),
                 }
             },
         }
     },
 
     "infections": {
-        "name": "Инфекционные заболевания",
+        "name": "Infectious diseases",
         "snps": {
             "rs333": {
                 "gene": "CCR5-delta32",
-                "description": "Устойчивость к ВИЧ",
+                "description": "HIV resistance",
                 "risk_allele": "D",
                 "interpretation": {
-                    "DD": ("protective", "CCR5-delta32 гомозигота - высокая устойчивость к ВИЧ-1"),
-                    "DI": ("protective", "CCR5-delta32 гетерозигота - частичная защита от ВИЧ"),
-                    "ID": ("protective", "CCR5-delta32 гетерозигота - частичная защита от ВИЧ"),
-                    "--": ("protective", "Делеция - устойчивость к ВИЧ"),
-                    "II": ("normal", "Нет делеции CCR5 - стандартная восприимчивость"),
+                    "DD": ("protective", "CCR5-delta32 homozygous - high resistance to HIV-1"),
+                    "DI": ("protective", "CCR5-delta32 heterozygous - partial protection against HIV"),
+                    "ID": ("protective", "CCR5-delta32 heterozygous - partial protection against HIV"),
+                    "--": ("protective", "Deletion - HIV resistance"),
+                    "II": ("normal", "No CCR5 deletion - standard susceptibility"),
                 }
             },
             "rs12979860": {
                 "gene": "IL28B (IFNL3)",
-                "description": "Гепатит C - спонтанное излечение и ответ на терапию",
+                "description": "Hepatitis C - spontaneous clearance and response to therapy",
                 "risk_allele": "C",
                 "interpretation": {
-                    "CC": ("protective", "Хороший ответ на терапию гепатита C, высокий шанс излечения"),
-                    "CT": ("moderate", "Промежуточный ответ на терапию гепатита C"),
-                    "TC": ("moderate", "Промежуточный ответ на терапию гепатита C"),
-                    "TT": ("low", "Плохой ответ на терапию гепатита C"),
+                    "CC": ("protective", "Good response to hepatitis C therapy, high chance of clearance"),
+                    "CT": ("moderate", "Intermediate response to hepatitis C therapy"),
+                    "TC": ("moderate", "Intermediate response to hepatitis C therapy"),
+                    "TT": ("low", "Poor response to hepatitis C therapy"),
                 }
             },
             "rs601338": {
                 "gene": "FUT2",
-                "description": "Норовирус, ротавирус - секреторный статус",
+                "description": "Norovirus, rotavirus - secretor status",
                 "risk_allele": "A",
                 "interpretation": {
-                    "AA": ("protective", "Несекретор - устойчивость к норовирусу и ротавирусу"),
-                    "AG": ("normal", "Секретор - стандартная восприимчивость"),
-                    "GA": ("normal", "Секретор - стандартная восприимчивость"),
-                    "GG": ("normal", "Секретор - стандартная восприимчивость к норовирусу"),
+                    "AA": ("protective", "Non-secretor - resistance to norovirus and rotavirus"),
+                    "AG": ("normal", "Secretor - standard susceptibility"),
+                    "GA": ("normal", "Secretor - standard susceptibility"),
+                    "GG": ("normal", "Secretor - standard susceptibility to norovirus"),
                 }
             },
             "rs2814778": {
                 "gene": "DARC (Duffy)",
-                "description": "Малярия Plasmodium vivax",
+                "description": "Plasmodium vivax malaria",
                 "risk_allele": "C",
                 "interpretation": {
-                    "CC": ("protective", "Duffy-отрицательный - устойчивость к P. vivax малярии"),
-                    "CT": ("moderate", "Частичная защита от P. vivax"),
-                    "TC": ("moderate", "Частичная защита от P. vivax"),
-                    "TT": ("normal", "Duffy-положительный - восприимчивость к P. vivax"),
+                    "CC": ("protective", "Duffy-negative - resistance to P. vivax malaria"),
+                    "CT": ("moderate", "Partial protection against P. vivax"),
+                    "TC": ("moderate", "Partial protection against P. vivax"),
+                    "TT": ("normal", "Duffy-positive - susceptibility to P. vivax"),
                 }
             },
         }
     },
 
     "allergy": {
-        "name": "Аллергия и атопия",
+        "name": "Allergy and atopy",
         "snps": {
             "rs7216389": {
                 "gene": "ORMDL3",
-                "description": "Детская астма",
+                "description": "Childhood asthma",
                 "risk_allele": "T",
                 "interpretation": {
-                    "TT": ("high", "Высокий риск детской астмы"),
-                    "CT": ("moderate", "Повышенный риск астмы"),
-                    "TC": ("moderate", "Повышенный риск астмы"),
-                    "CC": ("normal", "Нормальный риск астмы"),
+                    "TT": ("high", "High risk of childhood asthma"),
+                    "CT": ("moderate", "Increased risk of asthma"),
+                    "TC": ("moderate", "Increased risk of asthma"),
+                    "CC": ("normal", "Normal risk of asthma"),
                 }
             },
             "rs61816761": {
-                "gene": "FLG (филаггрин)",
-                "description": "Атопический дерматит, экзема",
+                "gene": "FLG (filaggrin)",
+                "description": "Atopic dermatitis, eczema",
                 "risk_allele": "A",
                 "interpretation": {
-                    "AA": ("high", "Нарушение барьерной функции кожи - высокий риск экземы"),
-                    "AG": ("moderate", "Носитель - повышенный риск атопического дерматита"),
-                    "GA": ("moderate", "Носитель - повышенный риск атопического дерматита"),
-                    "GG": ("normal", "Нормальная функция филаггрина"),
+                    "AA": ("high", "Impaired skin barrier function - high risk of eczema"),
+                    "AG": ("moderate", "Carrier - increased risk of atopic dermatitis"),
+                    "GA": ("moderate", "Carrier - increased risk of atopic dermatitis"),
+                    "GG": ("normal", "Normal filaggrin function"),
                 }
             },
             "rs1801275": {
                 "gene": "IL4RA",
-                "description": "Рецептор IL-4, атопия и аллергия",
+                "description": "IL-4 receptor, atopy and allergy",
                 "risk_allele": "A",
                 "interpretation": {
-                    "AA": ("high", "Повышенная чувствительность к IL-4 - риск атопии"),
-                    "AG": ("moderate", "Умеренно повышенный риск аллергии"),
-                    "GA": ("moderate", "Умеренно повышенный риск аллергии"),
-                    "GG": ("normal", "Нормальная чувствительность к IL-4"),
+                    "AA": ("high", "Increased IL-4 sensitivity - risk of atopy"),
+                    "AG": ("moderate", "Moderately increased risk of allergy"),
+                    "GA": ("moderate", "Moderately increased risk of allergy"),
+                    "GG": ("normal", "Normal IL-4 sensitivity"),
                 }
             },
         }
@@ -398,15 +398,15 @@ def determine_celiac_risk(results):
     dq8_risk = 'C' in dq8_gt if dq8_gt else False
 
     if dq2_gt == 'TT':
-        status = ('very_high', 'HLA-DQ2.5 гомозигота - очень высокий риск целиакии (>50%)')
+        status = ('very_high', 'HLA-DQ2.5 homozygous - very high risk of celiac disease (>50%)')
     elif dq2_risk and dq8_risk:
-        status = ('high', 'DQ2.5 + DQ8 - высокий риск целиакии')
+        status = ('high', 'DQ2.5 + DQ8 - high risk of celiac disease')
     elif dq2_risk:
-        status = ('moderate', 'HLA-DQ2.5 носитель - повышенный риск целиакии (~5-10%)')
+        status = ('moderate', 'HLA-DQ2.5 carrier - increased risk of celiac disease (~5-10%)')
     elif dq8_risk:
-        status = ('low', 'HLA-DQ8 - небольшой риск целиакии (~2%)')
+        status = ('low', 'HLA-DQ8 - small risk of celiac disease (~2%)')
     else:
-        status = ('normal', 'Низкий риск целиакии (<1%)')
+        status = ('normal', 'Low risk of celiac disease (<1%)')
 
     return {
         'dq2_genotype': dq2_gt,
@@ -432,49 +432,49 @@ def determine_inflammation_profile(results):
         if r['snp_id'] == 'rs1800629':  # TNF-alpha
             if 'A' in r['genotype']:
                 proinflammatory += 1
-                cytokine_info.append(f"TNF-alpha ({r['genotype']}): повышен")
+                cytokine_info.append(f"TNF-alpha ({r['genotype']}): elevated")
             else:
-                cytokine_info.append(f"TNF-alpha ({r['genotype']}): норма")
+                cytokine_info.append(f"TNF-alpha ({r['genotype']}): normal")
 
         elif r['snp_id'] == 'rs1800795':  # IL-6
             if 'C' in r['genotype']:
                 proinflammatory += 1
-                cytokine_info.append(f"IL-6 ({r['genotype']}): повышен")
+                cytokine_info.append(f"IL-6 ({r['genotype']}): elevated")
             else:
-                cytokine_info.append(f"IL-6 ({r['genotype']}): норма")
+                cytokine_info.append(f"IL-6 ({r['genotype']}): normal")
 
         elif r['snp_id'] == 'rs1800896':  # IL-10 (anti-inflammatory)
             if r['genotype'] == 'GG':
                 antiinflammatory += 1
-                cytokine_info.append(f"IL-10 ({r['genotype']}): высокий (защитный)")
+                cytokine_info.append(f"IL-10 ({r['genotype']}): high (protective)")
             elif 'A' in r['genotype']:
-                cytokine_info.append(f"IL-10 ({r['genotype']}): снижен")
+                cytokine_info.append(f"IL-10 ({r['genotype']}): reduced")
 
         elif r['snp_id'] == 'rs16944':  # IL-1beta
             if 'A' in r['genotype']:
                 proinflammatory += 1
-                cytokine_info.append(f"IL-1beta ({r['genotype']}): повышен")
+                cytokine_info.append(f"IL-1beta ({r['genotype']}): elevated")
             else:
-                cytokine_info.append(f"IL-1beta ({r['genotype']}): норма")
+                cytokine_info.append(f"IL-1beta ({r['genotype']}): normal")
 
         elif r['snp_id'] == 'rs20541':  # IL-13
             if 'A' in r['genotype']:
                 proinflammatory += 1
-                cytokine_info.append(f"IL-13 ({r['genotype']}): повышен (аллергия)")
+                cytokine_info.append(f"IL-13 ({r['genotype']}): elevated (allergy)")
             else:
-                cytokine_info.append(f"IL-13 ({r['genotype']}): норма")
+                cytokine_info.append(f"IL-13 ({r['genotype']}): normal")
 
     if total == 0:
         return None
 
     if proinflammatory >= 3:
-        profile = ('high_inflammation', 'Провоспалительный профиль - рекомендуется противовоспалительная диета')
+        profile = ('high_inflammation', 'Pro-inflammatory profile - anti-inflammatory diet recommended')
     elif proinflammatory >= 2:
-        profile = ('moderate_inflammation', 'Умеренно провоспалительный профиль')
+        profile = ('moderate_inflammation', 'Moderately pro-inflammatory profile')
     elif antiinflammatory >= 1 and proinflammatory <= 1:
-        profile = ('balanced', 'Сбалансированный воспалительный профиль')
+        profile = ('balanced', 'Balanced inflammatory profile')
     else:
-        profile = ('normal', 'Нормальный воспалительный профиль')
+        profile = ('normal', 'Normal inflammatory profile')
 
     return {
         'proinflammatory_count': proinflammatory,
@@ -492,12 +492,12 @@ def generate_category_report(category, results, genome):
 
     report = []
     report.append(f"# {cat_info['name']}")
-    report.append(f"\nДата анализа: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
-    report.append("\n## Результаты\n")
+    report.append(f"\nAnalysis date: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
+    report.append("\n## Results\n")
 
     # Statistics
     found = sum(1 for r in results if r['found'])
-    report.append(f"Найдено маркеров: {found}/{len(results)}\n")
+    report.append(f"Markers found: {found}/{len(results)}\n")
 
     # Risk summary
     risk_counts = defaultdict(int)
@@ -506,7 +506,7 @@ def generate_category_report(category, results, genome):
             risk_counts[r['risk_level']] += 1
 
     if risk_counts:
-        report.append("### Сводка по рискам\n")
+        report.append("### Risk summary\n")
         risk_emoji = {
             'high': '🔴',
             'very_high': '🔴🔴',
@@ -520,17 +520,17 @@ def generate_category_report(category, results, genome):
             emoji = risk_emoji.get(risk, '•')
             report.append(f"- {emoji} {risk}: {count}")
 
-    report.append("\n### Детальные результаты\n")
-    report.append("| SNP | Ген | Генотип | Риск | Интерпретация |")
+    report.append("\n### Detailed results\n")
+    report.append("| SNP | Gene | Genotype | Risk | Interpretation |")
     report.append("|-----|-----|---------|------|---------------|")
 
     for r in results:
         if r['found']:
-            risk_label = r['risk_level'] or 'н/д'
-            interp = r['interpretation'] or 'Нет данных'
+            risk_label = r['risk_level'] or 'n/a'
+            interp = r['interpretation'] or 'No data'
             report.append(f"| {r['snp_id']} | {r['gene']} | **{r['genotype']}** | {risk_label} | {interp} |")
         else:
-            report.append(f"| {r['snp_id']} | {r['gene']} | - | - | Не найден в геноме |")
+            report.append(f"| {r['snp_id']} | {r['gene']} | - | - | Not found in genome |")
 
     return '\n'.join(report)
 
@@ -538,15 +538,15 @@ def generate_category_report(category, results, genome):
 def generate_summary_report(all_results, genome):
     """Generate overall immunity summary report"""
     report = []
-    report.append("# Анализ иммунитета")
-    report.append(f"\nДата анализа: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
+    report.append("# Immunity Analysis")
+    report.append(f"\nAnalysis date: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
     report.append("\n---\n")
 
-    report.append("## Важные предупреждения\n")
-    report.append("1. **Это НЕ медицинский диагноз** - только информационный анализ")
-    report.append("2. **Наличие риск-аллеля НЕ равно заболеванию** - пенетрантность варьируется")
-    report.append("3. **Иммунитет зависит от многих факторов** - гены + образ жизни + среда")
-    report.append("4. **Для медицинских решений** - консультация иммунолога/аллерголога обязательна\n")
+    report.append("## Important Warnings\n")
+    report.append("1. **This is NOT a medical diagnosis** - informational analysis only")
+    report.append("2. **Carrying a risk allele does NOT equal disease** - penetrance varies")
+    report.append("3. **Immunity depends on many factors** - genes + lifestyle + environment")
+    report.append("4. **For medical decisions** - consultation with an immunologist/allergist is required\n")
 
     report.append("---\n")
 
@@ -565,8 +565,8 @@ def generate_summary_report(all_results, genome):
                 protective.append((category, r))
 
     if high_risk:
-        report.append("## Маркеры повышенного риска\n")
-        report.append("| Категория | SNP | Ген | Генотип | Описание |")
+        report.append("## Increased Risk Markers\n")
+        report.append("| Category | SNP | Gene | Genotype | Description |")
         report.append("|-----------|-----|-----|---------|----------|")
         for cat, r in high_risk:
             cat_name = IMMUNITY_SNPS[cat]['name']
@@ -574,8 +574,8 @@ def generate_summary_report(all_results, genome):
         report.append("")
 
     if moderate_risk:
-        report.append("## Маркеры умеренного риска\n")
-        report.append("| Категория | SNP | Ген | Генотип | Описание |")
+        report.append("## Moderate Risk Markers\n")
+        report.append("| Category | SNP | Gene | Genotype | Description |")
         report.append("|-----------|-----|-----|---------|----------|")
         for cat, r in moderate_risk:
             cat_name = IMMUNITY_SNPS[cat]['name']
@@ -583,8 +583,8 @@ def generate_summary_report(all_results, genome):
         report.append("")
 
     if protective:
-        report.append("## Защитные варианты\n")
-        report.append("| Категория | SNP | Ген | Генотип | Описание |")
+        report.append("## Protective Variants\n")
+        report.append("| Category | SNP | Gene | Genotype | Description |")
         report.append("|-----------|-----|-----|---------|----------|")
         for cat, r in protective:
             cat_name = IMMUNITY_SNPS[cat]['name']
@@ -593,42 +593,42 @@ def generate_summary_report(all_results, genome):
 
     # Special analyses
     report.append("---\n")
-    report.append("## Специальные анализы\n")
+    report.append("## Special Analyses\n")
 
     # Celiac disease risk
     hla_results = all_results.get('hla_system', [])
     celiac = determine_celiac_risk(hla_results)
     if celiac:
-        report.append("### Риск целиакии (HLA-DQ2.5/DQ8)\n")
+        report.append("### Celiac Disease Risk (HLA-DQ2.5/DQ8)\n")
         report.append(f"- HLA-DQ2.5 (rs2187668): {celiac['dq2_genotype']}")
         report.append(f"- HLA-DQ8 (rs7454108): {celiac['dq8_genotype']}")
-        report.append(f"- **Статус: {celiac['status']}**")
+        report.append(f"- **Status: {celiac['status']}**")
         report.append(f"- {celiac['interpretation']}\n")
 
     # Inflammation profile
     cytokine_results = all_results.get('cytokines', [])
     inflammation = determine_inflammation_profile(cytokine_results)
     if inflammation:
-        report.append("### Воспалительный профиль (цитокины)\n")
-        report.append(f"- Провоспалительных маркеров: {inflammation['proinflammatory_count']}")
-        report.append(f"- Противовоспалительных: {inflammation['antiinflammatory_count']}")
-        report.append(f"- **Профиль: {inflammation['profile']}**")
+        report.append("### Inflammatory Profile (cytokines)\n")
+        report.append(f"- Pro-inflammatory markers: {inflammation['proinflammatory_count']}")
+        report.append(f"- Anti-inflammatory: {inflammation['antiinflammatory_count']}")
+        report.append(f"- **Profile: {inflammation['profile']}**")
         report.append(f"- {inflammation['interpretation']}")
-        report.append("\nДетали:")
+        report.append("\nDetails:")
         for detail in inflammation['details']:
             report.append(f"  - {detail}")
         report.append("")
 
     # Infection resistance summary
-    report.append("### Устойчивость к инфекциям\n")
+    report.append("### Infection Resistance\n")
     infection_results = all_results.get('infections', [])
     for r in infection_results:
         if r['found']:
-            status = "защитный" if r['risk_level'] == 'protective' else r['risk_level'] or 'н/д'
+            status = "protective" if r['risk_level'] == 'protective' else r['risk_level'] or 'n/a'
             report.append(f"- **{r['gene']}** ({r['genotype']}): {r['interpretation']}")
 
     report.append("\n---\n")
-    report.append("## Статистика анализа\n")
+    report.append("## Analysis Statistics\n")
 
     total_snps = 0
     found_snps = 0
@@ -636,39 +636,39 @@ def generate_summary_report(all_results, genome):
         total_snps += len(results)
         found_snps += sum(1 for r in results if r['found'])
 
-    report.append(f"- Всего проанализировано SNP: {total_snps}")
-    report.append(f"- Найдено в геноме: {found_snps}")
-    report.append(f"- Не найдено: {total_snps - found_snps}")
+    report.append(f"- Total SNPs analyzed: {total_snps}")
+    report.append(f"- Found in genome: {found_snps}")
+    report.append(f"- Not found: {total_snps - found_snps}")
 
     report.append("\n---\n")
-    report.append("## Рекомендации\n")
-    report.append("### При повышенных провоспалительных маркерах:")
-    report.append("- Противовоспалительная диета (омега-3, куркума, имбирь)")
-    report.append("- Контроль уровня витамина D")
-    report.append("- Регулярная физическая активность")
-    report.append("- Управление стрессом\n")
-    report.append("### При риске аутоиммунных заболеваний:")
-    report.append("- Регулярный мониторинг аутоантител")
-    report.append("- Избегание триггеров (стресс, инфекции)")
-    report.append("- Консультация ревматолога/иммунолога\n")
-    report.append("### При риске аллергии/атопии:")
-    report.append("- Укрепление кожного барьера (эмоленты)")
-    report.append("- Идентификация и избегание аллергенов")
-    report.append("- Пробиотики для иммунной модуляции")
+    report.append("## Recommendations\n")
+    report.append("### If pro-inflammatory markers are elevated:")
+    report.append("- Anti-inflammatory diet (omega-3, turmeric, ginger)")
+    report.append("- Monitor vitamin D levels")
+    report.append("- Regular physical activity")
+    report.append("- Stress management\n")
+    report.append("### If at risk of autoimmune diseases:")
+    report.append("- Regular autoantibody monitoring")
+    report.append("- Avoid triggers (stress, infections)")
+    report.append("- Consultation with a rheumatologist/immunologist\n")
+    report.append("### If at risk of allergy/atopy:")
+    report.append("- Strengthen the skin barrier (emollients)")
+    report.append("- Identify and avoid allergens")
+    report.append("- Probiotics for immune modulation")
 
     return '\n'.join(report)
 
 
 def main():
     print("=" * 60)
-    print("АНАЛИЗ ИММУНИТЕТА ПО ГЕНОМУ 23andMe")
+    print("IMMUNITY ANALYSIS FROM 23andMe GENOME")
     print("=" * 60)
 
-    print("\n[1/4] Загрузка генома...")
+    print("\n[1/4] Loading genome...")
     genome = load_genome()
-    print(f"      Загружено {len(genome)} SNP")
+    print(f"      Loaded {len(genome)} SNP")
 
-    print("\n[2/4] Анализ маркеров по категориям...")
+    print("\n[2/4] Analyzing markers by category...")
     all_results = {}
 
     for category, cat_info in IMMUNITY_SNPS.items():
@@ -681,9 +681,9 @@ def main():
 
         # Count found
         found = sum(1 for r in results if r['found'])
-        print(f"        Найдено: {found}/{len(results)}")
+        print(f"        Found: {found}/{len(results)}")
 
-    print("\n[3/4] Генерация отчётов по категориям...")
+    print("\n[3/4] Generating category reports...")
     for category, results in all_results.items():
         report = generate_category_report(category, results, genome)
         report_dir = f"{REPORTS_PATH}/{category}"
@@ -694,7 +694,7 @@ def main():
             f.write(report)
         print(f"      -> {report_path}")
 
-    print("\n[4/4] Генерация сводного отчёта...")
+    print("\n[4/4] Generating summary report...")
     summary = generate_summary_report(all_results, genome)
     summary_dir = f"{REPORTS_PATH}/immunity"
     os.makedirs(summary_dir, exist_ok=True)
@@ -704,11 +704,11 @@ def main():
     print(f"      -> {summary_path}")
 
     print("\n" + "=" * 60)
-    print("АНАЛИЗ ЗАВЕРШЁН")
+    print("ANALYSIS COMPLETE")
     print("=" * 60)
 
     # Print key findings to console
-    print("\nКЛЮЧЕВЫЕ НАХОДКИ:\n")
+    print("\nKEY FINDINGS:\n")
 
     for category, results in all_results.items():
         high_risk = [r for r in results if r['risk_level'] in ['high', 'very_high']]
@@ -721,7 +721,7 @@ def main():
             print()
 
         if protective_found:
-            print(f"  {IMMUNITY_SNPS[category]['name']} (защитные):")
+            print(f"  {IMMUNITY_SNPS[category]['name']} (protective):")
             for r in protective_found:
                 print(f"    + {r['gene']} ({r['genotype']}): {r['interpretation']}")
             print()

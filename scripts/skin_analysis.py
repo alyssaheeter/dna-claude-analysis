@@ -19,328 +19,328 @@ REPORTS_PATH = f"{BASE_PATH}/reports"
 
 SKIN_SNPS = {
     "collagen": {
-        "name": "Коллаген и структура кожи",
+        "name": "Collagen and skin structure",
         "snps": {
             "rs1800012": {
                 "gene": "COL1A1",
-                "description": "Структура коллагена I типа, склонность к морщинам",
+                "description": "Type I collagen structure, tendency to wrinkles",
                 "interpretation": {
-                    "GG": ("normal", "Нормальная структура коллагена"),
-                    "GT": ("moderate", "Умеренно сниженная плотность коллагена"),
-                    "TT": ("impaired", "Сниженная плотность коллагена, склонность к морщинам"),
-                    "CC": ("normal", "Нормальная структура коллагена"),
-                    "CT": ("moderate", "Умеренно сниженная плотность коллагена"),
+                    "GG": ("normal", "Normal collagen structure"),
+                    "GT": ("moderate", "Moderately reduced collagen density"),
+                    "TT": ("impaired", "Reduced collagen density, tendency to wrinkles"),
+                    "CC": ("normal", "Normal collagen structure"),
+                    "CT": ("moderate", "Moderately reduced collagen density"),
                 }
             },
         }
     },
 
     "mmp1": {
-        "name": "Деградация коллагена (MMP1)",
+        "name": "Collagen degradation (MMP1)",
         "snps": {
             "rs1799750": {
                 "gene": "MMP1",
-                "description": "Коллагеназа - расщепление коллагена",
+                "description": "Collagenase - collagen breakdown",
                 "interpretation": {
                     # 2G/2G variant - insertion/deletion polymorphism
                     # In 23andMe: usually reported as G/G, GG, or deletion status
-                    "GG": ("fast_aging", "2G/2G - Быстрое разрушение коллагена, ранние морщины"),
-                    "DG": ("moderate", "1G/2G - Умеренная деградация коллагена"),
-                    "GD": ("moderate", "1G/2G - Умеренная деградация коллагена"),
-                    "DD": ("normal", "1G/1G - Лучшее сохранение коллагена"),
+                    "GG": ("fast_aging", "2G/2G - Rapid collagen breakdown, early wrinkles"),
+                    "DG": ("moderate", "1G/2G - Moderate collagen degradation"),
+                    "GD": ("moderate", "1G/2G - Moderate collagen degradation"),
+                    "DD": ("normal", "1G/1G - Best collagen preservation"),
                     # Alternative representations
-                    "II": ("fast_aging", "2G/2G - Быстрое разрушение коллагена"),
-                    "DI": ("moderate", "1G/2G - Умеренная деградация"),
-                    "ID": ("moderate", "1G/2G - Умеренная деградация"),
+                    "II": ("fast_aging", "2G/2G - Rapid collagen breakdown"),
+                    "DI": ("moderate", "1G/2G - Moderate degradation"),
+                    "ID": ("moderate", "1G/2G - Moderate degradation"),
                     # Some chips report as T/C
-                    "TT": ("normal", "1G/1G - Лучшее сохранение коллагена"),
-                    "CT": ("moderate", "1G/2G - Умеренная деградация"),
-                    "TC": ("moderate", "1G/2G - Умеренная деградация"),
-                    "CC": ("fast_aging", "2G/2G - Быстрое разрушение коллагена"),
+                    "TT": ("normal", "1G/1G - Best collagen preservation"),
+                    "CT": ("moderate", "1G/2G - Moderate degradation"),
+                    "TC": ("moderate", "1G/2G - Moderate degradation"),
+                    "CC": ("fast_aging", "2G/2G - Rapid collagen breakdown"),
                 }
             },
         }
     },
 
     "antioxidants": {
-        "name": "Антиоксидантная защита",
+        "name": "Antioxidant defense",
         "snps": {
             "rs4880": {
                 "gene": "SOD2",
-                "description": "Супероксиддисмутаза - защита от окислительного стресса",
+                "description": "Superoxide dismutase - protection from oxidative stress",
                 "interpretation": {
-                    "CC": ("good", "Высокая антиоксидантная защита (Ala/Ala)"),
-                    "CT": ("moderate", "Умеренная защита (Ala/Val)"),
-                    "TC": ("moderate", "Умеренная защита (Ala/Val)"),
-                    "TT": ("low", "Сниженная антиоксидантная защита (Val/Val)"),
-                    "AA": ("good", "Высокая антиоксидантная защита"),
-                    "AG": ("moderate", "Умеренная защита"),
-                    "GA": ("moderate", "Умеренная защита"),
-                    "GG": ("low", "Сниженная антиоксидантная защита"),
+                    "CC": ("good", "High antioxidant defense (Ala/Ala)"),
+                    "CT": ("moderate", "Moderate protection (Ala/Val)"),
+                    "TC": ("moderate", "Moderate protection (Ala/Val)"),
+                    "TT": ("low", "Reduced antioxidant defense (Val/Val)"),
+                    "AA": ("good", "High antioxidant defense"),
+                    "AG": ("moderate", "Moderate protection"),
+                    "GA": ("moderate", "Moderate protection"),
+                    "GG": ("low", "Reduced antioxidant defense"),
                 }
             },
             "rs1695": {
                 "gene": "GSTP1",
-                "description": "Глутатион-S-трансфераза - детоксикация",
+                "description": "Glutathione S-transferase - detoxification",
                 "interpretation": {
-                    "AA": ("good", "Высокая детоксикационная способность (Ile/Ile)"),
-                    "AG": ("moderate", "Умеренная детоксикация (Ile/Val)"),
-                    "GA": ("moderate", "Умеренная детоксикация (Ile/Val)"),
-                    "GG": ("low", "Сниженная детоксикация (Val/Val)"),
+                    "AA": ("good", "High detoxification capacity (Ile/Ile)"),
+                    "AG": ("moderate", "Moderate detoxification (Ile/Val)"),
+                    "GA": ("moderate", "Moderate detoxification (Ile/Val)"),
+                    "GG": ("low", "Reduced detoxification (Val/Val)"),
                 }
             },
         }
     },
 
     "uv_sensitivity": {
-        "name": "Чувствительность к УФ-излучению",
+        "name": "UV radiation sensitivity",
         "snps": {
             "rs1805007": {
                 "gene": "MC1R (R151C)",
-                "description": "Рецептор меланокортина - рыжие волосы, веснушки",
+                "description": "Melanocortin receptor - red hair, freckles",
                 "interpretation": {
-                    "CC": ("normal", "Обычная чувствительность к УФ"),
-                    "CT": ("sensitive", "Носитель - повышенная чувствительность к солнцу"),
-                    "TC": ("sensitive", "Носитель - повышенная чувствительность к солнцу"),
-                    "TT": ("high_risk", "Высокая чувствительность к УФ, риск ожогов"),
+                    "CC": ("normal", "Normal UV sensitivity"),
+                    "CT": ("sensitive", "Carrier - increased sun sensitivity"),
+                    "TC": ("sensitive", "Carrier - increased sun sensitivity"),
+                    "TT": ("high_risk", "High UV sensitivity, risk of sunburn"),
                 }
             },
             "rs1805008": {
                 "gene": "MC1R (R160W)",
-                "description": "Рецептор меланокортина - фоточувствительность",
+                "description": "Melanocortin receptor - photosensitivity",
                 "interpretation": {
-                    "CC": ("normal", "Обычная чувствительность к УФ"),
-                    "CT": ("sensitive", "Носитель - повышенная чувствительность"),
-                    "TC": ("sensitive", "Носитель - повышенная чувствительность"),
-                    "TT": ("high_risk", "Высокая чувствительность, легко обгорает"),
+                    "CC": ("normal", "Normal UV sensitivity"),
+                    "CT": ("sensitive", "Carrier - increased sensitivity"),
+                    "TC": ("sensitive", "Carrier - increased sensitivity"),
+                    "TT": ("high_risk", "High sensitivity, burns easily"),
                 }
             },
             "rs12913832": {
                 "gene": "HERC2/OCA2",
-                "description": "Цвет глаз, пигментация кожи",
+                "description": "Eye color, skin pigmentation",
                 "interpretation": {
-                    "AA": ("light", "Светлые глаза, светлая кожа - выше чувствительность к УФ"),
-                    "AG": ("medium", "Средняя пигментация"),
-                    "GA": ("medium", "Средняя пигментация"),
-                    "GG": ("dark", "Тёмные глаза, лучшая защита от УФ"),
+                    "AA": ("light", "Light eyes, fair skin - higher UV sensitivity"),
+                    "AG": ("medium", "Medium pigmentation"),
+                    "GA": ("medium", "Medium pigmentation"),
+                    "GG": ("dark", "Dark eyes, better UV protection"),
                 }
             },
         }
     },
 
     "photoaging": {
-        "name": "Фотостарение",
+        "name": "Photoaging",
         "snps": {
             "rs1805005": {
                 "gene": "MC1R (V60L)",
-                "description": "Рецептор меланокортина - фотостарение",
+                "description": "Melanocortin receptor - photoaging",
                 "interpretation": {
-                    "GG": ("normal", "Обычный риск фотостарения"),
-                    "GT": ("elevated", "Повышенный риск фотостарения"),
-                    "TG": ("elevated", "Повышенный риск фотостарения"),
-                    "TT": ("high", "Высокий риск фотостарения"),
-                    "AA": ("normal", "Обычный риск фотостарения"),
-                    "AG": ("elevated", "Повышенный риск фотостарения"),
-                    "GA": ("elevated", "Повышенный риск фотостарения"),
+                    "GG": ("normal", "Normal photoaging risk"),
+                    "GT": ("elevated", "Elevated photoaging risk"),
+                    "TG": ("elevated", "Elevated photoaging risk"),
+                    "TT": ("high", "High photoaging risk"),
+                    "AA": ("normal", "Normal photoaging risk"),
+                    "AG": ("elevated", "Elevated photoaging risk"),
+                    "GA": ("elevated", "Elevated photoaging risk"),
                 }
             },
             "rs1805009": {
                 "gene": "MC1R (D294H)",
-                "description": "Рецептор меланокортина - пигментные пятна",
+                "description": "Melanocortin receptor - pigment spots",
                 "interpretation": {
-                    "GG": ("normal", "Обычный риск пигментации"),
-                    "GA": ("elevated", "Повышенный риск пигментных пятен"),
-                    "AG": ("elevated", "Повышенный риск пигментных пятен"),
-                    "AA": ("high", "Высокий риск гиперпигментации"),
-                    "CC": ("normal", "Обычный риск пигментации"),
-                    "CA": ("elevated", "Повышенный риск пигментных пятен"),
-                    "AC": ("elevated", "Повышенный риск пигментных пятен"),
+                    "GG": ("normal", "Normal pigmentation risk"),
+                    "GA": ("elevated", "Elevated risk of pigment spots"),
+                    "AG": ("elevated", "Elevated risk of pigment spots"),
+                    "AA": ("high", "High risk of hyperpigmentation"),
+                    "CC": ("normal", "Normal pigmentation risk"),
+                    "CA": ("elevated", "Elevated risk of pigment spots"),
+                    "AC": ("elevated", "Elevated risk of pigment spots"),
                 }
             },
         }
     },
 
     "acne": {
-        "name": "Акне и воспаления кожи",
+        "name": "Acne and skin inflammation",
         "snps": {
             "rs4133274": {
                 "gene": "DDB2",
-                "description": "Репарация ДНК, склонность к акне",
+                "description": "DNA repair, acne tendency",
                 "interpretation": {
-                    "TT": ("normal", "Обычный риск акне"),
-                    "TG": ("elevated", "Умеренно повышенный риск акне"),
-                    "GT": ("elevated", "Умеренно повышенный риск акне"),
-                    "GG": ("high", "Повышенный риск акне"),
-                    "CC": ("normal", "Обычный риск акне"),
-                    "CA": ("elevated", "Умеренно повышенный риск"),
-                    "AC": ("elevated", "Умеренно повышенный риск"),
-                    "AA": ("high", "Повышенный риск акне"),
+                    "TT": ("normal", "Normal acne risk"),
+                    "TG": ("elevated", "Moderately elevated acne risk"),
+                    "GT": ("elevated", "Moderately elevated acne risk"),
+                    "GG": ("high", "Elevated acne risk"),
+                    "CC": ("normal", "Normal acne risk"),
+                    "CA": ("elevated", "Moderately elevated risk"),
+                    "AC": ("elevated", "Moderately elevated risk"),
+                    "AA": ("high", "Elevated acne risk"),
                 }
             },
             "rs1800629": {
                 "gene": "TNF-alpha",
-                "description": "Фактор некроза опухоли - воспаление",
+                "description": "Tumor necrosis factor - inflammation",
                 "interpretation": {
-                    "GG": ("normal", "Нормальный уровень воспаления"),
-                    "GA": ("elevated", "Повышенная склонность к воспалению"),
-                    "AG": ("elevated", "Повышенная склонность к воспалению"),
-                    "AA": ("high", "Высокая склонность к воспалению кожи"),
+                    "GG": ("normal", "Normal inflammation level"),
+                    "GA": ("elevated", "Elevated tendency to inflammation"),
+                    "AG": ("elevated", "Elevated tendency to inflammation"),
+                    "AA": ("high", "High tendency to skin inflammation"),
                 }
             },
         }
     },
 
     "psoriasis": {
-        "name": "Псориаз",
+        "name": "Psoriasis",
         "snps": {
             "rs10484554": {
                 "gene": "HLA-C",
-                "description": "Главный генетический фактор риска псориаза",
+                "description": "Major genetic risk factor for psoriasis",
                 "interpretation": {
-                    "CC": ("normal", "Низкий генетический риск псориаза"),
-                    "CT": ("elevated", "Умеренный генетический риск псориаза"),
-                    "TC": ("elevated", "Умеренный генетический риск псориаза"),
-                    "TT": ("high", "Высокий генетический риск псориаза"),
+                    "CC": ("normal", "Low genetic risk of psoriasis"),
+                    "CT": ("elevated", "Moderate genetic risk of psoriasis"),
+                    "TC": ("elevated", "Moderate genetic risk of psoriasis"),
+                    "TT": ("high", "High genetic risk of psoriasis"),
                 }
             },
         }
     },
 
     "eczema": {
-        "name": "Экзема (атопический дерматит)",
+        "name": "Eczema (atopic dermatitis)",
         "snps": {
             "rs61816761": {
                 "gene": "FLG (Filaggrin)",
-                "description": "Филаггрин - барьерная функция кожи",
+                "description": "Filaggrin - skin barrier function",
                 "interpretation": {
-                    "GG": ("normal", "Нормальный кожный барьер"),
-                    "GA": ("impaired", "Нарушение кожного барьера, риск экземы"),
-                    "AG": ("impaired", "Нарушение кожного барьера, риск экземы"),
-                    "AA": ("high_risk", "Высокий риск атопического дерматита"),
-                    "CC": ("normal", "Нормальный кожный барьер"),
-                    "CT": ("impaired", "Нарушение кожного барьера"),
-                    "TC": ("impaired", "Нарушение кожного барьера"),
-                    "TT": ("high_risk", "Высокий риск экземы"),
+                    "GG": ("normal", "Normal skin barrier"),
+                    "GA": ("impaired", "Impaired skin barrier, eczema risk"),
+                    "AG": ("impaired", "Impaired skin barrier, eczema risk"),
+                    "AA": ("high_risk", "High risk of atopic dermatitis"),
+                    "CC": ("normal", "Normal skin barrier"),
+                    "CT": ("impaired", "Impaired skin barrier"),
+                    "TC": ("impaired", "Impaired skin barrier"),
+                    "TT": ("high_risk", "High eczema risk"),
                 }
             },
         }
     },
 
     "wound_healing": {
-        "name": "Заживление ран",
+        "name": "Wound healing",
         "snps": {
             "rs1800629_wound": {
                 "gene": "TNF-alpha",
                 "snp_id_actual": "rs1800629",
-                "description": "Скорость заживления, рубцевание",
+                "description": "Healing speed, scarring",
                 "interpretation": {
-                    "GG": ("normal", "Нормальное заживление"),
-                    "GA": ("slow", "Замедленное заживление, риск келоидов"),
-                    "AG": ("slow", "Замедленное заживление, риск келоидов"),
-                    "AA": ("impaired", "Склонность к плохому заживлению"),
+                    "GG": ("normal", "Normal healing"),
+                    "GA": ("slow", "Slowed healing, keloid risk"),
+                    "AG": ("slow", "Slowed healing, keloid risk"),
+                    "AA": ("impaired", "Tendency to poor healing"),
                 }
             },
             "rs1800795": {
                 "gene": "IL-6",
-                "description": "Интерлейкин-6 - воспаление и заживление",
+                "description": "Interleukin-6 - inflammation and healing",
                 "interpretation": {
-                    "GG": ("normal", "Нормальный воспалительный ответ"),
-                    "GC": ("elevated", "Повышенное воспаление, медленнее заживление"),
-                    "CG": ("elevated", "Повышенное воспаление, медленнее заживление"),
-                    "CC": ("high", "Высокое воспаление, замедленное заживление"),
+                    "GG": ("normal", "Normal inflammatory response"),
+                    "GC": ("elevated", "Elevated inflammation, slower healing"),
+                    "CG": ("elevated", "Elevated inflammation, slower healing"),
+                    "CC": ("high", "High inflammation, slowed healing"),
                 }
             },
         }
     },
 
     "cellulite": {
-        "name": "Целлюлит",
+        "name": "Cellulite",
         "snps": {
             "rs1799750_cellulite": {
                 "gene": "MMP1",
                 "snp_id_actual": "rs1799750",
-                "description": "Структура соединительной ткани",
+                "description": "Connective tissue structure",
                 "interpretation": {
-                    "GG": ("high_risk", "2G/2G - Повышенный риск целлюлита"),
-                    "DG": ("moderate", "1G/2G - Умеренный риск"),
-                    "GD": ("moderate", "1G/2G - Умеренный риск"),
-                    "DD": ("normal", "1G/1G - Сниженный риск целлюлита"),
-                    "TT": ("normal", "Сниженный риск целлюлита"),
-                    "CT": ("moderate", "Умеренный риск"),
-                    "TC": ("moderate", "Умеренный риск"),
-                    "CC": ("high_risk", "Повышенный риск целлюлита"),
+                    "GG": ("high_risk", "2G/2G - Elevated cellulite risk"),
+                    "DG": ("moderate", "1G/2G - Moderate risk"),
+                    "GD": ("moderate", "1G/2G - Moderate risk"),
+                    "DD": ("normal", "1G/1G - Reduced cellulite risk"),
+                    "TT": ("normal", "Reduced cellulite risk"),
+                    "CT": ("moderate", "Moderate risk"),
+                    "TC": ("moderate", "Moderate risk"),
+                    "CC": ("high_risk", "Elevated cellulite risk"),
                 }
             },
             "rs1800012_cellulite": {
                 "gene": "COL1A1",
                 "snp_id_actual": "rs1800012",
-                "description": "Плотность коллагена, эластичность кожи",
+                "description": "Collagen density, skin elasticity",
                 "interpretation": {
-                    "GG": ("normal", "Нормальная плотность коллагена"),
-                    "GT": ("moderate", "Умеренно снижена плотность"),
-                    "TT": ("high_risk", "Сниженная плотность, риск целлюлита"),
-                    "CC": ("normal", "Нормальная плотность коллагена"),
-                    "CT": ("moderate", "Умеренно снижена плотность"),
+                    "GG": ("normal", "Normal collagen density"),
+                    "GT": ("moderate", "Moderately reduced density"),
+                    "TT": ("high_risk", "Reduced density, cellulite risk"),
+                    "CC": ("normal", "Normal collagen density"),
+                    "CT": ("moderate", "Moderately reduced density"),
                 }
             },
         }
     },
 
     "elasticity": {
-        "name": "Эластичность кожи",
+        "name": "Skin elasticity",
         "snps": {
             "rs7539120": {
                 "gene": "ELN (Elastin)",
-                "description": "Эластин - упругость кожи",
+                "description": "Elastin - skin firmness",
                 "interpretation": {
-                    "CC": ("good", "Хорошая эластичность кожи"),
-                    "CT": ("moderate", "Умеренная эластичность"),
-                    "TC": ("moderate", "Умеренная эластичность"),
-                    "TT": ("reduced", "Сниженная эластичность, ранние морщины"),
-                    "GG": ("good", "Хорошая эластичность кожи"),
-                    "GA": ("moderate", "Умеренная эластичность"),
-                    "AG": ("moderate", "Умеренная эластичность"),
-                    "AA": ("reduced", "Сниженная эластичность"),
+                    "CC": ("good", "Good skin elasticity"),
+                    "CT": ("moderate", "Moderate elasticity"),
+                    "TC": ("moderate", "Moderate elasticity"),
+                    "TT": ("reduced", "Reduced elasticity, early wrinkles"),
+                    "GG": ("good", "Good skin elasticity"),
+                    "GA": ("moderate", "Moderate elasticity"),
+                    "AG": ("moderate", "Moderate elasticity"),
+                    "AA": ("reduced", "Reduced elasticity"),
                 }
             },
         }
     },
 
     "hydration": {
-        "name": "Увлажнённость кожи",
+        "name": "Skin hydration",
         "snps": {
             "rs12212041": {
                 "gene": "AQP3",
-                "description": "Аквапорин-3 - водный баланс кожи",
+                "description": "Aquaporin-3 - skin water balance",
                 "interpretation": {
-                    "TT": ("good", "Хорошее удержание влаги"),
-                    "TC": ("moderate", "Умеренное увлажнение"),
-                    "CT": ("moderate", "Умеренное увлажнение"),
-                    "CC": ("dry", "Склонность к сухой коже"),
-                    "AA": ("good", "Хорошее удержание влаги"),
-                    "AG": ("moderate", "Умеренное увлажнение"),
-                    "GA": ("moderate", "Умеренное увлажнение"),
-                    "GG": ("dry", "Склонность к сухой коже"),
+                    "TT": ("good", "Good moisture retention"),
+                    "TC": ("moderate", "Moderate hydration"),
+                    "CT": ("moderate", "Moderate hydration"),
+                    "CC": ("dry", "Tendency to dry skin"),
+                    "AA": ("good", "Good moisture retention"),
+                    "AG": ("moderate", "Moderate hydration"),
+                    "GA": ("moderate", "Moderate hydration"),
+                    "GG": ("dry", "Tendency to dry skin"),
                 }
             },
         }
     },
 
     "glycation": {
-        "name": "Гликация (повреждение сахарами)",
+        "name": "Glycation (sugar damage)",
         "snps": {
             "rs2070600": {
                 "gene": "AGER (RAGE)",
-                "description": "Рецептор конечных продуктов гликирования",
+                "description": "Receptor for advanced glycation end products",
                 "interpretation": {
-                    "CC": ("protective", "Защита от гликационного старения"),
-                    "CT": ("moderate", "Умеренный риск гликации"),
-                    "TC": ("moderate", "Умеренный риск гликации"),
-                    "TT": ("elevated", "Повышенный риск гликационного старения"),
-                    "GG": ("protective", "Защита от гликации"),
-                    "GA": ("moderate", "Умеренный риск"),
-                    "AG": ("moderate", "Умеренный риск"),
-                    "AA": ("elevated", "Повышенный риск"),
+                    "CC": ("protective", "Protection from glycation aging"),
+                    "CT": ("moderate", "Moderate glycation risk"),
+                    "TC": ("moderate", "Moderate glycation risk"),
+                    "TT": ("elevated", "Elevated risk of glycation aging"),
+                    "GG": ("protective", "Glycation protection"),
+                    "GA": ("moderate", "Moderate risk"),
+                    "AG": ("moderate", "Moderate risk"),
+                    "AA": ("elevated", "Elevated risk"),
                 }
             },
         }
@@ -424,7 +424,7 @@ def determine_skin_profile(results):
             for r in results[category]:
                 if r['status'] in ['impaired', 'fast_aging', 'reduced']:
                     scores['aging_prone'] += 2
-                    profile_factors.append(f"Быстрое старение ({r['gene']})")
+                    profile_factors.append(f"Rapid aging ({r['gene']})")
                 elif r['status'] in ['moderate']:
                     scores['aging_prone'] += 1
                 elif r['status'] in ['normal', 'good']:
@@ -437,7 +437,7 @@ def determine_skin_profile(results):
                 if r['status'] in ['high_risk', 'high', 'sensitive', 'light']:
                     scores['sensitive'] += 2
                     scores['photoaging_risk'] += 2
-                    profile_factors.append(f"УФ-чувствительность ({r['gene']})")
+                    profile_factors.append(f"UV sensitivity ({r['gene']})")
                 elif r['status'] in ['elevated', 'medium']:
                     scores['sensitive'] += 1
                     scores['photoaging_risk'] += 1
@@ -450,7 +450,7 @@ def determine_skin_profile(results):
             for r in results[category]:
                 if r['status'] in ['high', 'high_risk', 'impaired']:
                     scores['inflammation_prone'] += 2
-                    profile_factors.append(f"Склонность к воспалению ({r['gene']})")
+                    profile_factors.append(f"Tendency to inflammation ({r['gene']})")
                 elif r['status'] in ['elevated', 'slow']:
                     scores['inflammation_prone'] += 1
                 elif r['status'] in ['normal']:
@@ -469,16 +469,16 @@ def determine_skin_profile(results):
     profiles = []
 
     if scores['aging_prone'] >= 3:
-        profiles.append("Склонность к раннему старению")
+        profiles.append("Prone to early aging")
     if scores['sensitive'] >= 3 or scores['photoaging_risk'] >= 3:
-        profiles.append("Чувствительная кожа")
+        profiles.append("Sensitive skin")
     if scores['inflammation_prone'] >= 3:
-        profiles.append("Склонность к воспалениям")
+        profiles.append("Prone to inflammation")
     if scores['resilient'] >= 5 and not profiles:
-        profiles.append("Устойчивая кожа")
+        profiles.append("Resilient skin")
 
     if not profiles:
-        profiles.append("Средняя устойчивость")
+        profiles.append("Average resilience")
 
     return {
         'profiles': profiles,
@@ -490,19 +490,19 @@ def determine_skin_profile(results):
 def generate_report(results, profile):
     """Generate skin analysis report"""
     report = []
-    report.append("# Генетический анализ кожи")
-    report.append(f"\nДата анализа: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
+    report.append("# Skin Genetic Analysis")
+    report.append(f"\nAnalysis date: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
     report.append("\n---\n")
 
     # Skin profile summary
-    report.append("## Ваш генетический профиль кожи\n")
+    report.append("## Your genetic skin profile\n")
 
     profile_emoji = {
-        'Склонность к раннему старению': '⏳',
-        'Чувствительная кожа': '🌡️',
-        'Склонность к воспалениям': '🔥',
-        'Устойчивая кожа': '💪',
-        'Средняя устойчивость': '⚖️',
+        'Prone to early aging': '⏳',
+        'Sensitive skin': '🌡️',
+        'Prone to inflammation': '🔥',
+        'Resilient skin': '💪',
+        'Average resilience': '⚖️',
     }
 
     for p in profile['profiles']:
@@ -510,7 +510,7 @@ def generate_report(results, profile):
         report.append(f"### {emoji} {p}\n")
 
     if profile['factors']:
-        report.append("**Ключевые генетические факторы:**\n")
+        report.append("**Key genetic factors:**\n")
         for f in profile['factors'][:5]:  # Top 5 factors
             report.append(f"- {f}")
         report.append("")
@@ -518,7 +518,7 @@ def generate_report(results, profile):
     report.append("---\n")
 
     # Summary of key findings
-    report.append("## Ключевые находки\n")
+    report.append("## Key findings\n")
 
     warnings = []
     positive = []
@@ -533,13 +533,13 @@ def generate_report(results, profile):
                         positive.append(f"✅ **{r['gene']}**: {r['interpretation']}")
 
     if warnings:
-        report.append("### Требуют внимания\n")
+        report.append("### Needs attention\n")
         for w in warnings:
             report.append(f"- {w}")
         report.append("")
 
     if positive:
-        report.append("### Генетические преимущества\n")
+        report.append("### Genetic advantages\n")
         for p in positive:
             report.append(f"- {p}")
         report.append("")
@@ -559,7 +559,7 @@ def generate_report(results, profile):
         cat_results = results[category]
         cat_name = SKIN_SNPS[category]['name']
         report.append(f"## {cat_name}\n")
-        report.append("| SNP | Ген | Генотип | Статус | Интерпретация |")
+        report.append("| SNP | Gene | Genotype | Status | Interpretation |")
         report.append("|-----|-----|---------|--------|---------------|")
 
         for r in cat_results:
@@ -583,51 +583,51 @@ def generate_report(results, profile):
                     'sensitive': '🟠',
                     'light': 'ℹ️',
                 }.get(r['status'], '•')
-                interp = r['interpretation'] or 'Нет данных'
-                status = r['status'] or 'н/д'
+                interp = r['interpretation'] or 'No data'
+                status = r['status'] or 'n/a'
                 report.append(f"| {r['snp_id']} | {r['gene']} | **{r['genotype']}** | {status_emoji} {status} | {interp} |")
             else:
-                report.append(f"| {r['snp_id']} | {r['gene']} | - | - | Не найден |")
+                report.append(f"| {r['snp_id']} | {r['gene']} | - | - | Not found |")
         report.append("")
 
     # Recommendations section
     report.append("---\n")
-    report.append("## Персонализированные рекомендации по уходу за кожей\n")
+    report.append("## Personalized skin care recommendations\n")
 
     # Generate recommendations based on profile
     recommendations = []
 
     # Aging-prone skin recommendations
     if profile['scores']['aging_prone'] >= 2:
-        recommendations.append("""### Антивозрастной уход
+        recommendations.append("""### Anti-aging care
 
-- **Ретиноиды**: Начните с 0.025-0.05% ретинола 2-3 раза в неделю
-- **Пептиды**: Ищите Matrixyl, Argireline для стимуляции коллагена
-- **Витамин C**: 10-20% L-аскорбиновая кислота утром
-- **Коллагеновые добавки**: 5-10г гидролизованного коллагена в день
-- **Профилактика**: Избегайте курения и сахара (гликация)""")
+- **Retinoids**: Start with 0.025-0.05% retinol 2-3 times a week
+- **Peptides**: Look for Matrixyl, Argireline to stimulate collagen
+- **Vitamin C**: 10-20% L-ascorbic acid in the morning
+- **Collagen supplements**: 5-10g hydrolyzed collagen per day
+- **Prevention**: Avoid smoking and sugar (glycation)""")
 
     # UV-sensitive skin recommendations
     if profile['scores']['sensitive'] >= 2 or profile['scores']['photoaging_risk'] >= 2:
-        recommendations.append("""### Защита от солнца
+        recommendations.append("""### Sun protection
 
-- **SPF 50+**: Ежедневно, даже в пасмурную погоду
-- **Физические фильтры**: Оксид цинка, диоксид титана (менее раздражающие)
-- **Обновление**: Каждые 2 часа при нахождении на солнце
-- **Одежда**: UPF-одежда, широкополые шляпы, солнцезащитные очки
-- **Время**: Избегайте прямого солнца с 10:00 до 16:00
-- **Антиоксиданты**: Витамин C, E, ниацинамид для защиты от фотоповреждений""")
+- **SPF 50+**: Daily, even in cloudy weather
+- **Physical filters**: Zinc oxide, titanium dioxide (less irritating)
+- **Reapplication**: Every 2 hours while in the sun
+- **Clothing**: UPF clothing, wide-brimmed hats, sunglasses
+- **Timing**: Avoid direct sun from 10:00 to 16:00
+- **Antioxidants**: Vitamin C, E, niacinamide to protect against photodamage""")
 
     # Inflammation-prone skin recommendations
     if profile['scores']['inflammation_prone'] >= 2:
-        recommendations.append("""### Успокаивающий уход
+        recommendations.append("""### Soothing care
 
-- **Барьерные средства**: Церамиды, холестерол, жирные кислоты
-- **Успокаивающие ингредиенты**: Ниацинамид (B3), центелла азиатская, аллантоин
-- **Избегайте**: Агрессивных ПАВ, спирта, отдушек
-- **Омега-3**: 2-3г EPA/DHA ежедневно (противовоспалительный эффект)
-- **Пробиотики**: Для здоровья микробиома кожи
-- **Диета**: Ограничьте молочные продукты и сахар при акне""")
+- **Barrier products**: Ceramides, cholesterol, fatty acids
+- **Soothing ingredients**: Niacinamide (B3), centella asiatica, allantoin
+- **Avoid**: Harsh surfactants, alcohol, fragrances
+- **Omega-3**: 2-3g EPA/DHA daily (anti-inflammatory effect)
+- **Probiotics**: For skin microbiome health
+- **Diet**: Limit dairy and sugar if prone to acne""")
 
     # Antioxidant support
     low_antioxidants = False
@@ -638,86 +638,86 @@ def generate_report(results, profile):
                 break
 
     if low_antioxidants:
-        recommendations.append("""### Антиоксидантная поддержка
+        recommendations.append("""### Antioxidant support
 
-- **Витамин C**: 15-20% сыворотка утром
-- **Витамин E**: В комбинации с витамином C
-- **Ниацинамид**: 5-10% для защиты и восстановления
-- **Ресвератрол**: Антиоксидант из винограда
-- **Добавки**: Астаксантин 4-12мг, CoQ10 100-200мг
-- **Питание**: Больше ягод, тёмной зелени, орехов""")
+- **Vitamin C**: 15-20% serum in the morning
+- **Vitamin E**: In combination with vitamin C
+- **Niacinamide**: 5-10% for protection and repair
+- **Resveratrol**: Antioxidant from grapes
+- **Supplements**: Astaxanthin 4-12mg, CoQ10 100-200mg
+- **Nutrition**: More berries, dark leafy greens, nuts""")
 
     # Hydration support
     if 'hydration' in results:
         for r in results['hydration']:
             if r['status'] in ['dry', 'moderate']:
-                recommendations.append("""### Увлажнение
+                recommendations.append("""### Hydration
 
-- **Гиалуроновая кислота**: Разные молекулярные веса
-- **Церамиды**: Восстановление барьера
-- **Глицерин, мочевина**: Увлажнители
-- **Окклюзивы**: Сквалан, масло жожоба на ночь
-- **Увлажнитель воздуха**: Особенно зимой
-- **Вода**: 2-2.5л в день""")
+- **Hyaluronic acid**: Various molecular weights
+- **Ceramides**: Barrier repair
+- **Glycerin, urea**: Humectants
+- **Occlusives**: Squalane, jojoba oil at night
+- **Humidifier**: Especially in winter
+- **Water**: 2-2.5L per day""")
                 break
 
     # Glycation protection
     if 'glycation' in results:
         for r in results['glycation']:
             if r['status'] in ['elevated', 'moderate']:
-                recommendations.append("""### Защита от гликации
+                recommendations.append("""### Glycation protection
 
-- **Диета**: Ограничьте сахар и быстрые углеводы
-- **Карнозин**: Добавка 500-1000мг в день
-- **Альфа-липоевая кислота**: 100-300мг в день
-- **Избегайте**: Жареной пищи с корочкой (AGEs)
-- **Зелёный чай**: Полифенолы против гликации""")
+- **Diet**: Limit sugar and fast carbohydrates
+- **Carnosine**: Supplement 500-1000mg per day
+- **Alpha-lipoic acid**: 100-300mg per day
+- **Avoid**: Fried foods with a crust (AGEs)
+- **Green tea**: Polyphenols against glycation""")
                 break
 
     if not recommendations:
-        recommendations.append("""### Базовый уход
+        recommendations.append("""### Basic care
 
-Ваши гены показывают хорошую устойчивость кожи. Придерживайтесь базового ухода:
-- Мягкое очищение
-- Увлажнение
-- SPF 30+ ежедневно
-- Антиоксидантная сыворотка""")
+Your genes show good skin resilience. Stick to basic care:
+- Gentle cleansing
+- Hydration
+- SPF 30+ daily
+- Antioxidant serum""")
 
     for rec in recommendations:
         report.append(rec)
         report.append("")
 
     report.append("---\n")
-    report.append("## Важно\n")
-    report.append("- Генетика — это предрасположенность, не диагноз")
-    report.append("- Образ жизни, диета и уход влияют на состояние кожи не меньше генов")
-    report.append("- При кожных заболеваниях обратитесь к дерматологу")
-    report.append("- Начинайте новые активные ингредиенты постепенно")
+    report.append("## Important\n")
+    report.append("- Genetics is a predisposition, not a diagnosis")
+    report.append("- Lifestyle, diet and care affect skin condition as much as genes do")
+    report.append("- See a dermatologist for skin conditions")
+    report.append("- Introduce new active ingredients gradually")
 
     return '\n'.join(report)
 
 
 def main():
     print("=" * 60)
-    print("ГЕНЕТИЧЕСКИЙ АНАЛИЗ КОЖИ")
+    print("SKIN GENETIC ANALYSIS")
     print("=" * 60)
 
-    print("\n[1/4] Загрузка генома...")
+    print("\n[1/4] Loading genome...")
     genome = load_genome()
-    print(f"      Загружено {len(genome)} SNP")
+    print(f"      Loaded {len(genome)} SNP")
 
-    print("\n[2/4] Анализ маркеров кожи...")
+    print("\n[2/4] Analyzing skin markers...")
     results = analyze_skin(genome)
 
     total = sum(len(r) for r in results.values())
     found = sum(sum(1 for x in r if x['found']) for r in results.values())
-    print(f"      Найдено: {found}/{total} маркеров")
+    print(f"      Found: {found}/{total} markers")
 
-    print("\n[3/4] Определение профиля кожи...")
+    print("\n[3/4] Determining skin profile...")
     profile = determine_skin_profile(results)
-    print(f"      Профиль: {', '.join(profile['profiles'])}")
+    print(f"      Profile: {', '.join(profile['profiles'])}")
 
-    print("\n[4/4] Генерация отчёта...")
+    print("\n[4/4] Generating report...")
     report = generate_report(results, profile)
 
     # Ensure directory exists
@@ -731,7 +731,7 @@ def main():
     print(f"      -> {report_path}")
 
     print("\n" + "=" * 60)
-    print("АНАЛИЗ ЗАВЕРШЁН")
+    print("ANALYSIS COMPLETE")
     print("=" * 60)
 
 

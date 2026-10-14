@@ -19,226 +19,226 @@ REPORTS_PATH = f"{BASE_PATH}/reports"
 
 PAIN_SNPS = {
     "pain_threshold": {
-        "name": "Базовая чувствительность к боли",
+        "name": "Baseline pain sensitivity",
         "snps": {
             "rs4680": {
                 "gene": "COMT Val158Met",
-                "description": "Катехол-О-метилтрансфераза - метаболизм дофамина и катехоламинов",
+                "description": "Catechol-O-methyltransferase - dopamine and catecholamine metabolism",
                 "risk_allele": "A",
                 "interpretation": {
-                    "GG": ("low_pain", "Val/Val - низкая чувствительность к боли, быстрый метаболизм катехоламинов"),
-                    "AG": ("moderate", "Val/Met - средняя чувствительность к боли"),
-                    "AA": ("high_pain", "Met/Met - высокая чувствительность к боли, медленный метаболизм катехоламинов"),
+                    "GG": ("low_pain", "Val/Val - low pain sensitivity, fast catecholamine metabolism"),
+                    "AG": ("moderate", "Val/Met - moderate pain sensitivity"),
+                    "AA": ("high_pain", "Met/Met - high pain sensitivity, slow catecholamine metabolism"),
                 }
             },
             "rs6746030": {
                 "gene": "SCN9A",
-                "description": "Натриевый канал Nav1.7 - проведение болевых сигналов",
+                "description": "Sodium channel Nav1.7 - pain signal conduction",
                 "risk_allele": "A",
                 "interpretation": {
-                    "GG": ("low_pain", "Более высокий болевой порог"),
-                    "AG": ("moderate", "Средний болевой порог"),
-                    "AA": ("high_pain", "Более низкий болевой порог, повышенная чувствительность"),
+                    "GG": ("low_pain", "Higher pain threshold"),
+                    "AG": ("moderate", "Average pain threshold"),
+                    "AA": ("high_pain", "Lower pain threshold, increased sensitivity"),
                 }
             },
             "rs8007267": {
                 "gene": "GCH1",
-                "description": "ГТФ-циклогидролаза 1 - часть защитного гаплотипа",
+                "description": "GTP cyclohydrolase 1 - part of the protective haplotype",
                 "risk_allele": "A",
                 "interpretation": {
-                    "GG": ("normal", "Стандартный вариант"),
-                    "AG": ("protective", "Носитель защитного аллеля - сниженная болевая чувствительность"),
-                    "AA": ("protective", "Защитный генотип - сниженная болевая чувствительность"),
+                    "GG": ("normal", "Standard variant"),
+                    "AG": ("protective", "Protective allele carrier - reduced pain sensitivity"),
+                    "AA": ("protective", "Protective genotype - reduced pain sensitivity"),
                 }
             },
             "rs3783641": {
                 "gene": "GCH1",
-                "description": "ГТФ-циклогидролаза 1 - защитный гаплотип против хронической боли",
+                "description": "GTP cyclohydrolase 1 - protective haplotype against chronic pain",
                 "risk_allele": "A",
                 "interpretation": {
-                    "TT": ("normal", "Стандартный вариант"),
-                    "AT": ("protective", "Носитель защитного аллеля"),
-                    "AA": ("protective", "Защитный генотип против хронической боли"),
+                    "TT": ("normal", "Standard variant"),
+                    "AT": ("protective", "Protective allele carrier"),
+                    "AA": ("protective", "Protective genotype against chronic pain"),
                 }
             },
             "rs10483639": {
                 "gene": "GCH1",
-                "description": "ГТФ-циклогидролаза 1 - компонент болезащитного гаплотипа",
+                "description": "GTP cyclohydrolase 1 - component of the pain-protective haplotype",
                 "risk_allele": "G",
                 "interpretation": {
-                    "CC": ("normal", "Стандартный вариант"),
-                    "CG": ("protective", "Носитель защитного аллеля"),
-                    "GG": ("protective", "Защитный генотип - меньше риск хронической боли"),
+                    "CC": ("normal", "Standard variant"),
+                    "CG": ("protective", "Protective allele carrier"),
+                    "GG": ("protective", "Protective genotype - lower risk of chronic pain"),
                 }
             },
         }
     },
 
     "opioid_response": {
-        "name": "Ответ на опиоидные анальгетики",
+        "name": "Response to opioid analgesics",
         "snps": {
             "rs1799971": {
                 "gene": "OPRM1 A118G",
-                "description": "Мю-опиоидный рецептор - основная мишень опиоидов",
+                "description": "Mu-opioid receptor - main target of opioids",
                 "risk_allele": "G",
                 "interpretation": {
-                    "AA": ("normal", "Нормальный ответ на опиоиды, стандартные дозы"),
-                    "AG": ("moderate", "Сниженный ответ - могут потребоваться повышенные дозы"),
-                    "GG": ("high", "Значительно сниженный ответ - нужны существенно выше дозы опиоидов"),
+                    "AA": ("normal", "Normal opioid response, standard doses"),
+                    "AG": ("moderate", "Reduced response - higher doses may be needed"),
+                    "GG": ("high", "Markedly reduced response - substantially higher opioid doses needed"),
                 }
             },
             "rs1045642": {
                 "gene": "ABCB1 C3435T",
-                "description": "P-гликопротеин - транспорт опиоидов через ГЭБ",
+                "description": "P-glycoprotein - opioid transport across the blood-brain barrier",
                 "risk_allele": "T",
                 "interpretation": {
-                    "CC": ("good", "Хороший ответ на опиоиды, лучшее проникновение в ЦНС"),
-                    "CT": ("moderate", "Средний ответ на опиоиды"),
-                    "TT": ("poor", "Сниженный ответ на опиоиды, хуже проникновение"),
+                    "CC": ("good", "Good opioid response, better CNS penetration"),
+                    "CT": ("moderate", "Average opioid response"),
+                    "TT": ("poor", "Reduced opioid response, poorer penetration"),
                 }
             },
         }
     },
 
     "inflammatory_pain": {
-        "name": "Воспалительная боль",
+        "name": "Inflammatory pain",
         "snps": {
             "rs1800629": {
                 "gene": "TNF-α -308G>A",
-                "description": "Фактор некроза опухоли альфа - ключевой медиатор воспаления",
+                "description": "Tumor necrosis factor alpha - key inflammation mediator",
                 "risk_allele": "A",
                 "interpretation": {
-                    "GG": ("normal", "Нормальная продукция TNF-α"),
-                    "AG": ("moderate", "Повышенная продукция TNF-α, склонность к воспалительной боли"),
-                    "AA": ("high", "Высокая продукция TNF-α, повышен риск хронического воспаления и боли"),
+                    "GG": ("normal", "Normal TNF-α production"),
+                    "AG": ("moderate", "Increased TNF-α production, tendency toward inflammatory pain"),
+                    "AA": ("high", "High TNF-α production, increased risk of chronic inflammation and pain"),
                 }
             },
             "rs1800795": {
                 "gene": "IL-6 -174G>C",
-                "description": "Интерлейкин-6 - провоспалительный цитокин",
+                "description": "Interleukin-6 - pro-inflammatory cytokine",
                 "risk_allele": "C",
                 "interpretation": {
-                    "GG": ("normal", "Нормальный уровень IL-6"),
-                    "GC": ("moderate", "Умеренно повышенный IL-6"),
-                    "CG": ("moderate", "Умеренно повышенный IL-6"),
-                    "CC": ("high", "Повышенная продукция IL-6, склонность к воспалительной боли"),
+                    "GG": ("normal", "Normal IL-6 level"),
+                    "GC": ("moderate", "Moderately elevated IL-6"),
+                    "CG": ("moderate", "Moderately elevated IL-6"),
+                    "CC": ("high", "Increased IL-6 production, tendency toward inflammatory pain"),
                 }
             },
             "rs1800896": {
                 "gene": "IL-10 -1082A>G",
-                "description": "Интерлейкин-10 - противовоспалительный цитокин",
+                "description": "Interleukin-10 - anti-inflammatory cytokine",
                 "risk_allele": "A",
                 "interpretation": {
-                    "GG": ("protective", "Высокая продукция IL-10, хорошая противовоспалительная защита"),
-                    "AG": ("normal", "Средняя продукция IL-10"),
-                    "GA": ("normal", "Средняя продукция IL-10"),
-                    "AA": ("high", "Низкая продукция IL-10, сниженная противовоспалительная защита"),
+                    "GG": ("protective", "High IL-10 production, good anti-inflammatory protection"),
+                    "AG": ("normal", "Average IL-10 production"),
+                    "GA": ("normal", "Average IL-10 production"),
+                    "AA": ("high", "Low IL-10 production, reduced anti-inflammatory protection"),
                 }
             },
         }
     },
 
     "migraine": {
-        "name": "Мигрень",
+        "name": "Migraine",
         "snps": {
             "rs1835740": {
                 "gene": "MTDH/AEG-1",
-                "description": "Метадгерин - регуляция глутамата, первый GWAS-маркер мигрени",
+                "description": "Metadherin - glutamate regulation, first GWAS marker for migraine",
                 "risk_allele": "C",
                 "interpretation": {
-                    "TT": ("normal", "Нормальный риск мигрени"),
-                    "CT": ("moderate", "Умеренно повышен риск мигрени (~20%)"),
-                    "TC": ("moderate", "Умеренно повышен риск мигрени (~20%)"),
-                    "CC": ("high", "Повышен риск мигрени (~40%)"),
+                    "TT": ("normal", "Normal migraine risk"),
+                    "CT": ("moderate", "Moderately increased migraine risk (~20%)"),
+                    "TC": ("moderate", "Moderately increased migraine risk (~20%)"),
+                    "CC": ("high", "Increased migraine risk (~40%)"),
                 }
             },
             "rs2651899": {
                 "gene": "PRDM16",
-                "description": "Транскрипционный фактор - развитие нервной системы",
+                "description": "Transcription factor - nervous system development",
                 "risk_allele": "C",
                 "interpretation": {
-                    "TT": ("normal", "Нормальный риск мигрени"),
-                    "CT": ("moderate", "Немного повышен риск мигрени"),
-                    "TC": ("moderate", "Немного повышен риск мигрени"),
-                    "CC": ("high", "Повышен риск мигрени"),
+                    "TT": ("normal", "Normal migraine risk"),
+                    "CT": ("moderate", "Slightly increased migraine risk"),
+                    "TC": ("moderate", "Slightly increased migraine risk"),
+                    "CC": ("high", "Increased migraine risk"),
                 }
             },
             "rs10166942": {
                 "gene": "TRPM8",
-                "description": "Холодовой рецептор - сенсорная чувствительность",
+                "description": "Cold receptor - sensory sensitivity",
                 "risk_allele": "T",
                 "interpretation": {
-                    "CC": ("normal", "Нормальный риск мигрени"),
-                    "CT": ("moderate", "Немного повышен риск мигрени"),
-                    "TC": ("moderate", "Немного повышен риск мигрени"),
-                    "TT": ("high", "Повышен риск мигрени с аурой"),
+                    "CC": ("normal", "Normal migraine risk"),
+                    "CT": ("moderate", "Slightly increased migraine risk"),
+                    "TC": ("moderate", "Slightly increased migraine risk"),
+                    "TT": ("high", "Increased risk of migraine with aura"),
                 }
             },
             "rs11172113": {
                 "gene": "LRP1",
-                "description": "Рецептор липопротеинов низкой плотности - нейропротекция",
+                "description": "Low-density lipoprotein receptor - neuroprotection",
                 "risk_allele": "T",
                 "interpretation": {
-                    "CC": ("normal", "Нормальный риск мигрени"),
-                    "CT": ("moderate", "Немного повышен риск"),
-                    "TC": ("moderate", "Немного повышен риск"),
-                    "TT": ("high", "Повышен риск мигрени"),
+                    "CC": ("normal", "Normal migraine risk"),
+                    "CT": ("moderate", "Slightly increased risk"),
+                    "TC": ("moderate", "Slightly increased risk"),
+                    "TT": ("high", "Increased migraine risk"),
                 }
             },
         }
     },
 
     "anesthetics": {
-        "name": "Местные анестетики",
+        "name": "Local anesthetics",
         "snps": {
             "rs12532": {
                 "gene": "SCN5A",
-                "description": "Натриевый канал - мишень местных анестетиков",
+                "description": "Sodium channel - target of local anesthetics",
                 "risk_allele": "T",
                 "interpretation": {
-                    "CC": ("normal", "Нормальный ответ на местные анестетики"),
-                    "CT": ("moderate", "Немного сниженная эффективность анестезии"),
-                    "TC": ("moderate", "Немного сниженная эффективность анестезии"),
-                    "TT": ("high", "Может потребоваться больше анестетика"),
+                    "CC": ("normal", "Normal response to local anesthetics"),
+                    "CT": ("moderate", "Slightly reduced anesthetic efficacy"),
+                    "TC": ("moderate", "Slightly reduced anesthetic efficacy"),
+                    "TT": ("high", "May need more anesthetic"),
                 }
             },
             "rs1805007": {
                 "gene": "MC1R R151C",
-                "description": "Меланокортиновый рецептор 1 - ассоциирован с рыжими волосами",
+                "description": "Melanocortin receptor 1 - associated with red hair",
                 "risk_allele": "T",
                 "interpretation": {
-                    "CC": ("normal", "Нормальный ответ на анестезию"),
-                    "CT": ("high", "Носитель варианта MC1R - может требоваться на 19% больше анестетика"),
-                    "TC": ("high", "Носитель варианта MC1R - может требоваться на 19% больше анестетика"),
-                    "TT": ("high", "Вариант MC1R - требуется значительно больше местного анестетика"),
+                    "CC": ("normal", "Normal response to anesthesia"),
+                    "CT": ("high", "MC1R variant carrier - may need 19% more anesthetic"),
+                    "TC": ("high", "MC1R variant carrier - may need 19% more anesthetic"),
+                    "TT": ("high", "MC1R variant - significantly more local anesthetic needed"),
                 }
             },
         }
     },
 
     "nsaids": {
-        "name": "Ответ на НПВС (нестероидные противовоспалительные)",
+        "name": "Response to NSAIDs (nonsteroidal anti-inflammatory drugs)",
         "snps": {
             "rs1799853": {
                 "gene": "CYP2C9*2",
-                "description": "Цитохром P450 2C9 - метаболизм НПВС",
+                "description": "Cytochrome P450 2C9 - NSAID metabolism",
                 "risk_allele": "T",
                 "interpretation": {
-                    "CC": ("normal", "Нормальный метаболизатор - стандартные дозы НПВС"),
-                    "CT": ("moderate", "Промежуточный метаболизатор - осторожность с дозой"),
-                    "TC": ("moderate", "Промежуточный метаболизатор - осторожность с дозой"),
-                    "TT": ("high", "Медленный метаболизатор - повышен риск побочных эффектов НПВС, снизить дозу"),
+                    "CC": ("normal", "Normal metabolizer - standard NSAID doses"),
+                    "CT": ("moderate", "Intermediate metabolizer - use caution with dosing"),
+                    "TC": ("moderate", "Intermediate metabolizer - use caution with dosing"),
+                    "TT": ("high", "Poor metabolizer - increased risk of NSAID side effects, reduce dose"),
                 }
             },
             "rs1057910": {
                 "gene": "CYP2C9*3",
-                "description": "Цитохром P450 2C9 - важнейший фермент метаболизма НПВС",
+                "description": "Cytochrome P450 2C9 - key NSAID-metabolizing enzyme",
                 "risk_allele": "C",
                 "interpretation": {
-                    "AA": ("normal", "Нормальный метаболизатор - стандартные дозы"),
-                    "AC": ("moderate", "Промежуточный метаболизатор - риск накопления НПВС"),
-                    "CA": ("moderate", "Промежуточный метаболизатор - риск накопления НПВС"),
-                    "CC": ("high", "Медленный метаболизатор - высокий риск побочных эффектов, снизить дозу на 50%"),
+                    "AA": ("normal", "Normal metabolizer - standard doses"),
+                    "AC": ("moderate", "Intermediate metabolizer - risk of NSAID accumulation"),
+                    "CA": ("moderate", "Intermediate metabolizer - risk of NSAID accumulation"),
+                    "CC": ("high", "Poor metabolizer - high risk of side effects, reduce dose by 50%"),
                 }
             },
         }
@@ -332,13 +332,13 @@ def analyze_gch1_haplotype(genome):
         details.append(f"rs10483639: {rs10483639}")
 
     if protective_count >= 4:
-        status = ('strong_protective', 'Сильный защитный GCH1 гаплотип - значительно снижена болевая чувствительность')
+        status = ('strong_protective', 'Strong protective GCH1 haplotype - markedly reduced pain sensitivity')
     elif protective_count >= 2:
-        status = ('protective', 'Частичный защитный GCH1 гаплотип - умеренно снижена болевая чувствительность')
+        status = ('protective', 'Partial protective GCH1 haplotype - moderately reduced pain sensitivity')
     elif protective_count >= 1:
-        status = ('mild_protective', 'Носитель защитных аллелей GCH1')
+        status = ('mild_protective', 'Carrier of protective GCH1 alleles')
     else:
-        status = ('normal', 'Нет защитного GCH1 гаплотипа')
+        status = ('normal', 'No protective GCH1 haplotype')
 
     return {
         'rs8007267': rs8007267,
@@ -373,13 +373,13 @@ def analyze_cyp2c9_status(results):
         variant_count += cyp2c9_3.count('C')
 
     if variant_count >= 3:
-        status = ('poor', 'Плохой метаболизатор CYP2C9 - снизить дозу НПВС на 50-75%')
+        status = ('poor', 'Poor CYP2C9 metabolizer - reduce NSAID dose by 50-75%')
     elif variant_count == 2:
-        status = ('intermediate', 'Промежуточный метаболизатор CYP2C9 - снизить дозу НПВС на 25-50%')
+        status = ('intermediate', 'Intermediate CYP2C9 metabolizer - reduce NSAID dose by 25-50%')
     elif variant_count == 1:
-        status = ('intermediate', 'Промежуточный метаболизатор CYP2C9 - осторожность с дозой')
+        status = ('intermediate', 'Intermediate CYP2C9 metabolizer - use caution with dosing')
     else:
-        status = ('normal', 'Нормальный метаболизатор CYP2C9 - стандартные дозы НПВС')
+        status = ('normal', 'Normal CYP2C9 metabolizer - standard NSAID doses')
 
     return {
         'cyp2c9_2': cyp2c9_2,
@@ -397,34 +397,34 @@ def analyze_comt_pain_profile(genome):
     if rs4680 == 'GG':
         profile = {
             'type': 'Warrior (Val/Val)',
-            'pain_sensitivity': 'Низкая',
-            'stress_tolerance': 'Высокая',
-            'dopamine_metabolism': 'Быстрый',
-            'clinical': 'Меньше нужны обезболивающие, лучше переносит стресс'
+            'pain_sensitivity': 'Low',
+            'stress_tolerance': 'High',
+            'dopamine_metabolism': 'Fast',
+            'clinical': 'Needs less pain medication, handles stress better'
         }
     elif rs4680 == 'AA':
         profile = {
             'type': 'Worrier (Met/Met)',
-            'pain_sensitivity': 'Высокая',
-            'stress_tolerance': 'Низкая',
-            'dopamine_metabolism': 'Медленный',
-            'clinical': 'Может потребоваться больше обезболивающих, выше когнитивные функции'
+            'pain_sensitivity': 'High',
+            'stress_tolerance': 'Low',
+            'dopamine_metabolism': 'Slow',
+            'clinical': 'May need more pain medication, higher cognitive function'
         }
     elif rs4680 in ['AG', 'GA']:
         profile = {
-            'type': 'Смешанный (Val/Met)',
-            'pain_sensitivity': 'Средняя',
-            'stress_tolerance': 'Средняя',
-            'dopamine_metabolism': 'Средний',
-            'clinical': 'Сбалансированный профиль боли и стресса'
+            'type': 'Mixed (Val/Met)',
+            'pain_sensitivity': 'Average',
+            'stress_tolerance': 'Average',
+            'dopamine_metabolism': 'Average',
+            'clinical': 'Balanced pain and stress profile'
         }
     else:
         profile = {
-            'type': 'Не определён',
-            'pain_sensitivity': 'Н/Д',
-            'stress_tolerance': 'Н/Д',
-            'dopamine_metabolism': 'Н/Д',
-            'clinical': 'Генотип не найден'
+            'type': 'Undetermined',
+            'pain_sensitivity': 'N/A',
+            'stress_tolerance': 'N/A',
+            'dopamine_metabolism': 'N/A',
+            'clinical': 'Genotype not found'
         }
 
     profile['genotype'] = rs4680
@@ -437,12 +437,12 @@ def generate_category_report(category, results, genome):
 
     report = []
     report.append(f"# {cat_info['name']}")
-    report.append(f"\nДата анализа: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
-    report.append("\n## Результаты\n")
+    report.append(f"\nAnalysis date: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
+    report.append("\n## Results\n")
 
     # Statistics
     found = sum(1 for r in results if r['found'])
-    report.append(f"Найдено маркеров: {found}/{len(results)}\n")
+    report.append(f"Markers found: {found}/{len(results)}\n")
 
     # Risk summary
     risk_counts = defaultdict(int)
@@ -451,7 +451,7 @@ def generate_category_report(category, results, genome):
             risk_counts[r['risk_level']] += 1
 
     if risk_counts:
-        report.append("### Сводка по результатам\n")
+        report.append("### Results summary\n")
         risk_emoji = {
             'high': '🔴',
             'high_pain': '🔴',
@@ -470,46 +470,46 @@ def generate_category_report(category, results, genome):
             emoji = risk_emoji.get(risk, '•')
             report.append(f"- {emoji} {risk}: {count}")
 
-    report.append("\n### Детальные результаты\n")
-    report.append("| SNP | Ген | Генотип | Статус | Интерпретация |")
+    report.append("\n### Detailed results\n")
+    report.append("| SNP | Gene | Genotype | Status | Interpretation |")
     report.append("|-----|-----|---------|--------|---------------|")
 
     for r in results:
         if r['found']:
-            risk_label = r['risk_level'] or 'н/д'
-            interp = r['interpretation'] or 'Нет данных'
+            risk_label = r['risk_level'] or 'n/a'
+            interp = r['interpretation'] or 'No data'
             report.append(f"| {r['snp_id']} | {r['gene']} | **{r['genotype']}** | {risk_label} | {interp} |")
         else:
-            report.append(f"| {r['snp_id']} | {r['gene']} | - | - | Не найден в геноме |")
+            report.append(f"| {r['snp_id']} | {r['gene']} | - | - | Not found in genome |")
 
     # Special sections for specific categories
     if category == 'pain_threshold':
-        report.append("\n### GCH1 защитный гаплотип\n")
+        report.append("\n### GCH1 protective haplotype\n")
         gch1 = analyze_gch1_haplotype(genome)
-        report.append(f"- rs8007267: {gch1['rs8007267'] or 'не найден'}")
-        report.append(f"- rs3783641: {gch1['rs3783641'] or 'не найден'}")
-        report.append(f"- rs10483639: {gch1['rs10483639'] or 'не найден'}")
-        report.append(f"- Защитных аллелей: {gch1['protective_alleles']}")
-        report.append(f"- **Статус: {gch1['status']}**")
+        report.append(f"- rs8007267: {gch1['rs8007267'] or 'not found'}")
+        report.append(f"- rs3783641: {gch1['rs3783641'] or 'not found'}")
+        report.append(f"- rs10483639: {gch1['rs10483639'] or 'not found'}")
+        report.append(f"- Protective alleles: {gch1['protective_alleles']}")
+        report.append(f"- **Status: {gch1['status']}**")
         report.append(f"- {gch1['interpretation']}")
 
-        report.append("\n### COMT профиль боли\n")
+        report.append("\n### COMT pain profile\n")
         comt = analyze_comt_pain_profile(genome)
-        report.append(f"- Генотип rs4680: **{comt['genotype']}**")
-        report.append(f"- Тип: **{comt['type']}**")
-        report.append(f"- Болевая чувствительность: {comt['pain_sensitivity']}")
-        report.append(f"- Устойчивость к стрессу: {comt['stress_tolerance']}")
-        report.append(f"- Метаболизм дофамина: {comt['dopamine_metabolism']}")
-        report.append(f"- Клиническое значение: {comt['clinical']}")
+        report.append(f"- rs4680 genotype: **{comt['genotype']}**")
+        report.append(f"- Type: **{comt['type']}**")
+        report.append(f"- Pain sensitivity: {comt['pain_sensitivity']}")
+        report.append(f"- Stress tolerance: {comt['stress_tolerance']}")
+        report.append(f"- Dopamine metabolism: {comt['dopamine_metabolism']}")
+        report.append(f"- Clinical significance: {comt['clinical']}")
 
     if category == 'nsaids':
         cyp2c9 = analyze_cyp2c9_status(results)
         if cyp2c9:
-            report.append("\n### Статус CYP2C9 метаболизатора\n")
-            report.append(f"- CYP2C9*2 (rs1799853): {cyp2c9['cyp2c9_2'] or 'не найден'}")
-            report.append(f"- CYP2C9*3 (rs1057910): {cyp2c9['cyp2c9_3'] or 'не найден'}")
-            report.append(f"- Вариантных аллелей: {cyp2c9['variant_alleles']}")
-            report.append(f"- **Статус: {cyp2c9['status']}**")
+            report.append("\n### CYP2C9 metabolizer status\n")
+            report.append(f"- CYP2C9*2 (rs1799853): {cyp2c9['cyp2c9_2'] or 'not found'}")
+            report.append(f"- CYP2C9*3 (rs1057910): {cyp2c9['cyp2c9_3'] or 'not found'}")
+            report.append(f"- Variant alleles: {cyp2c9['variant_alleles']}")
+            report.append(f"- **Status: {cyp2c9['status']}**")
             report.append(f"- {cyp2c9['interpretation']}")
 
     return '\n'.join(report)
@@ -518,39 +518,39 @@ def generate_category_report(category, results, genome):
 def generate_summary_report(all_results, genome):
     """Generate overall summary report"""
     report = []
-    report.append("# Анализ чувствительности к боли")
-    report.append(f"\nДата анализа: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
+    report.append("# Pain Sensitivity Analysis")
+    report.append(f"\nAnalysis date: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
     report.append("\n---\n")
 
-    report.append("## Важные предупреждения\n")
-    report.append("1. **Это НЕ медицинский диагноз** - только информационный генетический анализ")
-    report.append("2. **Болевая чувствительность зависит от многих факторов** - генетика лишь часть")
-    report.append("3. **Индивидуальный ответ может отличаться** - генотип не гарантирует фенотип")
-    report.append("4. **Для назначения лекарств** - консультация врача обязательна\n")
+    report.append("## Important disclaimers\n")
+    report.append("1. **This is NOT a medical diagnosis** - informational genetic analysis only")
+    report.append("2. **Pain sensitivity depends on many factors** - genetics is only one part")
+    report.append("3. **Individual response may differ** - genotype does not guarantee phenotype")
+    report.append("4. **For prescribing medication** - consulting a physician is required\n")
 
     report.append("---\n")
 
     # COMT Pain Profile - Main highlight
-    report.append("## Основной профиль боли (COMT)\n")
+    report.append("## Primary pain profile (COMT)\n")
     comt = analyze_comt_pain_profile(genome)
-    report.append(f"| Параметр | Значение |")
+    report.append(f"| Parameter | Value |")
     report.append(f"|----------|----------|")
-    report.append(f"| Генотип | **{comt['genotype']}** |")
-    report.append(f"| Тип | **{comt['type']}** |")
-    report.append(f"| Болевая чувствительность | {comt['pain_sensitivity']} |")
-    report.append(f"| Устойчивость к стрессу | {comt['stress_tolerance']} |")
-    report.append(f"| Метаболизм дофамина | {comt['dopamine_metabolism']} |")
-    report.append(f"\n**Клиническое значение:** {comt['clinical']}\n")
+    report.append(f"| Genotype | **{comt['genotype']}** |")
+    report.append(f"| Type | **{comt['type']}** |")
+    report.append(f"| Pain sensitivity | {comt['pain_sensitivity']} |")
+    report.append(f"| Stress tolerance | {comt['stress_tolerance']} |")
+    report.append(f"| Dopamine metabolism | {comt['dopamine_metabolism']} |")
+    report.append(f"\n**Clinical significance:** {comt['clinical']}\n")
 
     # GCH1 Haplotype
-    report.append("## Защитный гаплотип GCH1\n")
+    report.append("## GCH1 protective haplotype\n")
     gch1 = analyze_gch1_haplotype(genome)
     if gch1['protective_alleles'] > 0:
-        report.append(f"- Статус: **{gch1['status']}**")
+        report.append(f"- Status: **{gch1['status']}**")
         report.append(f"- {gch1['interpretation']}")
-        report.append(f"- Защитных аллелей: {gch1['protective_alleles']}/6")
+        report.append(f"- Protective alleles: {gch1['protective_alleles']}/6")
     else:
-        report.append("- Защитный гаплотип не обнаружен")
+        report.append("- No protective haplotype detected")
     report.append("")
 
     report.append("---\n")
@@ -575,32 +575,32 @@ def generate_summary_report(all_results, genome):
                 protective.append((cat_name, r))
 
     if medication_warnings:
-        report.append("## Важно для приёма лекарств\n")
-        report.append("| Категория | SNP | Ген | Генотип | Значение |")
+        report.append("## Important for medication use\n")
+        report.append("| Category | SNP | Gene | Genotype | Significance |")
         report.append("|-----------|-----|-----|---------|----------|")
         for cat, r in medication_warnings:
             report.append(f"| {cat} | {r['snp_id']} | {r['gene']} | **{r['genotype']}** | {r['interpretation']} |")
         report.append("")
 
     if high_pain:
-        report.append("## Повышенная болевая чувствительность\n")
-        report.append("| Категория | SNP | Ген | Генотип | Описание |")
+        report.append("## Increased pain sensitivity\n")
+        report.append("| Category | SNP | Gene | Genotype | Description |")
         report.append("|-----------|-----|-----|---------|----------|")
         for cat, r in high_pain:
             report.append(f"| {cat} | {r['snp_id']} | {r['gene']} | **{r['genotype']}** | {r['interpretation']} |")
         report.append("")
 
     if low_pain:
-        report.append("## Сниженная болевая чувствительность\n")
-        report.append("| Категория | SNP | Ген | Генотип | Описание |")
+        report.append("## Reduced pain sensitivity\n")
+        report.append("| Category | SNP | Gene | Genotype | Description |")
         report.append("|-----------|-----|-----|---------|----------|")
         for cat, r in low_pain:
             report.append(f"| {cat} | {r['snp_id']} | {r['gene']} | **{r['genotype']}** | {r['interpretation']} |")
         report.append("")
 
     if protective:
-        report.append("## Защитные варианты\n")
-        report.append("| Категория | SNP | Ген | Генотип | Описание |")
+        report.append("## Protective variants\n")
+        report.append("| Category | SNP | Gene | Genotype | Description |")
         report.append("|-----------|-----|-----|---------|----------|")
         for cat, r in protective:
             report.append(f"| {cat} | {r['snp_id']} | {r['gene']} | **{r['genotype']}** | {r['interpretation']} |")
@@ -610,33 +610,33 @@ def generate_summary_report(all_results, genome):
     nsaid_results = all_results.get('nsaids', [])
     cyp2c9 = analyze_cyp2c9_status(nsaid_results)
     if cyp2c9:
-        report.append("## Метаболизм НПВС (CYP2C9)\n")
-        report.append(f"- CYP2C9*2: {cyp2c9['cyp2c9_2'] or 'не найден'}")
-        report.append(f"- CYP2C9*3: {cyp2c9['cyp2c9_3'] or 'не найден'}")
-        report.append(f"- **Статус метаболизатора: {cyp2c9['status']}**")
-        report.append(f"- Рекомендация: {cyp2c9['interpretation']}\n")
+        report.append("## NSAID metabolism (CYP2C9)\n")
+        report.append(f"- CYP2C9*2: {cyp2c9['cyp2c9_2'] or 'not found'}")
+        report.append(f"- CYP2C9*3: {cyp2c9['cyp2c9_3'] or 'not found'}")
+        report.append(f"- **Metabolizer status: {cyp2c9['status']}**")
+        report.append(f"- Recommendation: {cyp2c9['interpretation']}\n")
 
     # Migraine risk
-    report.append("## Риск мигрени\n")
+    report.append("## Migraine risk\n")
     migraine_results = all_results.get('migraine', [])
     migraine_risk_count = sum(1 for r in migraine_results if r['risk_level'] in ['high', 'moderate'])
     if migraine_risk_count >= 3:
-        report.append("- **Повышенный генетический риск мигрени**")
+        report.append("- **Increased genetic migraine risk**")
     elif migraine_risk_count >= 1:
-        report.append("- Умеренный генетический риск мигрени")
+        report.append("- Moderate genetic migraine risk")
     else:
-        report.append("- Нет повышенного генетического риска мигрени")
+        report.append("- No increased genetic migraine risk")
 
     migraine_found = [r for r in migraine_results if r['found']]
     if migraine_found:
-        report.append("\nРелевантные маркеры:")
+        report.append("\nRelevant markers:")
         for r in migraine_found:
-            status = r['risk_level'] or 'н/д'
+            status = r['risk_level'] or 'n/a'
             report.append(f"- {r['snp_id']} ({r['gene']}): {r['genotype']} - {status}")
     report.append("")
 
     report.append("---\n")
-    report.append("## Статистика анализа\n")
+    report.append("## Analysis statistics\n")
 
     total_snps = 0
     found_snps = 0
@@ -644,58 +644,58 @@ def generate_summary_report(all_results, genome):
         total_snps += len(results)
         found_snps += sum(1 for r in results if r['found'])
 
-    report.append(f"- Всего проанализировано SNP: {total_snps}")
-    report.append(f"- Найдено в геноме: {found_snps}")
-    report.append(f"- Не найдено: {total_snps - found_snps}")
+    report.append(f"- Total SNPs analyzed: {total_snps}")
+    report.append(f"- Found in genome: {found_snps}")
+    report.append(f"- Not found: {total_snps - found_snps}")
 
     report.append("\n---\n")
-    report.append("## Практические рекомендации\n")
+    report.append("## Practical recommendations\n")
 
     # Generate personalized recommendations
     recommendations = []
 
-    if comt['pain_sensitivity'] == 'Высокая':
-        recommendations.append("- **Болевая чувствительность:** Вы можете быть более чувствительны к боли. Обсудите с врачом индивидуальный подход к обезболиванию.")
+    if comt['pain_sensitivity'] == 'High':
+        recommendations.append("- **Pain sensitivity:** You may be more sensitive to pain. Discuss an individualized approach to pain relief with your doctor.")
 
-    if comt['pain_sensitivity'] == 'Низкая':
-        recommendations.append("- **Болевая чувствительность:** У вас, вероятно, высокий болевой порог. Помните, что боль - важный сигнал организма.")
+    if comt['pain_sensitivity'] == 'Low':
+        recommendations.append("- **Pain sensitivity:** You likely have a high pain threshold. Remember that pain is an important signal from your body.")
 
     opioid_results = all_results.get('opioid_response', [])
     for r in opioid_results:
         if r['snp_id'] == 'rs1799971' and r['risk_level'] in ['moderate', 'high']:
-            recommendations.append("- **Опиоиды:** Возможно сниженный ответ на опиоидные анальгетики. Сообщите анестезиологу.")
+            recommendations.append("- **Opioids:** Possibly reduced response to opioid analgesics. Inform your anesthesiologist.")
             break
 
     if cyp2c9 and cyp2c9['status'] != 'normal':
-        recommendations.append(f"- **НПВС:** {cyp2c9['interpretation']}")
+        recommendations.append(f"- **NSAIDs:** {cyp2c9['interpretation']}")
 
     anesthetic_results = all_results.get('anesthetics', [])
     for r in anesthetic_results:
         if r['snp_id'] == 'rs1805007' and r['risk_level'] == 'high':
-            recommendations.append("- **Местная анестезия:** Может потребоваться повышенная доза местных анестетиков. Предупредите стоматолога/хирурга.")
+            recommendations.append("- **Local anesthesia:** A higher dose of local anesthetics may be needed. Inform your dentist/surgeon.")
             break
 
     if migraine_risk_count >= 2:
-        recommendations.append("- **Мигрень:** Повышенная генетическая предрасположенность. Избегайте известных триггеров, ведите дневник головной боли.")
+        recommendations.append("- **Migraine:** Increased genetic predisposition. Avoid known triggers and keep a headache diary.")
 
     if recommendations:
         report.extend(recommendations)
     else:
-        report.append("- Специфических рекомендаций по результатам анализа нет.")
+        report.append("- No specific recommendations based on the analysis results.")
 
     return '\n'.join(report)
 
 
 def main():
     print("=" * 60)
-    print("АНАЛИЗ ЧУВСТВИТЕЛЬНОСТИ К БОЛИ ПО ГЕНОМУ")
+    print("GENOME-WIDE PAIN SENSITIVITY ANALYSIS")
     print("=" * 60)
 
-    print("\n[1/4] Загрузка генома...")
+    print("\n[1/4] Loading genome...")
     genome = load_genome()
-    print(f"      Загружено {len(genome)} SNP")
+    print(f"      Loaded {len(genome)} SNP")
 
-    print("\n[2/4] Анализ маркеров по категориям...")
+    print("\n[2/4] Analyzing markers by category...")
     all_results = {}
 
     for category, cat_info in PAIN_SNPS.items():
@@ -708,9 +708,9 @@ def main():
 
         # Count found
         found = sum(1 for r in results if r['found'])
-        print(f"        Найдено: {found}/{len(results)}")
+        print(f"        Found: {found}/{len(results)}")
 
-    print("\n[3/4] Генерация детальных отчётов...")
+    print("\n[3/4] Generating detailed reports...")
     for category, results in all_results.items():
         report = generate_category_report(category, results, genome)
         report_dir = f"{REPORTS_PATH}/pain/{category}"
@@ -721,7 +721,7 @@ def main():
             f.write(report)
         print(f"      -> {report_path}")
 
-    print("\n[4/4] Генерация сводного отчёта...")
+    print("\n[4/4] Generating summary report...")
     summary = generate_summary_report(all_results, genome)
     summary_path = f"{REPORTS_PATH}/pain/report.md"
     with open(summary_path, 'w', encoding='utf-8') as f:
@@ -729,16 +729,16 @@ def main():
     print(f"      -> {summary_path}")
 
     print("\n" + "=" * 60)
-    print("АНАЛИЗ ЗАВЕРШЁН")
+    print("ANALYSIS COMPLETE")
     print("=" * 60)
 
     # Print key findings to console
-    print("\nКЛЮЧЕВЫЕ НАХОДКИ:\n")
+    print("\nKEY FINDINGS:\n")
 
     # COMT Profile
     comt = analyze_comt_pain_profile(genome)
-    print(f"COMT профиль: {comt['type']}")
-    print(f"  - Болевая чувствительность: {comt['pain_sensitivity']}")
+    print(f"COMT profile: {comt['type']}")
+    print(f"  - Pain sensitivity: {comt['pain_sensitivity']}")
     print(f"  - {comt['clinical']}")
     print()
 
@@ -746,7 +746,7 @@ def main():
     for category, results in all_results.items():
         warnings = [r for r in results if r['risk_level'] in ['high', 'poor']]
         if warnings and category in ['opioid_response', 'nsaids', 'anesthetics']:
-            print(f"ВНИМАНИЕ - {PAIN_SNPS[category]['name']}:")
+            print(f"WARNING - {PAIN_SNPS[category]['name']}:")
             for r in warnings:
                 print(f"    * {r['gene']} ({r['genotype']}): {r['interpretation']}")
             print()
