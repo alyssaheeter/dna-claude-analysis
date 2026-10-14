@@ -113,10 +113,13 @@ main {
 .lede strong { color: var(--gold); }
 
 /* ---- takeaway tiers ---- */
-.tier { margin-bottom: 22px; }
+.tier {
+    margin-bottom: 18px; padding: 16px 20px; background: var(--panel);
+    border: 1px solid rgba(201, 166, 107, 0.35); border-radius: 14px;
+}
 .tier-title {
-    font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: var(--muted);
-    margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px dashed var(--line);
+    font-family: var(--sans); font-size: 12px; font-weight: 500; text-transform: uppercase; letter-spacing: 2px;
+    color: var(--gold); margin-bottom: 8px; padding-bottom: 6px; border-bottom: 1px solid rgba(201, 166, 107, 0.25);
 }
 .tier ul, .tier ol { list-style: none; }
 .tier ol { list-style: decimal; padding-left: 22px; color: var(--ivory); }
@@ -129,10 +132,8 @@ main {
 .tk-head strong { color: var(--ivory); }
 .tk-act { color: var(--blush); margin-top: 2px; }
 .tk.more { color: var(--muted); }
-.tier-ask { border-left: 3px solid var(--garnet); padding-left: 14px; }
-.tier-ask .tier-title { color: var(--gold); }
-.tier-good .tier-title { color: var(--sage); }
-.questions { border: 1px solid var(--line); padding: 14px 16px; background: var(--panel); }
+.tier-ask { border-left: 3px solid var(--gold); }
+.questions { border-radius: 14px; }
 
 /* ---- toolbar and legend ---- */
 .toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 18px; }
@@ -164,11 +165,11 @@ details.sec > summary .section-title::before { content: "+ "; color: var(--gold)
 details.sec[open] > summary .section-title::before { content: "\2212  "; }
 .section-content { padding: 20px; }
 .badges { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-.section-badge { font-size: 12px; padding: 2px 8px; border-radius: 2px; }
+.section-badge { font-size: 12px; font-weight: 500; padding: 2px 12px; border-radius: 999px; letter-spacing: .5px; }
 .section-badge.good { background: rgba(169, 196, 162, 0.18); color: var(--sage); }
 .section-badge.moderate { background: rgba(201, 166, 107, 0.18); color: var(--gold); }
 .section-badge.risk { background: var(--garnet); color: var(--ivory); }
-.ev { font-size: 12px; padding: 2px 8px; border: 1px solid var(--line); color: var(--muted); letter-spacing: 1px; }
+.ev { font-size: 12px; padding: 2px 12px; border: 1px solid var(--muted); border-radius: 999px; color: var(--muted); letter-spacing: 1px; }
 .ev-established { color: var(--sage); border-color: var(--sage); }
 .ev-weak { color: var(--gold); border-color: var(--gold); }
 .ev-note { color: var(--muted); margin-bottom: 14px; }
@@ -184,10 +185,10 @@ details.sec[open] > summary .section-title::before { content: "\2212  "; }
 table { width: 100%; border-collapse: collapse; font-size: 13px; }
 th, td { text-align: left; vertical-align: top; }
 th {
-    padding: 8px 12px; background: var(--ground); color: var(--muted); font-weight: 500;
-    text-transform: uppercase; letter-spacing: 1px; font-size: 12px; border-bottom: 1px solid var(--line);
+    padding: 8px 12px; background: var(--panel); color: var(--muted); font-weight: 500; font-family: var(--sans);
+    text-transform: uppercase; letter-spacing: 1.5px; font-size: 12px; border-bottom: 1px solid rgba(201, 166, 107, 0.35);
 }
-td { padding: 10px 12px; border-bottom: 1px solid var(--line-soft); color: var(--ivory); }
+td { padding: 10px 12px; border-bottom: 1px solid rgba(201, 166, 107, 0.18); color: var(--ivory); }
 tr:hover td { background: rgba(201, 166, 107, 0.07); }
 .geno { font-weight: 500; color: var(--blush); }
 td.c-mark { color: var(--muted); }
@@ -242,7 +243,7 @@ footer p { max-width: 90ch; }
     .status-box { padding: 14px; }
     .section-content { padding: 12px; }
     .legend dl { grid-template-columns: 1fr; }
-    .tier-ask { padding-left: 10px; }
+    .tier { padding: 12px 14px; }
     .alerts-grid, .two-cols { grid-template-columns: 1fr; }
 }
 @media (max-width: 900px) {

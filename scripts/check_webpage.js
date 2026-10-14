@@ -198,6 +198,41 @@ async function main() {
   await p320.close();
   check('B2', 'no horizontal scroll at 320px with the hero', m320.sw <= m320.iw, '');
 
+  // ---------- B3 takeaways, tables, badges and status colours
+  const lumN = ([r, g, b]) => { const f = c => { c /= 255; return c <= .03928 ? c / 12.92 : Math.pow((c + .055) / 1.055, 2.4); }; return .2126 * f(r) + .7152 * f(g) + .0722 * f(b); };
+  const ratio = (a, b) => (Math.max(lumN(a), lumN(b)) + .05) / (Math.min(lumN(a), lumN(b)) + .05);
+  const tokVals = await page.evaluate(() => { const s = getComputedStyle(document.documentElement); const o = {}; for (const t of ['--ground', '--panel', '--sage', '--rose', '--muted', '--gold', '--blush']) o[t] = s.getPropertyValue(t).trim(); return o; });
+  const tokenRGB = t => { const h = tokVals[t].replace('#', ''); return [0, 2, 4].map(i => parseInt(h.substr(i, 2), 16)); };
+  const GROUND = tokenRGB('--ground'), PANEL = tokenRGB('--panel');
+  const b3 = await page.evaluate(() => {
+    const parse = s => { const m = s.match(/[\d.]+/g).map(Number); return { r: m[0], g: m[1], b: m[2], a: m[3] === undefined ? 1 : m[3] }; };
+    const lum = ([r, g, b]) => { const f = c => { c /= 255; return c <= .03928 ? c / 12.92 : Math.pow((c + .055) / 1.055, 2.4); }; return .2126 * f(r) + .7152 * f(g) + .0722 * f(b); };
+    const bgOf = el => {
+      const layers = [];
+      for (let e = el; e; e = e.parentElement) { const c = parse(getComputedStyle(e).backgroundColor); if (c.a > 0) { layers.push(c); if (c.a >= .99) break; } }
+      let base = { r: 18, g: 29, b: 23 };
+      layers.reverse().forEach(c => { base = { r: c.r * c.a + base.r * (1 - c.a), g: c.g * c.a + base.g * (1 - c.a), b: c.b * c.a + base.b * (1 - c.a) }; });
+      return [base.r, base.g, base.b];
+    };
+    const garnetText = []; let scanned = 0;
+    document.querySelectorAll('body *').forEach(el => {
+      if (![...el.childNodes].some(n => n.nodeType === 3 && n.textContent.trim())) return;
+      const cs = getComputedStyle(el); if (cs.display === 'none' || cs.visibility === 'hidden') return;
+      scanned++;
+      const c = parse(cs.color);
+      if (c.r === 143 && c.g === 38 && c.b === 56 && lum(bgOf(el)) < 0.2) garnetText.push(el.tagName + '.' + el.className);
+    });
+    const ask = document.querySelector('.tier-ask'), at = document.querySelector('.tier-ask .tier-title');
+    return {
+      garnetText, scanned, askBorder: getComputedStyle(ask).borderLeftColor, askBorderW: getComputedStyle(ask).borderLeftWidth,
+      askTitleFont: getComputedStyle(at).fontFamily, askTitleLs: parseFloat(getComputedStyle(at).letterSpacing) || 0,
+    };
+  });
+  check('B3', 'status tokens meet 4.5:1 on ground and panel', ['--sage', '--rose', '--muted', '--gold', '--blush'].every(t => ratio(tokenRGB(t), GROUND) >= 4.5 && ratio(tokenRGB(t), PANEL) >= 4.5), '');
+  check('B3', 'garnet is never used as text on a dark ground', b3.scanned > 50 && b3.garnetText.length === 0, b3.garnetText.join(', ') || `${b3.scanned} text elements scanned`);
+  check('B3', 'top tier has a 3px gold rule and spaced Jost capitals title', b3.askBorder === 'rgb(201, 166, 107)' && b3.askBorderW === '3px' && /^"?Jost/.test(b3.askTitleFont) && b3.askTitleLs > 0, `${b3.askBorder} ${b3.askBorderW} ${b3.askTitleFont} ls=${b3.askTitleLs}`);
+  check('B3', 'flagged rows keep weight 500 over typical 400 and an icon (R6 still holds)', Number(d.flaggedBold) === 500 && Number(d.typicalBold) === 400 && d.flaggedIcon, `${d.flaggedBold}/${d.typicalBold}`);
+
   // keyboard: first Tab reaches the skip link
   await page.keyboard.press('Tab');
   const tabbed = await page.evaluate(() => document.activeElement.className);
