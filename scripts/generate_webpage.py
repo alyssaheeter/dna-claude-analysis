@@ -66,34 +66,85 @@ def norm(g):
     return ''.join(sorted(g))
 
 
-# rsid -> (gene, label, {sorted genotype: (status, text)})
-# status: normal | moderate | risk | info | na
+# Follow-up suggestions for flagged markers, keyed by rsID: (priority, text).
+# Wording is deliberately "ask about", never a diagnosis or a dose instruction.
+ACT = {
+    'rs4244285': (1, "Tell your pharmacist or prescriber you may be an intermediate CYP2C19 metabolizer before starting clopidogrel, some acid reducers or some antidepressants. Clinical-grade testing can confirm.", "Does a likely intermediate CYP2C19 metabolizer status matter for any medicine I take or might be prescribed?"),
+    'rs10757274': (2, "Standard cardiovascular screening applies (blood pressure, lipids). Family history matters more than this one marker.", "Given my family history, are my blood pressure and cholesterol screening intervals right?"),
+    'rs7903146': (3, "Standard diabetes screening applies (fasting glucose or HbA1c). Activity, weight and diet matter far more than this one marker.", "Should I have fasting glucose or HbA1c checked, and how often?"),
+    'rs3923809': (4, "If you have restless-legs symptoms, ask about a ferritin (iron stores) blood test.", "If I have restless-legs symptoms, should my ferritin (iron stores) be checked?"),
+    'rs2282679': (5, "Ask whether a 25(OH)D (vitamin D) blood test makes sense; supplementation should follow the blood level, not this genotype.", "Would a 25(OH)D (vitamin D) blood test be useful for me?"),
+    'rs7041': (5, "Ask whether a 25(OH)D (vitamin D) blood test makes sense; supplementation should follow the blood level, not this genotype.", "Would a 25(OH)D (vitamin D) blood test be useful for me?"),
+    'rs9923231': (6, "If warfarin is ever prescribed, mention this result; dosing is guided by clinical testing and INR monitoring.", "If I am ever prescribed warfarin, should dosing use genetic testing or INR monitoring alone?"),
+}
+
+# Strength of the evidence behind each section's markers (judgement, shown as a badge).
+EVIDENCE = {
+    'ancestry': ('weak', 'A few single markers cannot estimate ancestry'),
+    'health': ('moderate', 'Mixed: Factor V/HFE are well established, most others are modest risk shifts'),
+    'nutrition': ('moderate', 'Some markers are well studied; effects on real diets are small'),
+    'sports': ('weak', 'Single-marker athletic prediction is weak'),
+    'psychology': ('weak', 'Psychological genetics has very small effect sizes'),
+    'cognitive': ('weak', 'Cognition is highly polygenic; single markers explain little'),
+    'longevity': ('weak', 'Longevity associations are inconsistent across studies'),
+    'sleep': ('weak', 'Chronotype markers are weak; restless-legs markers are moderate'),
+    'immunity': ('moderate', 'Autoimmune and allergy associations are real but modest'),
+    'pain': ('weak', 'Pain-sensitivity markers are weak predictors'),
+    'detox': ('moderate', 'Drug-metabolism genes are well studied; the rest is modest'),
+    'skin': ('weak', 'Skin and acne associations are weak'),
+    'vision': ('moderate', 'Eye-disease associations are real but modest'),
+    'traits': ('moderate', 'Eye colour is a strong predictor; hair traits are not'),
+    'pharma': ('established', 'CYP2C19, VKORC1, SLCO1B1 and TPMT have clinical guidelines'),
+    'carrier': ('established', 'Carrier variants are well characterised, but this chip tests very few'),
+}
+
+ST = {
+    'normal': ('✓', 'TYPICAL'),
+    'info': ('○', 'INFO'),
+    'moderate': ('▲', 'FLAGGED · MODERATE'),
+    'risk': ('▲▲', 'FLAGGED · HIGH'),
+    'na': ('–', 'NO READING'),
+    'none': ('–', 'NOT TESTED'),
+}
+
+
 def row(rsid, gene, table):
+    """One marker row. table maps sorted genotype -> (status, plain-English meaning)."""
     STATS['total'] += 1
     g = geno(rsid)
+    idx = len(RESULTS)
     if g is None:
+        st, text = 'none', 'This chip does not test this marker'
         RESULTS.append({'section': None, 'rsid': rsid, 'gene': gene, 'g': None, 'st': 'na', 'text': ''})
-        return f'<tr><td>{rsid}</td><td>{escape(gene)}</td><td class="geno">--</td><td class="status-na">NOT ON CHIP</td><td>Not covered by this array</td></tr>'
-    STATS['found'] += 1
-    st, text = table.get(norm(g), ('na', 'No interpretation available for this genotype'))
-    RESULTS.append({'section': None, 'rsid': rsid, 'gene': gene, 'g': g, 'st': st, 'text': text})
-    return (f'<tr><td>{rsid}</td><td>{escape(gene)}</td><td class="geno">{g}</td>'
-            f'<td class="status-{st}">{ {"normal":"NORMAL","moderate":"MODERATE","risk":"HIGH","info":"INFO","na":"N/A"}[st] }</td>'
-            f'<td>{escape(text)}</td></tr>')
+    else:
+        STATS['found'] += 1
+        st, text = table.get(norm(g), ('na', 'No interpretation available for this genotype'))
+        act = ACT.get(rsid) if st in ('moderate', 'risk') else None
+        RESULTS.append({'section': None, 'rsid': rsid, 'gene': gene, 'g': g, 'st': st, 'text': text,
+                        'act': act[1] if act else None, 'pri': act[0] if act else None, 'q': act[2] if act else None})
+    icon, label = ST[st]
+    flag = ' flag' if st in ('moderate', 'risk') else ''
+    q = escape(f'{gene} {rsid} {text} {label}'.lower(), quote=True)
+    return (f'<tr class="r{flag}" data-q="{q}"><td data-label="Status"><span class="st status-{"na" if st == "none" else st}">'
+            f'<span aria-hidden="true">{icon}</span> {label}</span></td>'
+            f'<td class="c-mean" data-label="What it means"><span class="mt">{escape(text)}<!--X{idx}--></span></td>'
+            f'<td class="geno" data-label="Your result">{g or "--"}</td>'
+            f'<td class="c-mark" data-label="Marker">{escape(gene)} · {rsid}</td></tr>')
 
 
 def table(rows):
     body = '\n'.join(rows)
-    return ('<table><tr><th>SNP</th><th>Gene</th><th>Genotype</th><th>Status</th><th>Interpretation</th></tr>\n'
-            f'{body}\n</table>')
+    return ('<table><thead><tr><th scope="col">Status</th><th scope="col">What it means</th>'
+            '<th scope="col">Your result</th><th scope="col">Marker</th></tr></thead>\n'
+            f'<tbody>{body}</tbody></table>')
 
 
 def sub(title, rows):
-    return f'<div class="subsection"><div class="subsection-title">{escape(title)}</div>{table(rows)}</div>'
+    return f'<div class="subsection"><h3 class="subsection-title">{escape(title)}</h3>{table(rows)}</div>'
 
 
 def finding(kind, icon, gene, desc):
-    return (f'<div class="finding {kind}"><div class="finding-icon">{icon}</div><div class="finding-content">'
+    return (f'<div class="finding {kind}"><div class="finding-icon" aria-hidden="true">{icon}</div><div class="finding-content">'
             f'<div class="finding-gene">{escape(gene)}</div><div class="finding-desc">{escape(desc)}</div></div></div>')
 
 
@@ -105,13 +156,21 @@ def profile(title, value, desc, color='var(--cyan)'):
 
 def disclaimer(text, critical=False):
     style = ' style="background: rgba(255, 51, 51, 0.1); border-color: var(--red); color: var(--red);"' if critical else ''
-    return f'<div class="disclaimer"{style}><strong>! Important</strong> {escape(text)}</div>'
+    return f'<div class="disclaimer" role="note"{style}><strong>! Important</strong> {escape(text)}</div>'
+
+
+def note(text):
+    return f'<p class="note">{escape(text)}</p>'
+
+
+SEC_TITLE = {}
 
 
 def section(sid, title, badge_cls, badge, content):
     mine = [r for r in RESULTS if r['section'] is None]
     for r in mine:
         r['section'] = sid
+    SEC_TITLE[sid] = title
     found_rows = [r for r in mine if r['g']]
     n_risk = sum(r['st'] == 'risk' for r in found_rows)
     n_mod = sum(r['st'] == 'moderate' for r in found_rows)
@@ -120,12 +179,16 @@ def section(sid, title, badge_cls, badge, content):
     elif n_risk:
         badge_cls, badge = 'risk', f'{n_risk} HIGH, {n_mod} MODERATE'
     elif n_mod:
-        badge_cls, badge = 'moderate', f'{n_mod} MODERATE MARKER{"S" if n_mod > 1 else ""}'
+        badge_cls, badge = 'moderate', f'{n_mod} MODERATE FLAG{"S" if n_mod > 1 else ""}'
     elif mine:
         badge_cls, badge = 'good', 'NO FLAGS'
-    return (f'<section id="{sid}"><div class="section-header"><span class="section-title">// {escape(title)}</span>'
-            f'<span class="section-badge {badge_cls}">{escape(badge)}</span></div>'
-            f'<div class="section-content">{content}</div></section>')
+    ev, ev_text = EVIDENCE[sid]
+    opened = ' open' if (n_risk or n_mod) else ''
+    return (f'<section id="{sid}" aria-labelledby="h-{sid}"><details class="sec"{opened}>'
+            f'<summary class="section-header"><h2 class="section-title" id="h-{sid}">// {escape(title)}</h2>'
+            f'<span class="badges"><span class="ev ev-{ev}" title="{escape(ev_text, quote=True)}">EVIDENCE: {ev.upper()}</span>'
+            f'<span class="section-badge {badge_cls}">{escape(badge)}</span></span></summary>'
+            f'<div class="section-content"><p class="ev-note">{escape(ev_text)}.</p>{content}</div></details></section>')
 
 
 MED = ("Genes indicate predisposition, not destiny. This page is informational only and is not medical advice; "
@@ -135,7 +198,7 @@ MED = ("Genes indicate predisposition, not destiny. This page is informational o
 sections = []
 
 # ANCESTRY
-anc = disclaimer("Only a handful of ancestry-informative markers are tested here; this is NOT an ethnicity estimate. "
+anc = note("Only a handful of ancestry-informative markers are tested here; this is NOT an ethnicity estimate. "
                  "Use your AncestryDNA ethnicity results (or GEDmatch / DNA.Land) for real ancestry.")
 anc += sub('Ancestry-informative markers', [
     row('rs1426654', 'SLC24A5', {'AA': ('info', 'European-type light-skin variant')}),
@@ -148,7 +211,7 @@ anc += sub('Ancestry-informative markers', [
 sections.append(section('ancestry', 'ANCESTRY', 'moderate', 'LIMITED DATA', anc))
 
 # HEALTH
-h = disclaimer(MED)
+h = ''
 h += sub('Cardiovascular', [
     row('rs10757274', '9p21 locus', {'AG': ('moderate', 'Slightly increased coronary artery disease risk (heterozygous)')}),
     row('rs6025', 'Factor V Leiden', {'CC': ('normal', 'No Factor V Leiden mutation')}),
@@ -208,7 +271,7 @@ s += sub('Performance markers', [
 sections.append(section('sports', 'SPORTS / FITNESS', 'good', 'BALANCED', s))
 
 # PSYCHOLOGY
-p = disclaimer("Psychological genetics has small effect sizes. Do not read these as personality or diagnosis.")
+p = note("Psychological genetics has small effect sizes. Do not read these as personality or diagnosis.")
 _comt, _bdnf = geno('rs4680'), geno('rs6265')
 _boxes = []
 if _comt:
@@ -228,7 +291,7 @@ if _missing:
 sections.append(section('psychology', 'PSYCHOLOGY', 'moderate', 'MIXED', p))
 
 # COGNITIVE
-c = disclaimer("Cognition is highly polygenic; single variants explain very little.")
+c = note("Cognition is highly polygenic; single variants explain very little.")
 c += sub('Cognitive markers', [
     row('rs4680', 'COMT', {'AG': ('info', 'Balanced cognitive flexibility')}),
     row('rs6265', 'BDNF', {'TT': ('moderate', 'Met/Met; regular aerobic exercise is the best-supported offset')}),
@@ -370,24 +433,33 @@ cr += sub('Tested carrier variants', [
 ])
 sections.append(section('carrier', 'CARRIER STATUS', 'good', 'NO CARRIER VARIANTS FOUND', cr))
 
-# ---------------------------------------------------------------- status
-total = STATS['total']
-found = STATS['found']
+# ---------------------------------------------------------------- summary
+total = len({r['rsid'] for r in RESULTS})
+found = len({r['rsid'] for r in RESULTS if r['g']})
 snps = len(GENOME)
-def _dedupe(rows):
+FLAGGED = [r for r in RESULTS if r['g'] and r['st'] in ('moderate', 'risk')]
+
+
+def by_gene(rows):
+    """Keep the first row per gene so a repeated marker is listed once."""
     seen, out = set(), []
     for r in rows:
-        k = (r['gene'], r['g'])
-        if k not in seen:
-            seen.add(k)
+        if r['gene'] not in seen:
+            seen.add(r['gene'])
             out.append(r)
     return out
 
 
-_found_rows = [r for r in RESULTS if r['g']]
-_alerts = _dedupe([r for r in _found_rows if r['st'] == 'risk'] + [r for r in _found_rows if r['st'] == 'moderate'])[:10]
-_good = _dedupe([r for r in _found_rows if r['st'] == 'normal' and r['section'] in ('longevity', 'health', 'sports', 'pain', 'nutrition')])[:6]
-_missing_key = [name for rs, name in (('rs429358', 'APOE'), ('rs762551', 'CYP1A2')) if geno(rs) is None]
+ask = by_gene(sorted([r for r in FLAGGED if r['act']], key=lambda r: r['pri']))[:7]
+ask_genes = {r['gene'] for r in ask}
+know = by_gene([r for r in FLAGGED if r['gene'] not in ask_genes])
+good = by_gene([r for r in RESULTS if r['g'] and r['st'] == 'normal' and r['section'] in ('health', 'pharma', 'longevity', 'carrier')])[:6]
+
+not_tested = [r['gene'] for r in by_gene([r for r in RESULTS if r['g'] is None])]
+for rs, name in (('rs429358', 'APOE'), ('rs762551', 'CYP1A2'), ('rs2802292', 'FOXO3')):
+    if geno(rs) is None and name not in not_tested:
+        not_tested.append(name)
+
 if META['y_calls'] > 100:
     _sex = 'Male (XY)'
 elif META['x_calls'] > 1000:
@@ -396,71 +468,287 @@ else:
     _sex = 'Unknown'
 
 
-def _alert(cls, icon, text):
-    return f'<div class="alert-item {cls}"><span class="alert-icon">{icon}</span><span>{escape(text)}</span></div>'
+def li(icon, cls, head, body=''):
+    b = f'<div class="tk-act">→ {escape(body)}</div>' if body else ''
+    return f'<li class="tk {cls}"><span class="tk-icon" aria-hidden="true">{icon}</span><div><div class="tk-head">{head}</div>{b}</div></li>'
 
 
-alerts_html = ''.join(_alert('warning', '!', f"{r['gene']} {r['g']}: {r['text']}") for r in _alerts)
-if _missing_key:
-    alerts_html += _alert('warning', '!', ', '.join(_missing_key) + ' not on this chip: unknown')
-if not alerts_html:
-    alerts_html = _alert('success', '+', 'No flagged markers among those displayed')
-good_html = ''.join(_alert('success', '+', f"{r['gene']} {r['g']}: {r['text']}") for r in _good) \
-    or _alert('warning', '!', 'No highlighted markers')
+def tier(title, cls, items, empty):
+    inner = ''.join(items) or f'<li class="tk">{escape(empty)}</li>'
+    return f'<div class="tier {cls}"><h3 class="tier-title">{escape(title)}</h3><ul>{inner}</ul></div>'
+
+
+ask_items = [li('▲', 'amber', f"<strong>{escape(r['gene'])}</strong> ({r['g']}): {escape(r['text'])}", r['act']) for r in ask]
+know_items = [li('▲', 'amber', f"<strong>{escape(r['gene'])}</strong> ({r['g']}): {escape(r['text'])}") for r in know[:6]]
+if len(know) > 6:
+    know_items.append(f'<li class="tk more">+ {len(know) - 6} more flagged markers in the sections below</li>')
+good_items = [li('✓', 'green', f"<strong>{escape(r['gene'])}</strong>: {escape(r['text'])}") for r in good]
+nt_items = [li('–', 'gray', escape(', '.join(not_tested)) + ' are not on this chip, so their results are unknown. '
+               'A consumer SNP array also misses most clinically important variants (for example most BRCA1/BRCA2 and CFTR variants); '
+               'ask a clinician about clinical testing if it matters to you.')] if not_tested else []
+
+questions = ''.join(f'<li>{escape(r["q"])}</li>' for r in by_gene(ask) if r['q'])
+questions_html = (f'<div class="tier questions"><h3 class="tier-title">Questions to bring to a clinician or pharmacist</h3>'
+                  f'<ol>{questions}</ol></div>') if questions else ''
+
+n_flag_rows = len({r['rsid'] for r in FLAGGED})
+lede = (f'<p class="lede"><strong>{n_flag_rows} of {found}</strong> distinct markers read on this chip differ from the typical result, and '
+        f'<strong>{len(ask)}</strong> of them have a sensible follow-up. Each marker has a small effect on its own. '
+        f'Informational only, not medical advice.</p>')
+
+legend = '''<details class="legend"><summary>How to read the statuses</summary><dl>
+<dt><span class="st status-normal">✓ TYPICAL</span></dt><dd>The common or reference result. Nothing to act on.</dd>
+<dt><span class="st status-info">○ INFO</span></dt><dd>A trait or characteristic. No risk is implied.</dd>
+<dt><span class="st status-moderate">▲ FLAGGED · MODERATE</span></dt><dd>Differs from typical with a small to moderate effect. Usually worth awareness, not worry.</dd>
+<dt><span class="st status-risk">▲▲ FLAGGED · HIGH</span></dt><dd>A larger effect. Worth discussing with a clinician.</dd>
+<dt><span class="st status-na">– NO READING / NOT TESTED</span></dt><dd>No interpretation for this result, or the chip does not test the marker.</dd>
+</dl><p>Evidence badges: <strong>ESTABLISHED</strong> = clinical guidelines exist; <strong>MODERATE</strong> = real but modest; <strong>WEAK</strong> = inconsistent or very small effects.</p></details>'''
+
+toolbar = '''<div class="toolbar" role="search"><label class="sr" for="q">Search markers by gene, rsID or keyword</label>
+<input id="q" type="search" placeholder="Search gene, rsID or keyword" autocomplete="off">
+<button type="button" id="flagonly" aria-pressed="false">Flagged only</button>
+<button type="button" id="expandall">Expand all</button><button type="button" id="collapseall">Collapse all</button>
+<span id="count" role="status" aria-live="polite"></span></div>'''
 
 status = f'''
-<div class="status-box" id="status">
-  <div class="status-header">// SYSTEM STATUS</div>
+<div class="status-box" id="status" tabindex="-1">
+  <h2 class="status-header">// KEY TAKEAWAYS</h2>
+  {lede}
+  {tier('Ask about / act on', 'tier-ask', ask_items, 'No flagged markers have a standard follow-up.')}
+  {tier('Worth knowing', 'tier-know', know_items, 'No other flagged markers.')}
+  {tier('Good news', 'tier-good', good_items, 'No highlighted markers.')}
+  {tier('Not tested on this chip', 'tier-nt', nt_items, 'All displayed markers were on the chip.')}
+  {questions_html}
   <div class="status-grid">
     <div class="status-item"><span class="status-label">GENOME:</span><span class="status-value">{escape(META['source'])}</span></div>
     <div class="status-item"><span class="status-label">SEX:</span><span class="status-value">{_sex}</span></div>
     <div class="status-item"><span class="status-label">SNPs:</span><span class="status-value">{snps:,}</span></div>
     <div class="status-item"><span class="status-label">CHIP:</span><span class="status-value">{escape(META['chip'])}</span></div>
   </div>
-  <div class="alerts-grid">
-    <div class="alerts-column warnings"><h3>// ALERTS</h3>{alerts_html}</div>
-    <div class="alerts-column highlights"><h3>// HIGHLIGHTS</h3>{good_html}</div>
-  </div>
   <div class="progress-bar"><div class="progress-track">
     <div class="progress-fill" style="flex: {found};"></div><div class="progress-empty" style="flex: {total - found};"></div></div>
     <div class="progress-label">{found}/{total} displayed markers present on this chip</div></div>
   {disclaimer(MED)}
+  {legend}
+  {toolbar}
 </div>'''
 
-NAV = [('status', 'STATUS'), ('ancestry', 'ANCESTRY'), ('health', 'HEALTH'), ('nutrition', 'NUTRITION'), ('sports', 'SPORTS'),
+# ---------------------------------------------------------------- assembly
+NAV = [('status', 'SUMMARY'), ('ancestry', 'ANCESTRY'), ('health', 'HEALTH'), ('nutrition', 'NUTRITION'), ('sports', 'SPORTS'),
        ('psychology', 'PSYCH'), ('cognitive', 'COGNITIVE'), ('longevity', 'LONGEVITY'), ('sleep', 'SLEEP'),
        ('immunity', 'IMMUNITY'), ('pain', 'PAIN'), ('detox', 'DETOX'), ('skin', 'SKIN'), ('vision', 'VISION'),
        ('traits', 'TRAITS'), ('pharma', 'PHARMA'), ('carrier', 'CARRIER')]
 nav = '\n'.join(f'<a href="#{i}">{t}</a>' for i, t in NAV)
 
+body = '\n'.join(sections)
+# cross-references: a marker that also appears in other sections says where
+for idx, r in enumerate(RESULTS):
+    others = [SEC_TITLE[x['section']] for j, x in enumerate(RESULTS)
+              if j != idx and x['rsid'] == r['rsid'] and x['g'] and x['section'] != r['section']]
+    others = list(dict.fromkeys(others))
+    tag = f' <span class="xref">↺ also in {escape(", ".join(others))}</span>' if (r['g'] and others) else ''
+    body = body.replace(f'<!--X{idx}-->', tag)
+
+footer = (f'<footer><h2 class="status-header">// ABOUT THIS DATA</h2><p>Source: {escape(META["source"])} raw data ({snps:,} SNPs, {escape(META["chip"])}). '
+          f'Generated {datetime.now():%Y-%m-%d %H:%M} by scripts/generate_webpage.py. A consumer array reads selected positions, not your whole genome, '
+          f'and is not clinical-grade; confirm anything that matters in an accredited clinical lab before acting. '
+          f'Interpretations are general population associations, not a diagnosis.</p></footer>')
+
 with open(STYLE_SRC, encoding='utf-8') as f:
     src = f.read()
 css = re.search(r'<style>(.*?)</style>', src, re.S).group(1)
-js = re.search(r'<script>(.*?)</script>', src, re.S).group(1)
+# accessibility: nothing below 12px
+css = re.sub(r'font-size:\s*(\d+)px', lambda m: f'font-size: {max(int(m.group(1)), 12)}px', css)
+
+EXTRA_CSS = r'''
+:root { --gray: #8c8c8c; --red: #ff5555; --hh: 120px; }
+html { scroll-padding-top: calc(var(--hh) + 12px); }
+[hidden] { display: none !important; }
+main { padding-top: calc(var(--hh) + 16px); }
+.skip { position: absolute; left: 8px; top: -60px; background: var(--green); color: var(--bg); padding: 8px 12px; z-index: 2000; font-weight: 700; }
+.skip:focus { top: 8px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+a:focus-visible, summary:focus-visible, button:focus-visible, input:focus-visible, [tabindex]:focus-visible {
+    outline: 2px solid var(--cyan); outline-offset: 2px; }
+nav a[aria-current="true"] { color: var(--green); border-bottom-color: var(--green); }
+h1, h2, h3 { font-size: inherit; font-weight: inherit; }
+.status-header { font-size: 14px; }
+.lede { color: var(--white); margin-bottom: 20px; max-width: 80ch; }
+.lede strong { color: var(--green); }
+.tier { margin-bottom: 22px; }
+.tier-title { font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: var(--gray-light); margin-bottom: 8px;
+    padding-bottom: 6px; border-bottom: 1px dashed var(--gray); }
+.tier ul, .tier ol { list-style: none; }
+.tier ol { list-style: decimal; padding-left: 22px; color: var(--white); }
+.tier ol li { margin-bottom: 6px; }
+.tk { display: flex; gap: 10px; padding: 8px 0; color: var(--white); overflow-wrap: anywhere; }
+.tk-icon { flex: none; width: 20px; font-weight: 700; }
+.tk.amber .tk-icon { color: var(--amber); } .tk.green .tk-icon { color: var(--green); } .tk.gray .tk-icon { color: var(--gray-light); }
+.tk-head strong { color: var(--white); }
+.tk-act { color: var(--cyan); margin-top: 2px; }
+.tk.more { color: var(--gray-light); }
+.tier-ask { border-left: 3px solid var(--amber); padding-left: 14px; }
+.tier-ask .tier-title { color: var(--amber); }
+.tier-good .tier-title { color: var(--green); }
+.questions { border: 1px solid var(--gray); padding: 14px 16px; background: var(--bg-light); }
+.status-grid { margin-top: 8px; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 18px; }
+.toolbar input { flex: 1 1 220px; min-width: 0; background: var(--bg); color: var(--white); border: 1px solid var(--gray);
+    padding: 10px 12px; font: inherit; font-size: 14px; }
+.toolbar button { background: var(--bg-light); color: var(--white); border: 1px solid var(--gray); padding: 10px 14px;
+    font: inherit; font-size: 13px; cursor: pointer; min-height: 44px; }
+.toolbar button[aria-pressed="true"] { background: var(--green); color: var(--bg); border-color: var(--green); font-weight: 700; }
+#count { color: var(--gray-light); font-size: 13px; }
+.legend { margin-top: 16px; color: var(--white); }
+.legend summary { cursor: pointer; color: var(--cyan); padding: 6px 0; }
+.legend dl { display: grid; grid-template-columns: max-content 1fr; gap: 6px 16px; margin: 10px 0; }
+.legend p { color: var(--gray-light); }
+details.sec > summary.section-header { cursor: pointer; list-style: none; flex-wrap: wrap; gap: 8px; }
+details.sec > summary::-webkit-details-marker { display: none; }
+details.sec > summary .section-title::before { content: "+ "; color: var(--green-dim); }
+details.sec[open] > summary .section-title::before { content: "− "; }
+.badges { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.ev { font-size: 12px; padding: 2px 8px; border: 1px solid var(--gray); color: var(--gray-light); letter-spacing: 1px; }
+.ev-established { color: var(--green); border-color: var(--green-dim); }
+.ev-weak { color: var(--amber); border-color: var(--amber); }
+.ev-note { color: var(--gray-light); margin-bottom: 14px; }
+.note { color: var(--gray-light); margin-bottom: 14px; padding-left: 12px; border-left: 2px solid var(--gray); }
+.subsection-title { margin: 6px 0 8px; }
+td, th { text-align: left; vertical-align: top; }
+table { font-size: 13px; }
+td.c-mark { color: var(--gray-light); }
+td.c-mean, .mt { overflow-wrap: break-word; min-width: 0; }
+tr.flag td.c-mean { font-weight: 700; color: var(--white); }
+.st { white-space: nowrap; font-weight: 700; letter-spacing: .5px; }
+.xref { display: inline-block; margin-left: 6px; color: var(--gray-light); font-weight: 400; }
+footer { margin-top: 40px; border: 1px solid var(--gray); padding: 20px; color: var(--gray-light); }
+footer p { max-width: 90ch; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+@media (max-width: 768px) {
+    header { padding: 8px 14px; }
+    .header-top { margin-bottom: 6px; }
+    nav { flex-wrap: nowrap; overflow-x: auto; gap: 0 4px; -webkit-overflow-scrolling: touch; }
+    nav a { white-space: nowrap; padding: 12px 8px; }
+    main { padding-left: 12px; padding-right: 12px; }
+    .status-box { padding: 14px; }
+    .section-content { padding: 12px; }
+    .legend dl { grid-template-columns: 1fr; }
+    .tier-ask { padding-left: 10px; }
+}
+@media (max-width: 640px) {
+    table, thead, tbody, tr, td { display: block; width: 100%; }
+    thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+    tr.r { border: 1px solid var(--gray); margin-bottom: 10px; padding: 8px 10px; background: var(--bg-light); }
+    tr.r td { border: 0; padding: 3px 0; display: flex; gap: 10px; }
+    tr.r td::before { content: attr(data-label); flex: 0 0 104px; color: var(--gray-light); font-size: 12px; text-transform: uppercase; }
+    tr.flag { border-left: 3px solid var(--amber); }
+}
+@media print {
+    :root { --bg: #fff; --bg-light: #fff; --bg-section: #fff; --green: #064; --green-dim: #064; --amber: #7a4b00;
+            --red: #a00; --cyan: #045; --gray: #555; --gray-light: #333; --white: #000; }
+    body { background: #fff; color: #000; }
+    header, .toolbar, .skip { display: none !important; }
+    main { padding-top: 0; }
+    .status-box, section, footer { break-inside: avoid-page; }
+    tr { break-inside: avoid; }
+    details.sec > summary .section-title::before { content: ""; }
+}
+'''
+
+EXTRA_JS = r'''
+(function () {
+  var hdr = document.querySelector('header');
+  function setH() { document.documentElement.style.setProperty('--hh', hdr.offsetHeight + 'px'); }
+  setH(); addEventListener('resize', setH);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(setH);
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var links = Array.prototype.slice.call(document.querySelectorAll('nav a'));
+  var secs = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+
+  function go(id) {
+    var t = document.querySelector(id); if (!t) return;
+    var d = t.querySelector('details'); if (d) d.open = true;
+    t.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    t.setAttribute('tabindex', '-1'); t.focus({ preventScroll: true });
+    history.replaceState(null, '', id);
+  }
+  links.forEach(function (a) { a.addEventListener('click', function (e) { e.preventDefault(); go(a.getAttribute('href')); }); });
+  if (location.hash) go(location.hash);
+
+  function active() {
+    var y = hdr.offsetHeight + 40, cur = 0;
+    secs.forEach(function (s, i) { if (s && s.getBoundingClientRect().top <= y) cur = i; });
+    links.forEach(function (a, i) {
+      if (i === cur) { a.setAttribute('aria-current', 'true'); } else { a.removeAttribute('aria-current'); }
+    });
+    var c = links[cur]; if (c && c.scrollIntoView && innerWidth <= 768) { nav_center(c); }
+  }
+  function nav_center(c) { var n = c.parentNode; n.scrollLeft = c.offsetLeft - n.clientWidth / 2 + c.clientWidth / 2; }
+  addEventListener('scroll', active, { passive: true }); active();
+
+  var q = document.getElementById('q'), flag = document.getElementById('flagonly'), count = document.getElementById('count');
+  var rows = Array.prototype.slice.call(document.querySelectorAll('tr.r'));
+  var sections = Array.prototype.slice.call(document.querySelectorAll('section[id]'));
+  function filter() {
+    var term = q.value.trim().toLowerCase(), only = flag.getAttribute('aria-pressed') === 'true', shown = 0;
+    rows.forEach(function (r) {
+      var ok = (!only || r.classList.contains('flag')) && (!term || r.dataset.q.indexOf(term) > -1);
+      r.hidden = !ok; if (ok) shown++;
+    });
+    var active_filter = term || only;
+    document.querySelectorAll('.subsection').forEach(function (s) {
+      s.hidden = !!active_filter && !s.querySelector('tr.r:not([hidden])');
+    });
+    sections.forEach(function (s) {
+      var any = !!s.querySelector('tr.r:not([hidden])');
+      s.hidden = !!active_filter && !any;
+      if (active_filter && any) s.querySelector('details').open = true;
+    });
+    count.textContent = active_filter ? (shown ? shown + ' of ' + rows.length + ' markers shown' : 'No markers match') : '';
+  }
+  q.addEventListener('input', filter);
+  flag.addEventListener('click', function () {
+    flag.setAttribute('aria-pressed', flag.getAttribute('aria-pressed') === 'true' ? 'false' : 'true'); filter();
+  });
+  function setAll(v) { document.querySelectorAll('details.sec').forEach(function (d) { d.open = v; }); }
+  document.getElementById('expandall').addEventListener('click', function () { setAll(true); });
+  document.getElementById('collapseall').addEventListener('click', function () { setAll(false); });
+  var saved = [];
+  addEventListener('beforeprint', function () {
+    saved = Array.prototype.map.call(document.querySelectorAll('details'), function (d) { return d.open; });
+    document.querySelectorAll('details').forEach(function (d) { d.open = true; });
+  });
+  addEventListener('afterprint', function () {
+    document.querySelectorAll('details').forEach(function (d, i) { d.open = saved[i]; });
+  });
+})();
+'''
 
 html = f'''<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DNA TERMINAL v1.0</title>
+<title>DNA Terminal: genome summary</title>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<style>{css}</style>
+<style>{css}{EXTRA_CSS}</style>
 </head>
 <body>
+<a class="skip" href="#status">Skip to summary</a>
 <header>
   <div class="header-top"><div class="logo">DNA TERMINAL v1.0</div>
   <div class="timestamp">{datetime.now():%Y-%m-%d %H:%M}</div></div>
-  <nav>{nav}</nav>
+  <nav aria-label="Sections">{nav}</nav>
 </header>
-<main>
+<main id="main">
 {status}
-{chr(10).join(sections)}
+{body}
+{footer}
 </main>
-<script>{js}</script>
+<script>{EXTRA_JS}</script>
 </body>
 </html>'''
 
 with open(OUT_FILE, 'w', encoding='utf-8') as f:
     f.write(html)
-print(f"Wrote {OUT_FILE}: {found}/{total} markers present")
+print(f"Wrote {OUT_FILE}: {found}/{total} markers present, {n_flag_rows} flagged, {len(ask)} follow-ups")
