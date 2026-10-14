@@ -92,3 +92,66 @@ Two things the script cannot prove, so they are judgement and are listed here ra
 - "Single focal point" (R6) comes from reading the screenshots.
 
 Re-run: `cd scripts && python3 generate_webpage.py && cd .. && node scripts/check_webpage.js`
+
+## 6. Brand pass (Nocturne Hothouse)
+
+The page was restyled from the terminal look to the Nocturne Hothouse brand kit (Kit 01). All styling now lives in `webpage/brand.css`; the usability work in sections 1 to 5 was kept and is re-checked by the same script.
+
+### Brand rubric (B1 to B5, measured by `scripts/check_webpage.js`)
+
+| # | Category | What the check measures |
+|---|---|---|
+| B1 | Tokens, fonts, contrast | Network requests go only to `file:` and the Google Fonts hosts; the six kit tokens are exact (`--ground`, `--panel`, `--ivory`, `--gold`, `--garnet`, `--blush`); body is Jost and titles Cormorant Garamond; ground is the page background; `--sage`, `--rose`, `--muted` reach 4.5:1 on `--ground` and `--panel`; toolbar input and button borders reach 3:1 against `--ground` |
+| B2 | Header, hero, mark | Hero sits before the summary and is at most 240px tall at 1280px; the mark is an `img` labelled "Three of Swords mark"; Pinyon Script is used only by the wordmark name; primary button is garnet with ivory text and 44px tall; hero links resolve; botanical art is hidden and `aria-hidden` at 390px; no horizontal scroll at 320px |
+| B3 | Takeaways, tables, badges, colour | Status tokens (plus gold and blush) reach 4.5:1 on both grounds; no text element is exact garnet on a dark background (all text elements scanned); top tier has a 3px gold rule and a spaced Jost capitals title; flagged rows keep weight 500 over 400 plus an icon |
+| B4 | Panels, dividers, motion | One divider between each pair of sections, all `aria-hidden`; sprite symbols defined once; section panels use the panel colour with a gold-alpha border; section headings are 26px; with reduced motion no element has an animation |
+| B5 | Resilience | Fonts blocked (fallback stacks, no overflow at 320px, takeaways still on the first screen); a minimal 23andMe fixture genome generates a valid page with empty-state wording; forced colours (statuses keep text, no overflow, CanvasText borders); print (white page, dark ink, 4.5:1 badges, art and header hidden); hero art never overlaps hero text at 701 to 1280px; longest section title fits at 320px; every divider glyph renders |
+
+### Final results
+
+`node scripts/check_webpage.js`: **72 of 72 checks pass**, exit 0.
+
+`B1: 6/6   B2: 7/7   B3: 4/4   B4: 5/5   B5: 19/19   R1: 4/4   R2: 2/2   R3: 3/3   R4: 2/2   R5: 5/5   R6: 1/1   R7: 6/6   R8: 8/8`
+
+All 16 `*_analysis.py` scripts ran without failure.
+
+### Visual review against the kit board
+
+Screenshots reviewed at 1280x900, 390x844 and 320x844, plus a print-to-PDF render (pages 1 and 2 at 50 dpi), compared with `kit-2.png` (Kit 01 board).
+
+- **Palette: matches.** Night-fern ground, moss panels, ivory text, antique-gold rules and headings, a single garnet bloom (the primary button and the hearts), blush for small accents. The derived sage, rose and muted do not appear on the kit board; they show only as status text and secondary text.
+- **Type pairing: matches.** Cormorant Garamond for the hero h1 (with the italic blush second line, as in the kit's "working system."), Jost for body text, nav and spaced-capital kickers and tier titles, Pinyon Script for the name in the wordmark only. The wordmark here is a compact header version (script "Genome" plus spaced capitals "NOTES"), not the kit's stacked lockup.
+- **Hero: matches in spirit, simplified.** Kicker, serif headline, one sentence, a garnet pill and a gold-outline pill, and leaf-and-heart botanical on the right. The botanical is a scaled-down version of the kit's art: two moss leaves and two garnet hearts, with no sword-spike sprays and no overlapping monstera cluster. The hero is also much shorter than the kit's (a compact panel, about 210px at 1280px) so the takeaways stay on the first screen. At 390px and 320px the hero is reduced to the kicker line by design.
+- **Mark:** the header uses the mark from `assets/mark.svg` at small size; it reads as a garnet heart with gold swords. The kit's circular frame and the pattern, business cards and avatar boards are out of scope for a web page.
+
+Concerns seen in the screenshots (not fixed in this task):
+
+1. **Print, page 1 is mostly empty.** The hero prints on page 1, then the status box (`break-inside: avoid-page`) moves whole to page 2, leaving about three quarters of page 1 blank.
+2. **Print, primary button.** In print `--ivory` becomes `#000`, so the "See key takeaways" label is black on a `#a00` fill (roughly 2.7:1 by calculation). The B5 print check measures only `.section-badge` and `.st`, not buttons. The buttons are also useless on paper, so hiding `.hero-actions` in print would be the simplest fix.
+3. At 390px and 320px the hero is a single kicker pill with no headline; this is intentional, noted only because it is a big departure from the kit's hero.
+
+### Deferred minors
+
+- No print-media check beyond the print block assertions.
+- The control-border check measures only against `--ground`.
+- The `networkidle` timeout is swallowed silently.
+- Other waits are still a fixed 400ms.
+- The Good-news tier title is gold.
+- The luminance helper is copied in several places in the check script.
+- The garnet check matches the exact colour only.
+- `tokenRGB` assumes `#RRGGBB`.
+- The reduced-motion check only guards the blanket rule.
+- The B4 panel and 26px checks read only the first element.
+- The fonts-blocked fallback assertion is declaration-only.
+- The forced-colours border check is partly satisfied by Chromium itself.
+- Hero overlap is not sampled at 641 or 901px.
+- The fixture temp path is fixed and has no `finally`.
+- `secs === 16` is hard-coded.
+- The hero is taller between about 901 and 1100px (only asserted at most 240px at 1280).
+
+### Honest limits
+
+- **Fonts in this sandbox.** In my final run Google Fonts was reachable: Playwright logged 5 finished HTTP requests (the stylesheet and font files), none failed, and `document.fonts.check` was true for Jost, Cormorant Garamond and Pinyon Script at all three widths. The screenshots show the real faces, not fallbacks: the hero h1 and section titles are in Cormorant (high-contrast serif with the italic "tell you."), the body in Jost (geometric sans), and "Genome" in a Pinyon-style script rather than the generic cursive fallback. Other sandboxes may block the fonts; the B5 fonts-blocked check then exercises the fallback stacks (Georgia, system-ui), but that assertion is declaration-only. You should still confirm the look on your own machine.
+- **Derived tokens are my extension of the kit.** `--sage`, `--rose`, `--muted` and `--control` are not in the kit; they were derived to meet 4.5:1 text contrast (3:1 for control borders) and status separation. The kit has no tone for a "good" or "risk" text colour.
+- **Evidence levels are curated defaults.** The per-section Established / Moderate / Weak levels and the follow-up wording come from general knowledge, not a cited guideline per marker. Edit `EVIDENCE` and `ACT` in `scripts/generate_webpage.py` to change them.
+- **Forced colours is verified by emulation only** (Playwright `forcedColors: active`), not on Windows High Contrast.

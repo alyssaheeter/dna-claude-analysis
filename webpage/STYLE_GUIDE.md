@@ -1,474 +1,142 @@
-# DNA TERMINAL — Style & Structure Guide
+# Genome Notes: Style and Structure Guide
 
 ## Overview
 
-Single-page web application styled as a **terminal/console interface** for genetic data visualization. Uses hacker/cyberpunk aesthetic with characteristic green text on dark background.
+A single-page, single-file HTML summary of the genome reports, styled in the **Nocturne Hothouse** brand kit (Kit 01: dark hothouse, gilded line, garnet bloom). All CSS lives in `webpage/brand.css`; `scripts/generate_webpage.py` inlines it, the SVG assets and a tiny script into `webpage/dna_terminal.html` (git-ignored output). The only external request is Google Fonts.
+
+`webpage/example.html` is the legacy terminal-style demo. It is kept for history only and is no longer read by the generator.
 
 ---
 
-## Document Structure
+## Document structure
 
 ```
 <!DOCTYPE html>
-├── <html lang="ru">
-│   ├── <head>
-│   │   ├── meta (charset, viewport)
-│   │   ├── title
-│   │   ├── Google Fonts (JetBrains Mono)
-│   │   └── <style> (all CSS inline)
-│   │
-│   └── <body>
-│       ├── <header> (fixed header)
-│       │   ├── .header-top (logo + timestamp)
-│       │   └── <nav> (anchor links)
-│       │
-│       ├── <main>
-│       │   ├── .status-box (general info)
-│       │   └── <section> × N (data sections)
-│       │
-│       └── <script> (smooth scroll + active nav)
+<html lang="en">
+  <head>  meta, title, Google Fonts link, <style> (brand.css inlined)
+  <body>
+    hidden SVG sprite (symbols: sword, heart)
+    a.skip
+    <header>  .header-top (.logo: mark + .wordmark, .timestamp) + <nav aria-label>
+    <main>
+      #hero            kicker, h1, one sentence, two buttons, botanical art
+      #status          .status-box: summary, takeaways tiers, toolbar, legend
+      <section id> x16 inside <details class="sec">, a .divider between each pair
+    <footer>
+    <script>  search, flagged-only, expand/collapse, nav highlight
 ```
 
 ---
 
-## Color Palette
+## Brand tokens
 
-```css
-:root {
-    --bg: #0a0a0a;           /* Main background */
-    --bg-light: #111111;      /* Element background */
-    --bg-section: #0d0d0d;    /* Section background */
-    --green: #00ff41;         /* Primary accent (Matrix green) */
-    --green-dim: #00cc33;     /* Dimmed green */
-    --amber: #ffb000;         /* Warnings */
-    --red: #ff3333;           /* Risks/errors */
-    --cyan: #00ffff;          /* Info accent */
-    --gray: #666666;          /* Borders, dividers */
-    --gray-light: #888888;    /* Secondary text */
-    --white: #e0e0e0;         /* Primary data text */
-}
-```
+Defined on `:root` in `brand.css`. Change colours there only.
 
-### Color Usage
+| Token | Hex | Role |
+|-------|-----|------|
+| `--ground` | `#121D17` | Page background ("Night fern") |
+| `--panel` | `#1E2E25` | Panels, cards, table headers ("Moss shadow") |
+| `--ivory` | `#F1E9D6` | Body and data text |
+| `--gold` | `#C9A66B` | Mark, rules, links, headings, section titles, active states ("Antique gold") |
+| `--garnet` | `#8F2638` | The bloom: buttons, risk badge fill, flagged-row rail. Fill only |
+| `--blush` | `#E8C3BC` | Small accents: emphasis in the h1, genotype values, focus ring, ask lines |
+| `--sage` | `#A9C4A2` | Derived: "typical" and good-news text and icons |
+| `--rose` | `#E58C98` | Derived: "elevated" status text (garnet cannot be text on dark) |
+| `--muted` | `#B9B2A0` | Derived: secondary text, labels, timestamps, nav links |
+| `--control` | `rgba(201,166,107,.6)` | Derived: borders of the search box and toolbar buttons (>= 3:1) |
 
-| Color | Usage |
-|-------|-------|
-| `--green` | Headers, accents, positive statuses |
-| `--amber` | Moderate risks, warnings |
-| `--red` | High risks, critical data |
-| `--cyan` | Info, data highlights, genotype values |
-| `--gray-light` | Labels, secondary text |
-| `--white` | Table values |
+The first six are the kit's colours and are fixed. `--sage`, `--rose`, `--muted` and `--control` are **derived extensions** of the kit, added so status can be told apart in text; each text token is at least 4.5:1 on both `--ground` and `--panel`. `--line` and `--line-soft` are ivory at 28% and 12% alpha for hairlines.
+
+### Colour rules
+
+- **Garnet is a fill, never text on dark.** It is used for button and badge backgrounds and a left rail. Risk text uses `--rose`. The checks scan every text element for garnet.
+- Status colours always travel with an icon and a word, never colour alone.
+- Gold is for structure (rules, headings, links); ivory carries the data.
+- Print swaps the tokens to dark ink on white (see Print).
 
 ---
 
 ## Typography
 
-### Font
 ```html
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
 ```
 
-```css
-body {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 14px;
-    line-height: 1.6;
-}
-```
+| Face | Use | Fallback stack |
+|------|-----|----------------|
+| Cormorant Garamond 500 (and italic) | Headlines, section titles, subsection titles, hero h1 | `Georgia, "Times New Roman", serif` |
+| Jost 400 and 500 | Reading text, labels, tables, buttons, spaced capitals | `system-ui, "Segoe UI", sans-serif` |
+| Pinyon Script | The wordmark name only | `"Snell Roundhand", cursive` |
 
-### Size Hierarchy
+Rules:
 
-| Element | Size | Weight | Extra |
-|---------|------|--------|-------|
-| Logo | 18px | 700 | — |
-| Section header | 14px | — | uppercase, letter-spacing: 2px |
-| Subsection title | 12px | — | — |
-| Navigation | 11px | — | uppercase, letter-spacing: 1px |
-| Tables | 12px | — | — |
-| Table headers | 10px | 500 | uppercase, letter-spacing: 1px |
-| Score value | 48px | 700 | — |
-| Profile value | 18px | 700 | — |
+- **Pinyon Script for the name only.** It appears in `.wordmark .script` and nowhere else, never in sentences. A check counts the elements that use it.
+- **Jost weights 400 and 500 only.** Weight 500 is the emphasis weight (flagged rows, buttons, badges); there is no bold 700.
+- Cormorant has a 600 for `.profile-value`; everything else is 500.
+- Body is 15px / 1.6; table body 13px; **no text under 12px**. Small caps-style labels (nav, tier titles, table headers) are 12px uppercase with letter spacing.
+- Hero h1 is 32px; section titles 26px.
 
 ---
 
-## Components
+## Components (as implemented in `brand.css`)
 
-### 1. Header (fixed)
+| Component | Notes |
+|-----------|-------|
+| Header and wordmark | Fixed, `--ground` with a 1px gold bottom rule. Brand mark (`assets/mark.svg`, "Three of Swords mark", `role="img"`), wordmark = Pinyon name + spaced Cormorant capitals (default "Genome Notes", set with `OWNER_NAME`), timestamp. Nav is uppercase 12px, gold underline on hover, `aria-current="true"` on the section in view |
+| Hero (`#hero`) | Bordered panel before the summary. Kicker in spaced gold capitals, Cormorant h1 with an italic blush second line, one derived sentence, buttons `.btn-primary` (garnet fill, ivory text, pill, 44px) and `.btn-secondary` (gold outline). Both link to anchors on the page. At most 240px tall at 1280px |
+| Botanical art | `.botanical`, `aria-hidden`, absolute at the right of the hero: two leaves (`assets/leaf.svg`) and two hearts (`assets/heart.svg`). A scaled-down version of the kit art (no sword sprays). Narrows under 900px, removed under 640px |
+| Status box | `.status-box`: panel with gold border, summary grid and progress strip |
+| Takeaway tiers | `.tier` cards (panel, soft gold border, 14px radius): Ask about / act on (3px gold left rule, <= 7 items, each with an ask line in blush), Worth knowing, Good news, Not tested; plus the clinician questions list. Tier titles are 12px spaced Jost capitals |
+| Toolbar | Search box and buttons for flagged-only, expand all, collapse all. Gold-alpha borders (`--control`), 44px buttons, `aria-pressed` buttons fill gold |
+| Legend | `details.legend`: defines each status word |
+| Section panels | `section` in `--panel` with a 40% gold border inside `details.sec`; header on `--ground`, 26px gold Cormorant title with a +/minus marker, evidence pill, section badge. Flagged sections open, clean ones collapsed |
+| Tables | Columns Status, What it means, Your result, Marker. Flagged rows are weight 500 with an icon. Under 640px each row becomes a stacked card with `data-label` captions and a garnet left rail on flagged rows |
+| Badges | `.section-badge` good (sage on tinted sage), moderate (gold on tinted gold), risk (ivory text on garnet fill); `.ev` evidence pills: Established (sage), Moderate (muted), Weak (gold) |
+| Dividers | `.divider` between sections: a gilded 1px line with a small centred sword glyph, a heart on every third; `aria-hidden`; both glyphs come from the one sprite |
+| Findings, profile boxes, disclaimers | `.finding` cards with a 3px left rail by level, `.profile-box`, and at most three `.disclaimer` boxes (general, pharma, carrier) |
+| Footer | Panel with gold top rule: provenance and limits |
 
-```html
-<header>
-    <div class="header-top">
-        <div class="logo">DNA TERMINAL v1.0</div>
-        <div class="timestamp">2026-01-06 16:29 | Username</div>
-    </div>
-    <nav>
-        <a href="#section-id">SECTION_NAME</a>
-        <!-- ... -->
-    </nav>
-</header>
-```
-
-**Features:**
-- `position: fixed` with `z-index: 1000`
-- Bottom border: `1px solid var(--green-dim)`
-- Logo with animated cursor:
-```css
-.logo::before {
-    content: ">";
-    margin-right: 8px;
-    animation: blink 1s step-end infinite;
-}
-```
-
-### 2. Status Box (main block)
-
-```html
-<div class="status-box" id="status">
-    <div class="status-header">// SYSTEM STATUS</div>
-    <div class="status-grid">
-        <div class="status-item">
-            <span class="status-label">LABEL:</span>
-            <span class="status-value">Value</span>
-        </div>
-    </div>
-    <div class="alerts-grid">
-        <div class="alerts-column warnings">
-            <h3>// ALERTS</h3>
-            <div class="alert-item warning">
-                <span class="alert-icon">!</span>
-                <span>Alert text</span>
-            </div>
-        </div>
-        <div class="alerts-column highlights">
-            <h3>// HIGHLIGHTS</h3>
-            <div class="alert-item success">
-                <span class="alert-icon">+</span>
-                <span>Highlight text</span>
-            </div>
-        </div>
-    </div>
-    <div class="progress-bar">
-        <div class="progress-track">
-            <div class="progress-fill" style="flex: 37;"></div>
-            <div class="progress-empty" style="flex: 4;"></div>
-        </div>
-        <div class="progress-label">37/41 items analyzed</div>
-    </div>
-</div>
-```
-
-### 3. Section (data section)
-
-```html
-<section id="section-id">
-    <div class="section-header">
-        <span class="section-title">// SECTION NAME</span>
-        <span class="section-badge good|moderate|risk">BADGE TEXT</span>
-    </div>
-    <div class="section-content">
-        <!-- section content -->
-    </div>
-</section>
-```
-
-**Status badges:**
-```css
-.section-badge.good { background: rgba(0, 255, 65, 0.2); color: var(--green); }
-.section-badge.moderate { background: rgba(255, 176, 0, 0.2); color: var(--amber); }
-.section-badge.risk { background: rgba(255, 51, 51, 0.2); color: var(--red); }
-```
-
-### 4. Subsection
-
-```html
-<div class="subsection">
-    <div class="subsection-title">SUBSECTION NAME</div>
-    <!-- table or other content -->
-</div>
-```
-
-### 5. Table
-
-```html
-<table>
-    <tr>
-        <th>Column 1</th>
-        <th>Column 2</th>
-        <th>Status</th>
-    </tr>
-    <tr>
-        <td>Value</td>
-        <td class="geno">AA</td>
-        <td class="status-normal|moderate|risk|info|na">STATUS TEXT</td>
-    </tr>
-</table>
-```
-
-**Status classes:**
-```css
-.geno { font-weight: 700; color: var(--cyan); }
-.status-normal { color: var(--green); }
-.status-moderate { color: var(--amber); }
-.status-risk { color: var(--red); }
-.status-info { color: var(--cyan); }
-.status-na { color: var(--gray); }
-```
-
-### 6. Bar Chart
-
-```html
-<div class="bar-container">
-    <div class="bar-label">
-        <span>Label</span>
-        <span class="status-normal">82%</span>
-    </div>
-    <div class="bar-track">
-        <div class="bar-fill" style="width: 82%;"></div>
-    </div>
-</div>
-```
-
-**Color modifiers:**
-```css
-.bar-fill { background: var(--green); }
-.bar-fill.amber { background: var(--amber); }
-.bar-fill.cyan { background: var(--cyan); }
-.bar-fill.red { background: var(--red); }
-```
-
-### 7. Finding (finding card)
-
-```html
-<div class="finding warning|risk|good|info">
-    <div class="finding-icon">!</div>
-    <div class="finding-content">
-        <div class="finding-gene">GENE_NAME (Genotype)</div>
-        <div class="finding-desc">Description text</div>
-    </div>
-</div>
-```
-
-**Border colors:**
-```css
-.finding { border-left: 3px solid var(--gray); }
-.finding.warning { border-left-color: var(--amber); }
-.finding.risk { border-left-color: var(--red); }
-.finding.good { border-left-color: var(--green); }
-.finding.info { border-left-color: var(--cyan); }
-```
-
-### 8. Profile Box
-
-```html
-<div class="profile-box">
-    <div class="profile-title">Title</div>
-    <div class="profile-value" style="color: var(--cyan);">Value</div>
-    <div class="profile-desc">Description</div>
-</div>
-```
-
-### 9. Score Display
-
-```html
-<div class="score-display">
-    <div class="score-value">97</div>
-    <div class="score-meta">
-        <strong>Percentile</strong>
-        Additional info
-    </div>
-</div>
-```
-
-### 10. Disclaimer
-
-```html
-<div class="disclaimer">
-    <strong>! Important</strong>
-    Warning text content.
-</div>
-```
-
-**Critical variant:**
-```html
-<div class="disclaimer" style="background: rgba(255, 51, 51, 0.1); border-color: var(--red); color: var(--red);">
-    <strong>!! CRITICAL</strong>
-    Critical warning content.
-</div>
-```
-
-### 11. Two Columns Layout
-
-```html
-<div class="two-cols">
-    <div>Column 1 content</div>
-    <div>Column 2 content</div>
-</div>
-```
+Motion: transitions on nav, buttons and summaries only when `prefers-reduced-motion: no-preference`; a blanket rule disables animation and transition when reduced motion is requested.
 
 ---
 
-## Responsiveness
+## Responsive behaviour
 
-```css
-@media (max-width: 768px) {
-    .alerts-grid { grid-template-columns: 1fr; }
-    .two-cols { grid-template-columns: 1fr; }
-}
-```
+| Width | Behaviour |
+|-------|-----------|
+| over 900px | Full hero with botanical art, wrapped nav |
+| 641 to 900px | Hero right padding 200px, smaller art |
+| up to 768px | Tighter gutters, single-column grids, one-row horizontally scrolling nav |
+| up to 640px | Hero reduced to the kicker (h1 stays for screen readers, art, sentence and buttons hidden), tables become stacked cards, smaller wordmark |
+| 320px | No horizontal scroll; the longest section title wraps (`overflow-wrap: anywhere`) |
 
----
+Fixed header height is the `--hh` variable, used for `scroll-padding-top` and the top padding of `main`.
 
-## JavaScript Features
+## Accessibility and special modes
 
-### Smooth Scroll
+- Skip link is the first Tab stop; `:focus-visible` ring in blush; landmarks and `aria-label` on nav.
+- Forced colours: panel, pill, badge and button borders switch to `CanvasText`; status text keeps its words and icons.
+- If Google Fonts is blocked, the fallback stacks apply and nothing overflows.
 
-```javascript
-document.querySelectorAll('nav a').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const targetId = this.getAttribute('href');
-        const target = document.querySelector(targetId);
-        if (target) {
-            const headerHeight = document.querySelector('header').offsetHeight;
-            const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 20;
-            window.scrollTo({
-                top: targetPosition,
-                behavior: 'smooth'
-            });
-        }
-    });
-});
-```
+## Print
 
-### Active Navigation Highlight
-
-```javascript
-const sections = document.querySelectorAll('section, .status-box');
-const navLinks = document.querySelectorAll('nav a');
-
-function updateActiveNav() {
-    const headerHeight = document.querySelector('header').offsetHeight;
-    let current = '';
-
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop - headerHeight - 100;
-        if (window.pageYOffset >= sectionTop) {
-            current = section.getAttribute('id');
-        }
-    });
-
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === '#' + current) {
-            link.classList.add('active');
-        }
-    });
-}
-
-window.addEventListener('scroll', updateActiveNav);
-updateActiveNav();
-```
+`@media print` swaps the tokens to dark ink on a white page, hides the header, toolbar, skip link, botanical art and dividers, opens every section, avoids breaking rows and panels, and keeps the risk badge as a dark red fill with white text.
 
 ---
 
-## Custom Scrollbar
+## Generating the page and running the checks
 
-```css
-::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--gray); border-radius: 0; }
-::-webkit-scrollbar-thumb:hover { background: var(--green-dim); }
+```bash
+cd scripts && python3 generate_webpage.py          # writes webpage/dna_terminal.html
 ```
 
----
+Environment variables: `GENOME_FILE` (input genome), `OUT_FILE` (output path), `OWNER_NAME` (wordmark and title; default "Genome notes").
 
-## Step-by-Step Build Instructions
-
-### Step 1: Base HTML
-
-```html
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DNA TERMINAL v1.0</title>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-    <style>
-        /* CSS variables and styles */
-    </style>
-</head>
-<body>
-    <!-- content -->
-    <script>
-        /* JavaScript */
-    </script>
-</body>
-</html>
+```bash
+NODE_PATH=/opt/node22/lib/node_modules PLAYWRIGHT_CHROMIUM=/path/to/chromium node scripts/check_webpage.js
 ```
 
-### Step 2: CSS Variables
-
-Add all CSS variables in `:root` for consistent colors.
-
-### Step 3: Reset and Base Styles
-
-```css
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body {
-    font-family: 'JetBrains Mono', monospace;
-    background: var(--bg);
-    color: var(--green);
-    font-size: 14px;
-    line-height: 1.6;
-}
-```
-
-### Step 4: Create Header
-
-1. Add fixed header
-2. Create logo and timestamp block
-3. Add navigation with anchor links
-
-### Step 5: Create Main
-
-```html
-<main>
-    <!-- padding-top should account for header height -->
-</main>
-```
-
-### Step 6: Add Status Box
-
-First element — general genome information.
-
-### Step 7: Add Sections
-
-Each section:
-1. `<section id="unique-id">`
-2. `.section-header` with title and badge
-3. `.section-content` with data
-
-### Step 8: Populate Sections
-
-Use component combinations:
-- Tables for structured data
-- Profile boxes for key metrics
-- Finding cards for important discoveries
-- Bar charts for percentages
-- Two-cols for two-column layout
-
-### Step 9: Add Navigation to Header
-
-For each section add a link:
-```html
-<a href="#section-id">SECTION NAME</a>
-```
-
-### Step 10: Add JavaScript
-
-Connect smooth scroll and active navigation.
+The script needs Playwright and a Chromium binary, is dev-only, and exits non-zero if any check fails. B1 to B5 are the brand checks and R1 to R8 the usability checks; both are described in `webpage/DESIGN_REVIEW.md`.
 
 ---
 
@@ -496,27 +164,19 @@ Connect smooth scroll and active navigation.
 
 ---
 
-## Design Principles
+## Design principles
 
-1. **Console aesthetic** — everything should look like a terminal
-2. **Information density** — lots of data, but structured
-3. **Color coding** — green/yellow/red for statuses
-4. **Monospace font** — JetBrains Mono only
-5. **Borders and frames** — clear block separation
-6. **Comment-style** — headers in `// NAME` format
-7. **Uppercase** — headers and labels in capitals
-8. **Minimal rounding** — sharp corners, terminal look
+1. **Answer first**: takeaways with a next step before any table.
+2. **Quiet luxury, not decoration**: gold line work, one garnet accent, ornament only in the hero and dividers.
+3. **Status is never colour alone**: icon, word and weight.
+4. **Readable everywhere**: 4.5:1 text, 12px minimum, 320px wide, print and forced colours.
+5. **Single file**: no external dependencies except Google Fonts.
+6. **Not medical advice**: disclaimers stay on the page.
 
----
+## Pre-publish checklist
 
-## Pre-publish Checklist
-
-- [ ] All sections have unique `id`
-- [ ] Navigation contains all sections
-- [ ] CSS variables used everywhere for colors
-- [ ] Mobile responsiveness works
-- [ ] Smooth scroll functions
-- [ ] Active nav highlights on scroll
-- [ ] All tables have headers
-- [ ] Disclaimer present in medical sections
-- [ ] Critical findings highlighted in red
+- [ ] `python3 generate_webpage.py` runs without errors
+- [ ] `node scripts/check_webpage.js` reports all checks PASS
+- [ ] No DNA data or personal name committed (`OWNER_NAME` is optional)
+- [ ] Disclaimers present (general, pharma, carrier, footer)
+- [ ] Fonts look right on your own machine (Jost, Cormorant Garamond, Pinyon Script)
