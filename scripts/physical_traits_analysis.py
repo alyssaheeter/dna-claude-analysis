@@ -19,248 +19,248 @@ REPORTS_PATH = f"{BASE_PATH}/reports"
 
 PHYSICAL_SNPS = {
     "eye_color": {
-        "name": "Цвет глаз",
+        "name": "Eye color",
         "snps": {
             "rs12913832": {
                 "gene": "HERC2",
-                "description": "Главный детерминант цвета глаз",
+                "description": "Main determinant of eye color",
                 "interpretation": {
-                    "GG": ("blue", "Голубые/серые глаза (основной генотип)"),
-                    "AG": ("mixed", "Зелёные или светло-карие глаза"),
-                    "AA": ("brown", "Карие глаза"),
+                    "GG": ("blue", "Blue/gray eyes (primary genotype)"),
+                    "AG": ("mixed", "Green or light brown eyes"),
+                    "AA": ("brown", "Brown eyes"),
                 }
             },
             "rs1800407": {
                 "gene": "OCA2",
-                "description": "Модификатор цвета глаз",
+                "description": "Eye color modifier",
                 "interpretation": {
-                    "GG": ("standard", "Стандартный вариант"),
-                    "AG": ("modifier", "Может осветлять карий цвет"),
-                    "AA": ("green_modifier", "Часто связан с зелёными глазами"),
-                    "CT": ("modifier", "Может модифицировать цвет"),
-                    "TT": ("green_modifier", "Часто связан с зелёными глазами"),
+                    "GG": ("standard", "Standard variant"),
+                    "AG": ("modifier", "May lighten brown color"),
+                    "AA": ("green_modifier", "Often associated with green eyes"),
+                    "CT": ("modifier", "May modify color"),
+                    "TT": ("green_modifier", "Often associated with green eyes"),
                 }
             },
             "rs12896399": {
                 "gene": "SLC24A4",
-                "description": "Модификатор цвета глаз",
+                "description": "Eye color modifier",
                 "interpretation": {
-                    "GG": ("darker", "Склонность к более тёмному цвету"),
-                    "GT": ("intermediate", "Промежуточный эффект"),
-                    "TT": ("lighter", "Склонность к более светлому цвету"),
+                    "GG": ("darker", "Tendency toward darker color"),
+                    "GT": ("intermediate", "Intermediate effect"),
+                    "TT": ("lighter", "Tendency toward lighter color"),
                 }
             },
             "rs16891982": {
                 "gene": "SLC45A2",
-                "description": "Пигментация глаз и кожи",
+                "description": "Eye and skin pigmentation",
                 "interpretation": {
-                    "GG": ("dark", "Тёмная пигментация (типично для африканцев/азиатов)"),
-                    "CG": ("mixed", "Смешанная пигментация"),
-                    "CC": ("light", "Светлая пигментация (типично для европейцев)"),
+                    "GG": ("dark", "Dark pigmentation (typical for Africans/Asians)"),
+                    "CG": ("mixed", "Mixed pigmentation"),
+                    "CC": ("light", "Light pigmentation (typical for Europeans)"),
                 }
             },
             "rs1393350": {
                 "gene": "TYR",
-                "description": "Тирозиназа - пигментация",
+                "description": "Tyrosinase - pigmentation",
                 "interpretation": {
-                    "GG": ("standard", "Стандартный вариант"),
-                    "AG": ("lighter", "Немного светлее пигментация"),
-                    "AA": ("lighter", "Склонность к более светлым глазам"),
+                    "GG": ("standard", "Standard variant"),
+                    "AG": ("lighter", "Slightly lighter pigmentation"),
+                    "AA": ("lighter", "Tendency toward lighter eyes"),
                 }
             },
         }
     },
 
     "hair_color": {
-        "name": "Цвет волос",
+        "name": "Hair color",
         "snps": {
             "rs12913832": {
                 "gene": "HERC2",
-                "description": "Влияет на цвет волос",
+                "description": "Affects hair color",
                 "interpretation": {
-                    "GG": ("light", "Склонность к светлым волосам"),
-                    "AG": ("mixed", "Средний цвет волос"),
-                    "AA": ("dark", "Склонность к тёмным волосам"),
+                    "GG": ("light", "Tendency toward light hair"),
+                    "AG": ("mixed", "Medium hair color"),
+                    "AA": ("dark", "Tendency toward dark hair"),
                 }
             },
             "rs1805007": {
                 "gene": "MC1R R151C",
-                "description": "Рыжие волосы (вариант 1)",
+                "description": "Red hair (variant 1)",
                 "interpretation": {
-                    "CC": ("normal", "Нет влияния на рыжий цвет"),
-                    "CT": ("carrier", "Носитель рыжего - может быть рыжеватый оттенок"),
-                    "TT": ("red", "Высокая вероятность рыжих волос"),
+                    "CC": ("normal", "No effect on red hair"),
+                    "CT": ("carrier", "Red hair carrier - may have a reddish tint"),
+                    "TT": ("red", "High probability of red hair"),
                 }
             },
             "rs1805008": {
                 "gene": "MC1R R160W",
-                "description": "Рыжие волосы (вариант 2)",
+                "description": "Red hair (variant 2)",
                 "interpretation": {
-                    "CC": ("normal", "Нет влияния на рыжий цвет"),
-                    "CT": ("carrier", "Носитель рыжего"),
-                    "TT": ("red", "Высокая вероятность рыжих волос"),
+                    "CC": ("normal", "No effect on red hair"),
+                    "CT": ("carrier", "Red hair carrier"),
+                    "TT": ("red", "High probability of red hair"),
                 }
             },
             "rs1805009": {
                 "gene": "MC1R D294H",
-                "description": "Рыжие волосы (вариант 3)",
+                "description": "Red hair (variant 3)",
                 "interpretation": {
-                    "GG": ("normal", "Нет влияния на рыжий цвет"),
-                    "CG": ("carrier", "Носитель рыжего"),
-                    "CC": ("red", "Высокая вероятность рыжих волос"),
+                    "GG": ("normal", "No effect on red hair"),
+                    "CG": ("carrier", "Red hair carrier"),
+                    "CC": ("red", "High probability of red hair"),
                 }
             },
             "rs12821256": {
                 "gene": "KITLG",
-                "description": "Блондинизм",
+                "description": "Blondism",
                 "interpretation": {
-                    "TT": ("dark", "Тёмные волосы"),
-                    "CT": ("light_carrier", "Может осветлять цвет волос"),
-                    "CC": ("blonde", "Склонность к светлым/блондинистым волосам"),
+                    "TT": ("dark", "Dark hair"),
+                    "CT": ("light_carrier", "May lighten hair color"),
+                    "CC": ("blonde", "Tendency toward light/blond hair"),
                 }
             },
         }
     },
 
     "hair_structure": {
-        "name": "Структура волос",
+        "name": "Hair structure",
         "snps": {
             "rs11803731": {
                 "gene": "TCHH",
-                "description": "Кудрявость волос",
+                "description": "Hair curliness",
                 "interpretation": {
-                    "AA": ("straight", "Прямые волосы"),
-                    "AT": ("wavy", "Волнистые волосы"),
-                    "TT": ("curly", "Кудрявые волосы"),
+                    "AA": ("straight", "Straight hair"),
+                    "AT": ("wavy", "Wavy hair"),
+                    "TT": ("curly", "Curly hair"),
                 }
             },
             "rs3827760": {
                 "gene": "EDAR",
-                "description": "Толщина волос (азиатский вариант)",
+                "description": "Hair thickness (Asian variant)",
                 "interpretation": {
-                    "AA": ("thin", "Тонкие волосы (европейский вариант)"),
-                    "AG": ("intermediate", "Средняя толщина"),
-                    "GG": ("thick", "Толстые, жёсткие волосы (азиатский вариант)"),
-                    "CC": ("thin", "Тонкие волосы"),
-                    "CT": ("intermediate", "Средняя толщина"),
-                    "TT": ("thick", "Толстые волосы"),
+                    "AA": ("thin", "Thin hair (European variant)"),
+                    "AG": ("intermediate", "Medium thickness"),
+                    "GG": ("thick", "Thick, coarse hair (Asian variant)"),
+                    "CC": ("thin", "Thin hair"),
+                    "CT": ("intermediate", "Medium thickness"),
+                    "TT": ("thick", "Thick hair"),
                 }
             },
         }
     },
 
     "baldness": {
-        "name": "Облысение (мужское)",
+        "name": "Baldness (male)",
         "snps": {
             "rs2180439": {
                 "gene": "HDAC9",
-                "description": "Андрогенная алопеция",
+                "description": "Androgenetic alopecia",
                 "interpretation": {
-                    "CC": ("high_risk", "Повышенный риск раннего облысения"),
-                    "CT": ("moderate_risk", "Умеренный риск облысения"),
-                    "TT": ("low_risk", "Низкий риск раннего облысения"),
+                    "CC": ("high_risk", "Increased risk of early baldness"),
+                    "CT": ("moderate_risk", "Moderate risk of baldness"),
+                    "TT": ("low_risk", "Low risk of early baldness"),
                 }
             },
             "rs6625163": {
                 "gene": "AR",
-                "description": "Андрогенная алопеция (X-хромосома)",
+                "description": "Androgenetic alopecia (X chromosome)",
                 "interpretation": {
-                    "AA": ("high_risk", "Повышенный риск облысения"),
-                    "AC": ("moderate_risk", "Умеренный риск"),
-                    "CC": ("low_risk", "Низкий риск облысения"),
+                    "AA": ("high_risk", "Increased risk of baldness"),
+                    "AC": ("moderate_risk", "Moderate risk"),
+                    "CC": ("low_risk", "Low risk of baldness"),
                 }
             },
         }
     },
 
     "skin": {
-        "name": "Пигментация кожи",
+        "name": "Skin pigmentation",
         "snps": {
             "rs1426654": {
                 "gene": "SLC24A5",
-                "description": "Главный ген светлой кожи у европейцев",
+                "description": "Main light skin gene in Europeans",
                 "interpretation": {
-                    "AA": ("light", "Светлая кожа (европейский вариант)"),
-                    "AG": ("intermediate", "Промежуточная пигментация"),
-                    "GG": ("dark", "Тёмная кожа (африканский/азиатский вариант)"),
+                    "AA": ("light", "Light skin (European variant)"),
+                    "AG": ("intermediate", "Intermediate pigmentation"),
+                    "GG": ("dark", "Dark skin (African/Asian variant)"),
                 }
             },
             "rs16891982": {
                 "gene": "SLC45A2",
-                "description": "Пигментация кожи",
+                "description": "Skin pigmentation",
                 "interpretation": {
-                    "GG": ("dark", "Тёмная пигментация"),
-                    "CG": ("intermediate", "Промежуточная"),
-                    "CC": ("light", "Светлая кожа"),
+                    "GG": ("dark", "Dark pigmentation"),
+                    "CG": ("intermediate", "Intermediate"),
+                    "CC": ("light", "Light skin"),
                 }
             },
         }
     },
 
     "freckles": {
-        "name": "Веснушки",
+        "name": "Freckles",
         "snps": {
             "rs1805007": {
                 "gene": "MC1R",
-                "description": "Веснушки и чувствительность к солнцу",
+                "description": "Freckles and sun sensitivity",
                 "interpretation": {
-                    "CC": ("no_freckles", "Меньше веснушек, лучше загар"),
-                    "CT": ("some_freckles", "Склонность к веснушкам, осторожно на солнце"),
-                    "TT": ("many_freckles", "Много веснушек, высокая чувствительность к солнцу"),
+                    "CC": ("no_freckles", "Fewer freckles, tans better"),
+                    "CT": ("some_freckles", "Prone to freckles, be careful in the sun"),
+                    "TT": ("many_freckles", "Many freckles, high sun sensitivity"),
                 }
             },
         }
     },
 
     "earwax": {
-        "name": "Тип ушной серы",
+        "name": "Earwax type",
         "snps": {
             "rs17822931": {
                 "gene": "ABCC11",
-                "description": "Тип ушной серы и запах тела",
+                "description": "Earwax type and body odor",
                 "interpretation": {
-                    "CC": ("dry", "Сухая ушная сера (азиатский тип), меньше запаха тела"),
-                    "CT": ("intermediate", "Промежуточный тип"),
-                    "TT": ("wet", "Влажная ушная сера (европейский тип), обычный запах тела"),
+                    "CC": ("dry", "Dry earwax (Asian type), less body odor"),
+                    "CT": ("intermediate", "Intermediate type"),
+                    "TT": ("wet", "Wet earwax (European type), typical body odor"),
                 }
             },
         }
     },
 
     "light_sneeze": {
-        "name": "Световой чихательный рефлекс (ACHOO)",
+        "name": "Photic sneeze reflex (ACHOO)",
         "snps": {
             "rs10427255": {
-                "gene": "Около ZEB2",
-                "description": "Чихание от яркого света",
+                "gene": "Near ZEB2",
+                "description": "Sneezing from bright light",
                 "interpretation": {
-                    "CC": ("no_achoo", "Нет светового рефлекса"),
-                    "CT": ("mild_achoo", "Слабый световой рефлекс"),
-                    "TT": ("achoo", "Чихание при взгляде на яркий свет"),
+                    "CC": ("no_achoo", "No photic sneeze reflex"),
+                    "CT": ("mild_achoo", "Mild photic sneeze reflex"),
+                    "TT": ("achoo", "Sneezing when looking at bright light"),
                 }
             },
         }
     },
 
     "taste": {
-        "name": "Вкусовое восприятие",
+        "name": "Taste perception",
         "snps": {
             "rs713598": {
                 "gene": "TAS2R38",
-                "description": "Чувствительность к горечи (PROP/PTC)",
+                "description": "Bitter sensitivity (PROP/PTC)",
                 "interpretation": {
-                    "GG": ("supertaster", "Супертастер - сильно чувствует горечь (брокколи, кофе)"),
-                    "CG": ("medium", "Средняя чувствительность к горечи"),
-                    "CC": ("non_taster", "Не чувствует горечь PROP/PTC"),
+                    "GG": ("supertaster", "Supertaster - strongly perceives bitterness (broccoli, coffee)"),
+                    "CG": ("medium", "Medium bitter sensitivity"),
+                    "CC": ("non_taster", "Cannot taste PROP/PTC bitterness"),
                 }
             },
             "rs72921001": {
                 "gene": "OR6A2",
-                "description": "Восприятие кориандра (кинзы)",
+                "description": "Cilantro (coriander) perception",
                 "interpretation": {
-                    "AA": ("soap", "Кориандр пахнет мылом"),
-                    "AC": ("mild_soap", "Слабое восприятие мыльного вкуса"),
-                    "CC": ("normal", "Нормальное восприятие кориандра - травяной аромат"),
+                    "AA": ("soap", "Cilantro tastes like soap"),
+                    "AC": ("mild_soap", "Mild perception of soapy taste"),
+                    "CC": ("normal", "Normal cilantro perception - herbal aroma"),
                 }
             },
         }
@@ -278,6 +278,10 @@ def load_genome():
             parts = line.strip().split('\t')
             if len(parts) >= 4:
                 rsid, chrom, pos, genotype = parts[0], parts[1], parts[2], parts[3]
+                if len(parts) >= 5:  # AncestryDNA format: separate allele columns
+                    if parts[3] + parts[4] == '00':
+                        continue  # Ancestry no-call: skip so it is not mistaken for a deletion ('--')
+                    genotype = parts[3] + parts[4]
                 genome[rsid] = {
                     'chromosome': chrom,
                     'position': pos,
@@ -386,11 +390,11 @@ def predict_eye_color(results):
 
     # Determine most likely color
     if blue_prob >= green_prob and blue_prob >= brown_prob:
-        prediction = "Голубые/серые"
+        prediction = "Blue/gray"
     elif green_prob >= blue_prob and green_prob >= brown_prob:
-        prediction = "Зелёные"
+        prediction = "Green"
     else:
-        prediction = "Карие"
+        prediction = "Brown"
 
     return {
         'prediction': prediction,
@@ -433,66 +437,66 @@ def predict_hair_color(results):
     red_carrier = carrier_alleles >= 1
 
     if is_red:
-        prediction = "Рыжие волосы"
-        confidence = "высокая" if red_alleles >= 2 else "умеренная"
+        prediction = "Red hair"
+        confidence = "high" if red_alleles >= 2 else "moderate"
     elif kitlg_status == 'blonde' and herc2_status == 'light':
-        prediction = "Светлые/блонд волосы"
-        confidence = "высокая"
+        prediction = "Light/blond hair"
+        confidence = "high"
     elif kitlg_status in ['blonde', 'light_carrier'] or herc2_status == 'light':
-        prediction = "Светлые волосы"
-        confidence = "умеренная"
+        prediction = "Light hair"
+        confidence = "moderate"
     elif herc2_status == 'dark':
-        prediction = "Тёмные волосы"
-        confidence = "высокая"
+        prediction = "Dark hair"
+        confidence = "high"
     else:
-        prediction = "Средний цвет волос"
-        confidence = "низкая"
+        prediction = "Medium hair color"
+        confidence = "low"
 
     return {
         'prediction': prediction,
         'confidence': confidence,
         'red_carrier': red_carrier,
         'red_alleles': red_alleles + carrier_alleles,
-        'mc1r_note': "Носитель MC1R - возможен рыжеватый оттенок у детей" if red_carrier else None
+        'mc1r_note': "MC1R carrier - children may have a reddish tint" if red_carrier else None
     }
 
 
 def generate_report(results):
     """Generate physical traits markdown report"""
     report = []
-    report.append("# Анализ физических признаков")
-    report.append(f"\nДата анализа: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
+    report.append("# Physical Traits Analysis")
+    report.append(f"\nAnalysis date: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
     report.append("\n---\n")
 
     # Predictions section
-    report.append("## Предсказания\n")
+    report.append("## Predictions\n")
 
     # Eye color prediction
     eye_pred = predict_eye_color(results)
     if eye_pred:
-        report.append("### Цвет глаз (IrisPlex-подобный анализ)\n")
-        report.append(f"**Предсказание: {eye_pred['prediction']}**\n")
-        report.append("| Цвет | Вероятность |")
+        report.append("### Eye Color (IrisPlex-like analysis)\n")
+        report.append(f"**Prediction: {eye_pred['prediction']}**\n")
+        report.append("| Color | Probability |")
         report.append("|------|-------------|")
-        report.append(f"| Голубые/серые | {eye_pred['blue_probability']}% |")
-        report.append(f"| Зелёные | {eye_pred['green_probability']}% |")
-        report.append(f"| Карие | {eye_pred['brown_probability']}% |")
+        report.append(f"| Blue/gray | {eye_pred['blue_probability']}% |")
+        report.append(f"| Green | {eye_pred['green_probability']}% |")
+        report.append(f"| Brown | {eye_pred['brown_probability']}% |")
         report.append("")
 
     # Hair color prediction
     hair_pred = predict_hair_color(results)
     if hair_pred:
-        report.append("### Цвет волос\n")
-        report.append(f"**Предсказание: {hair_pred['prediction']}** (уверенность: {hair_pred['confidence']})\n")
+        report.append("### Hair Color\n")
+        report.append(f"**Prediction: {hair_pred['prediction']}** (confidence: {hair_pred['confidence']})\n")
         if hair_pred['red_carrier']:
-            report.append(f"- MC1R аллели: {hair_pred['red_alleles']}")
+            report.append(f"- MC1R alleles: {hair_pred['red_alleles']}")
             report.append(f"- {hair_pred['mc1r_note']}")
         report.append("")
 
     report.append("---\n")
 
     # Key physical traits summary
-    report.append("## Ключевые особенности\n")
+    report.append("## Key Traits\n")
 
     trait_highlights = []
 
@@ -500,58 +504,58 @@ def generate_report(results):
     for r in results.get('hair_structure', []):
         if r['found'] and r['status']:
             if r['snp_id'] == 'rs11803731':
-                trait_highlights.append(f"**Волосы**: {r['interpretation']}")
+                trait_highlights.append(f"**Hair**: {r['interpretation']}")
             elif r['snp_id'] == 'rs3827760':
-                trait_highlights.append(f"**Толщина волос**: {r['interpretation']}")
+                trait_highlights.append(f"**Hair thickness**: {r['interpretation']}")
 
     # Baldness risk
     for r in results.get('baldness', []):
         if r['found'] and r['status'] == 'high_risk':
-            trait_highlights.append(f"**Облысение**: {r['interpretation']}")
+            trait_highlights.append(f"**Baldness**: {r['interpretation']}")
 
     # Skin
     for r in results.get('skin', []):
         if r['found'] and r['snp_id'] == 'rs1426654':
-            trait_highlights.append(f"**Кожа**: {r['interpretation']}")
+            trait_highlights.append(f"**Skin**: {r['interpretation']}")
 
     # Freckles
     for r in results.get('freckles', []):
         if r['found'] and r['status'] in ['some_freckles', 'many_freckles']:
-            trait_highlights.append(f"**Веснушки**: {r['interpretation']}")
+            trait_highlights.append(f"**Freckles**: {r['interpretation']}")
 
     # Earwax
     for r in results.get('earwax', []):
         if r['found']:
-            trait_highlights.append(f"**Ушная сера**: {r['interpretation']}")
+            trait_highlights.append(f"**Earwax**: {r['interpretation']}")
 
     # Light sneeze
     for r in results.get('light_sneeze', []):
         if r['found'] and r['status'] in ['mild_achoo', 'achoo']:
-            trait_highlights.append(f"**ACHOO синдром**: {r['interpretation']}")
+            trait_highlights.append(f"**ACHOO syndrome**: {r['interpretation']}")
 
     # Taste
     for r in results.get('taste', []):
         if r['found']:
             if r['snp_id'] == 'rs713598':
-                trait_highlights.append(f"**Горечь**: {r['interpretation']}")
+                trait_highlights.append(f"**Bitterness**: {r['interpretation']}")
             elif r['snp_id'] == 'rs72921001' and r['status'] in ['soap', 'mild_soap']:
-                trait_highlights.append(f"**Кориандр**: {r['interpretation']}")
+                trait_highlights.append(f"**Cilantro**: {r['interpretation']}")
 
     if trait_highlights:
         for h in trait_highlights:
             report.append(f"- {h}")
     else:
-        report.append("- Нет особых находок")
+        report.append("- No notable findings")
 
     report.append("\n---\n")
 
     # Detailed results by category
-    report.append("## Детальные результаты по категориям\n")
+    report.append("## Detailed Results by Category\n")
 
     for category, cat_results in results.items():
         cat_name = PHYSICAL_SNPS[category]['name']
         report.append(f"### {cat_name}\n")
-        report.append("| SNP | Ген | Генотип | Статус | Интерпретация |")
+        report.append("| SNP | Gene | Genotype | Status | Interpretation |")
         report.append("|-----|-----|---------|--------|---------------|")
 
         for r in cat_results:
@@ -586,78 +590,79 @@ def generate_report(results):
                     'soap': '&#129532;',
                 }.get(r['status'], '')
 
-                interp = r['interpretation'] or 'Нет данных'
-                status = r['status'] or 'н/д'
+                interp = r['interpretation'] or 'No data'
+                status = r['status'] or 'n/a'
                 report.append(f"| {r['snp_id']} | {r['gene']} | **{r['genotype']}** | {status_emoji} {status} | {interp} |")
             else:
-                report.append(f"| {r['snp_id']} | {r['gene']} | - | - | Не найден |")
+                report.append(f"| {r['snp_id']} | {r['gene']} | - | - | Not found |")
         report.append("")
 
     report.append("---\n")
 
     # Statistics
-    report.append("## Статистика анализа\n")
+    report.append("## Analysis Statistics\n")
     total = sum(len(r) for r in results.values())
     found = sum(sum(1 for x in r if x['found']) for r in results.values())
-    report.append(f"- Всего проанализировано SNP: {total}")
-    report.append(f"- Найдено в геноме: {found}")
-    report.append(f"- Не найдено: {total - found}")
+    report.append(f"- Total SNPs analyzed: {total}")
+    report.append(f"- Found in genome: {found}")
+    report.append(f"- Not found: {total - found}")
 
     report.append("\n---\n")
-    report.append("## Примечания\n")
-    report.append("- Физические признаки определяются множеством генов и факторов среды")
-    report.append("- Предсказания носят вероятностный характер")
-    report.append("- Цвет глаз и волос может меняться с возрастом")
-    report.append("- MC1R варианты также связаны с повышенной чувствительностью к солнцу")
+    report.append("## Notes\n")
+    report.append("- Physical traits are determined by many genes and environmental factors")
+    report.append("- Predictions are probabilistic")
+    report.append("- Eye and hair color may change with age")
+    report.append("- MC1R variants are also associated with increased sun sensitivity")
 
     return '\n'.join(report)
 
 
 def main():
     print("=" * 60)
-    print("АНАЛИЗ ФИЗИЧЕСКИХ ПРИЗНАКОВ")
+    print("PHYSICAL TRAITS ANALYSIS")
     print("=" * 60)
 
-    print("\n[1/4] Загрузка генома...")
+    print("\n[1/4] Loading genome...")
     genome = load_genome()
-    print(f"      Загружено {len(genome)} SNP")
+    print(f"      Loaded {len(genome)} SNP")
 
-    print("\n[2/4] Анализ маркеров...")
+    print("\n[2/4] Analyzing markers...")
     results = analyze_traits(genome)
 
     total = sum(len(r) for r in results.values())
     found = sum(sum(1 for x in r if x['found']) for r in results.values())
-    print(f"      Найдено: {found}/{total} маркеров")
+    print(f"      Found: {found}/{total} markers")
 
-    print("\n[3/4] Предсказания...")
+    print("\n[3/4] Predictions...")
 
     # Eye color prediction
     eye_pred = predict_eye_color(results)
     if eye_pred:
-        print(f"      Глаза: {eye_pred['prediction']} "
-              f"(голубые {eye_pred['blue_probability']}%, "
-              f"зелёные {eye_pred['green_probability']}%, "
-              f"карие {eye_pred['brown_probability']}%)")
+        print(f"      Eyes: {eye_pred['prediction']} "
+              f"(blue {eye_pred['blue_probability']}%, "
+              f"green {eye_pred['green_probability']}%, "
+              f"brown {eye_pred['brown_probability']}%)")
 
     # Hair color prediction
     hair_pred = predict_hair_color(results)
     if hair_pred:
-        print(f"      Волосы: {hair_pred['prediction']} ({hair_pred['confidence']})")
+        print(f"      Hair: {hair_pred['prediction']} ({hair_pred['confidence']})")
 
-    print("\n[4/4] Генерация отчёта...")
+    print("\n[4/4] Generating report...")
     report = generate_report(results)
 
     report_path = f"{REPORTS_PATH}/physical_traits/report.md"
+    os.makedirs(os.path.dirname(report_path), exist_ok=True)
     with open(report_path, 'w', encoding='utf-8') as f:
         f.write(report)
     print(f"      -> {report_path}")
 
     print("\n" + "=" * 60)
-    print("АНАЛИЗ ЗАВЕРШЁН")
+    print("ANALYSIS COMPLETE")
     print("=" * 60)
 
     # Print key findings to console
-    print("\nКЛЮЧЕВЫЕ НАХОДКИ:\n")
+    print("\nKEY FINDINGS:\n")
 
     for category, cat_results in results.items():
         cat_name = PHYSICAL_SNPS[category]['name']

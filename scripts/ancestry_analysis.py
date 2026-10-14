@@ -18,80 +18,80 @@ REPORTS_PATH = f"{BASE_PATH}/reports"
 
 ANCESTRY_SNPS = {
     "pigmentation": {
-        "name": "Пигментация (происхождение)",
+        "name": "Pigmentation (ancestry)",
         "snps": {
             "rs1426654": {
                 "gene": "SLC24A5",
-                "description": "Светлая кожа (Европа)",
+                "description": "Light skin (Europe)",
                 "interpretation": {
-                    "AA": ("european", "Европейский вариант - светлая кожа"),
-                    "AG": ("mixed", "Смешанный"),
-                    "GG": ("ancestral", "Предковый вариант - тёмная кожа"),
+                    "AA": ("european", "European variant - light skin"),
+                    "AG": ("mixed", "Mixed"),
+                    "GG": ("ancestral", "Ancestral variant - dark skin"),
                 }
             },
             "rs16891982": {
                 "gene": "SLC45A2",
-                "description": "Светлая кожа (Европа)",
+                "description": "Light skin (Europe)",
                 "interpretation": {
-                    "GG": ("european", "Европейский вариант - светлая кожа"),
-                    "CG": ("mixed", "Смешанный"),
-                    "CC": ("ancestral", "Предковый вариант"),
+                    "GG": ("european", "European variant - light skin"),
+                    "CG": ("mixed", "Mixed"),
+                    "CC": ("ancestral", "Ancestral variant"),
                 }
             },
             "rs12913832": {
                 "gene": "HERC2/OCA2",
-                "description": "Цвет глаз, Северная Европа",
+                "description": "Eye color, Northern Europe",
                 "interpretation": {
-                    "AA": ("northern_european", "Голубые глаза - Северная Европа"),
-                    "AG": ("mixed", "Зелёные/ореховые глаза"),
-                    "GG": ("other", "Карие глаза"),
+                    "AA": ("other", "Brown eyes"),
+                    "AG": ("mixed", "Green/hazel eyes"),
+                    "GG": ("northern_european", "Blue eyes - Northern Europe"),
                 }
             },
             "rs1800407": {
                 "gene": "OCA2",
-                "description": "Светлые глаза (Европа)",
+                "description": "Light eyes (Europe)",
                 "interpretation": {
-                    "TT": ("european", "Светлые глаза"),
-                    "GT": ("mixed", "Смешанный"),
-                    "GG": ("other", "Тёмные глаза"),
+                    "TT": ("european", "Light eyes"),
+                    "GT": ("mixed", "Mixed"),
+                    "GG": ("other", "Dark eyes"),
                 }
             },
         }
     },
 
     "east_asian": {
-        "name": "Восточноазиатские маркеры",
+        "name": "East Asian markers",
         "snps": {
             "rs3827760": {
                 "gene": "EDAR",
-                "description": "Толстые волосы, лопатообразные резцы",
+                "description": "Thick hair, shovel-shaped incisors",
                 "interpretation": {
-                    "CC": ("east_asian", "Восточноазиатский вариант - толстые волосы"),
-                    "CT": ("mixed", "Смешанный"),
-                    "TT": ("other", "Не-азиатский вариант"),
+                    "CC": ("east_asian", "East Asian variant - thick hair"),
+                    "CT": ("mixed", "Mixed"),
+                    "TT": ("other", "Non-Asian variant"),
                 }
             },
             "rs17822931": {
                 "gene": "ABCC11",
-                "description": "Тип ушной серы",
+                "description": "Earwax type",
                 "interpretation": {
-                    "CC": ("east_asian", "Сухая ушная сера (Восточная Азия)"),
-                    "CT": ("mixed", "Смешанный"),
-                    "TT": ("other", "Влажная ушная сера (Европа/Африка)"),
+                    "CC": ("east_asian", "Dry earwax (East Asia)"),
+                    "CT": ("mixed", "Mixed"),
+                    "TT": ("other", "Wet earwax (Europe/Africa)"),
                 }
             },
         }
     },
 
     "african": {
-        "name": "Африканские маркеры",
+        "name": "African markers",
         "snps": {
             "rs2814778": {
                 "gene": "DARC (Duffy)",
-                "description": "Duffy null - резистентность к малярии",
+                "description": "Duffy null - malaria resistance",
                 "interpretation": {
-                    "CC": ("african", "Duffy null - Африканское происхождение, защита от P.vivax"),
-                    "CT": ("mixed", "Носитель"),
+                    "CC": ("african", "Duffy null - African ancestry, protection from P.vivax"),
+                    "CT": ("mixed", "Carrier"),
                     "TT": ("other", "Duffy positive"),
                 }
             },
@@ -99,68 +99,68 @@ ANCESTRY_SNPS = {
     },
 
     "lactase": {
-        "name": "Персистенция лактазы (география)",
+        "name": "Lactase persistence (geography)",
         "snps": {
             "rs4988235": {
                 "gene": "LCT (MCM6)",
-                "description": "Переносимость лактозы",
+                "description": "Lactose tolerance",
                 "interpretation": {
-                    "TT": ("european_pastoral", "Европейский пастушеский вариант - переносит лактозу"),
-                    "CT": ("mixed", "Частичная переносимость"),
-                    "CC": ("ancestral", "Предковый вариант - непереносимость лактозы"),
-                    "AA": ("european_pastoral", "Переносит лактозу"),
-                    "AG": ("mixed", "Частичная переносимость"),
-                    "GG": ("ancestral", "Непереносимость лактозы"),
+                    "TT": ("european_pastoral", "European pastoral variant - tolerates lactose"),
+                    "CT": ("mixed", "Partial tolerance"),
+                    "CC": ("ancestral", "Ancestral variant - lactose intolerance"),
+                    "AA": ("european_pastoral", "Tolerates lactose"),
+                    "AG": ("mixed", "Partial tolerance"),
+                    "GG": ("ancestral", "Lactose intolerance"),
                 }
             },
             "rs182549": {
                 "gene": "LCT",
-                "description": "Персистенция лактазы (арабский/африканский)",
+                "description": "Lactase persistence (Arab/African)",
                 "interpretation": {
-                    "CC": ("arabic_african", "Переносит лактозу (арабский/африканский вариант)"),
-                    "CT": ("mixed", "Частичная"),
-                    "TT": ("ancestral", "Предковый вариант"),
+                    "CC": ("arabic_african", "Tolerates lactose (Arab/African variant)"),
+                    "CT": ("mixed", "Partial"),
+                    "TT": ("ancestral", "Ancestral variant"),
                 }
             },
         }
     },
 
     "neanderthal": {
-        "name": "Неандертальское наследие",
+        "name": "Neanderthal heritage",
         "snps": {
             "rs2298813": {
                 "gene": "Neanderthal",
-                "description": "Направление роста волос",
+                "description": "Hair growth direction",
                 "interpretation": {
-                    "AA": ("neanderthal", "Неандертальский вариант"),
-                    "AG": ("mixed", "Смешанный"),
-                    "GG": ("modern", "Современный человек"),
+                    "AA": ("neanderthal", "Neanderthal variant"),
+                    "AG": ("mixed", "Mixed"),
+                    "GG": ("modern", "Modern human"),
                 }
             },
             "rs3917862": {
                 "gene": "Neanderthal",
-                "description": "Свёртываемость крови",
+                "description": "Blood clotting",
                 "interpretation": {
-                    "TT": ("neanderthal", "Неандертальский вариант"),
-                    "CT": ("mixed", "Смешанный"),
-                    "CC": ("modern", "Современный"),
+                    "TT": ("neanderthal", "Neanderthal variant"),
+                    "CT": ("mixed", "Mixed"),
+                    "CC": ("modern", "Modern"),
                 }
             },
         }
     },
 }
 
-# Y-хромосомные гаплогруппы (только для мужчин)
+# Y-chromosome haplogroups (males only)
 Y_HAPLOGROUPS = {
-    "rs9786184": ("R1b", "M269 - Западная Европа"),
-    "rs17250804": ("R1a", "M17/M198 - Восточная Европа, Азия"),
-    "rs9341296": ("I1", "M253 - Скандинавия"),
-    "rs2032597": ("I2", "M438 - Балканы, Восточная Европа"),
-    "rs34126399": ("J1", "M267 - Ближний Восток"),
-    "rs34305635": ("J2", "M172 - Средиземноморье"),
-    "rs2032604": ("E1b1b", "M35 - Африка, Средиземноморье"),
-    "rs2032636": ("G", "M201 - Кавказ, Европа"),
-    "rs9341301": ("N", "M231 - Финно-угры, Сибирь"),
+    "rs9786184": ("R1b", "M269 - Western Europe"),
+    "rs17250804": ("R1a", "M17/M198 - Eastern Europe, Asia"),
+    "rs9341296": ("I1", "M253 - Scandinavia"),
+    "rs2032597": ("I2", "M438 - Balkans, Eastern Europe"),
+    "rs34126399": ("J1", "M267 - Middle East"),
+    "rs34305635": ("J2", "M172 - Mediterranean"),
+    "rs2032604": ("E1b1b", "M35 - Africa, Mediterranean"),
+    "rs2032636": ("G", "M201 - Caucasus, Europe"),
+    "rs9341301": ("N", "M231 - Finno-Ugric peoples, Siberia"),
 }
 
 
@@ -174,6 +174,10 @@ def load_genome():
             parts = line.strip().split('\t')
             if len(parts) >= 4:
                 rsid, chrom, pos, genotype = parts[0], parts[1], parts[2], parts[3]
+                if len(parts) >= 5:  # AncestryDNA format: separate allele columns
+                    if parts[3] + parts[4] == '00':
+                        continue  # Ancestry no-call: skip so it is not mistaken for a deletion ('--')
+                    genotype = parts[3] + parts[4]
                 genome[rsid] = {
                     'chromosome': chrom,
                     'position': pos,
@@ -246,49 +250,49 @@ def determine_sex(genome):
 def generate_report(results, y_results, sex, genome):
     """Generate ancestry report"""
     report = []
-    report.append("# 🌍 Анализ происхождения")
-    report.append(f"\nДата анализа: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
-    report.append(f"\nГенетический пол: **{'Мужской' if sex == 'male' else 'Женский'}**")
+    report.append("# 🌍 Ancestry Analysis")
+    report.append(f"\nAnalysis date: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
+    report.append(f"\nGenetic sex: **{'Male' if sex == 'male' else 'Female'}**")
     report.append("\n---\n")
 
-    report.append("## ⚠️ Важно\n")
-    report.append("- Это упрощённый анализ на основе отдельных SNP")
-    report.append("- Для точного определения происхождения нужен анализ тысяч маркеров")
-    report.append("- Рекомендуется загрузить данные в GEDmatch или DNA.Land для детального анализа\n")
+    report.append("## ⚠️ Important\n")
+    report.append("- This is a simplified analysis based on individual SNPs")
+    report.append("- Accurate ancestry determination requires analysis of thousands of markers")
+    report.append("- We recommend uploading your data to GEDmatch or DNA.Land for detailed analysis\n")
     report.append("---\n")
 
     # Ancestry Informative Markers
-    report.append("## 🧬 Информативные маркеры происхождения (AIMs)\n")
+    report.append("## 🧬 Ancestry Informative Markers (AIMs)\n")
 
     for category, cat_results in results.items():
         cat_name = ANCESTRY_SNPS[category]['name']
         report.append(f"### {cat_name}\n")
-        report.append("| SNP | Ген | Генотип | Интерпретация |")
+        report.append("| SNP | Gene | Genotype | Interpretation |")
         report.append("|-----|-----|---------|---------------|")
 
         for r in cat_results:
             if r['found']:
-                interp = r['interpretation'] or 'Нет данных'
+                interp = r['interpretation'] or 'No data'
                 report.append(f"| {r['snp_id']} | {r['gene']} | **{r['genotype']}** | {interp} |")
             else:
-                report.append(f"| {r['snp_id']} | {r['gene']} | - | Не найден |")
+                report.append(f"| {r['snp_id']} | {r['gene']} | - | Not found |")
         report.append("")
 
     # Y-haplogroup (if male)
     if sex == 'male' and y_results:
-        report.append("## 👨 Y-хромосомная гаплогруппа (отцовская линия)\n")
-        report.append("| SNP | Гаплогруппа | Генотип | Описание |")
+        report.append("## 👨 Y-chromosome haplogroup (paternal line)\n")
+        report.append("| SNP | Haplogroup | Genotype | Description |")
         report.append("|-----|-------------|---------|----------|")
 
         for r in y_results:
             report.append(f"| {r['snp_id']} | {r['haplogroup']} | {r['genotype']} | {r['description']} |")
 
-        report.append("\n**Примечание**: Для точного определения Y-гаплогруппы рекомендуется YFull или FTDNA")
+        report.append("\n**Note**: For accurate Y-haplogroup determination, YFull or FTDNA is recommended")
         report.append("")
 
     # Summary
     report.append("\n---\n")
-    report.append("## 📊 Сводка\n")
+    report.append("## 📊 Summary\n")
 
     # Count origins
     origin_counts = {}
@@ -298,65 +302,66 @@ def generate_report(results, y_results, sex, genome):
                 origin_counts[r['origin']] = origin_counts.get(r['origin'], 0) + 1
 
     origin_labels = {
-        'european': '🇪🇺 Европейское',
-        'northern_european': '🇸🇪 Северно-европейское',
-        'european_pastoral': '🐄 Европейское пастушеское',
-        'east_asian': '🇯🇵 Восточноазиатское',
-        'african': '🌍 Африканское',
-        'arabic_african': '🏜️ Арабское/Африканское',
-        'neanderthal': '🦴 Неандертальское',
-        'ancestral': '🌿 Предковое',
-        'mixed': '🔀 Смешанное',
-        'modern': '👤 Современный человек',
-        'other': '• Другое'
+        'european': '🇪🇺 European',
+        'northern_european': '🇸🇪 Northern European',
+        'european_pastoral': '🐄 European pastoral',
+        'east_asian': '🇯🇵 East Asian',
+        'african': '🌍 African',
+        'arabic_african': '🏜️ Arab/African',
+        'neanderthal': '🦴 Neanderthal',
+        'ancestral': '🌿 Ancestral',
+        'mixed': '🔀 Mixed',
+        'modern': '👤 Modern human',
+        'other': '• Other'
     }
 
     if origin_counts:
         for origin, count in sorted(origin_counts.items(), key=lambda x: -x[1]):
             label = origin_labels.get(origin, origin)
-            report.append(f"- {label}: {count} маркеров")
+            report.append(f"- {label}: {count} markers")
 
     report.append("\n---\n")
-    report.append("## 🔗 Рекомендуемые ресурсы\n")
-    report.append("- **GEDmatch**: gedmatch.com - бесплатное сравнение с базами данных")
-    report.append("- **DNA.Land**: dna.land - бесплатный анализ происхождения")
-    report.append("- **YFull**: yfull.com - детальный Y-хромосомный анализ")
-    report.append("- **FTDNA**: familytreedna.com - трансфер для гаплогрупп")
+    report.append("## 🔗 Recommended Resources\n")
+    report.append("- **GEDmatch**: gedmatch.com - free comparison against databases")
+    report.append("- **DNA.Land**: dna.land - free ancestry analysis")
+    report.append("- **YFull**: yfull.com - detailed Y-chromosome analysis")
+    report.append("- **FTDNA**: familytreedna.com - transfer for haplogroups")
 
     return '\n'.join(report)
 
 
 def main():
     print("=" * 60)
-    print("АНАЛИЗ ПРОИСХОЖДЕНИЯ ПО ГЕНОМУ 23andMe")
+    print("ANCESTRY ANALYSIS FROM 23andMe GENOME")
     print("=" * 60)
 
-    print("\n[1/4] Загрузка генома...")
+    print("\n[1/4] Loading genome...")
     genome = load_genome()
-    print(f"      Загружено {len(genome)} SNP")
+    print(f"      Loaded {len(genome)} SNPs")
 
-    print("\n[2/4] Определение пола...")
+    print("\n[2/4] Determining sex...")
     sex = determine_sex(genome)
-    print(f"      Генетический пол: {'мужской' if sex == 'male' else 'женский'}")
+    print(f"      Genetic sex: {'male' if sex == 'male' else 'female'}")
 
-    print("\n[3/4] Анализ маркеров происхождения...")
+    print("\n[3/4] Analyzing ancestry markers...")
     results = analyze_ancestry(genome)
 
     y_results = []
     if sex == 'male':
-        print("      Анализ Y-хромосомы...")
+        print("      Analyzing Y chromosome...")
         y_results = analyze_y_haplogroup(genome)
 
-    print("\n[4/4] Генерация отчёта...")
+    print("\n[4/4] Generating report...")
     report = generate_report(results, y_results, sex, genome)
 
     report_path = f"{REPORTS_PATH}/ancestry/report.md"
+    os.makedirs(os.path.dirname(report_path), exist_ok=True)
     with open(report_path, 'w', encoding='utf-8') as f:
         f.write(report)
     print(f"      → {report_path}")
 
     print("\n" + "=" * 60)
-    print("АНАЛИЗ ЗАВЕРШЁН")
+    print("ANALYSIS COMPLETE")
     print("=" * 60)
 
 

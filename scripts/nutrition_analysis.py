@@ -19,289 +19,289 @@ REPORTS_PATH = f"{BASE_PATH}/reports"
 
 NUTRITION_SNPS = {
     "lactose": {
-        "name": "Лактоза",
+        "name": "Lactose",
         "snps": {
             "rs4988235": {
                 "gene": "LCT (MCM6)",
-                "description": "Переносимость лактозы",
+                "description": "Lactose tolerance",
                 "interpretation": {
-                    "TT": ("tolerant", "Переносит лактозу (персистенция лактазы)"),
-                    "CT": ("partial", "Частичная переносимость"),
-                    "CC": ("intolerant", "Непереносимость лактозы"),
-                    "AA": ("tolerant", "Переносит лактозу"),
-                    "AG": ("partial", "Частичная переносимость"),
-                    "GG": ("intolerant", "Непереносимость лактозы"),
+                    "TT": ("tolerant", "Tolerates lactose (lactase persistence)"),
+                    "CT": ("partial", "Partial tolerance"),
+                    "CC": ("intolerant", "Lactose intolerance"),
+                    "AA": ("tolerant", "Tolerates lactose"),
+                    "AG": ("partial", "Partial tolerance"),
+                    "GG": ("intolerant", "Lactose intolerance"),
                 }
             },
         }
     },
 
     "gluten": {
-        "name": "Глютен (целиакия)",
+        "name": "Gluten (celiac disease)",
         "snps": {
             "rs2187668": {
                 "gene": "HLA-DQ2.5",
-                "description": "Риск целиакии",
+                "description": "Celiac disease risk",
                 "interpretation": {
-                    "TT": ("high_risk", "HLA-DQ2.5 - высокий генетический риск целиакии"),
-                    "CT": ("moderate_risk", "Носитель HLA-DQ2.5 - умеренный риск"),
-                    "CC": ("low_risk", "Низкий генетический риск целиакии"),
+                    "TT": ("high_risk", "HLA-DQ2.5 - high genetic risk of celiac disease"),
+                    "CT": ("moderate_risk", "HLA-DQ2.5 carrier - moderate risk"),
+                    "CC": ("low_risk", "Low genetic risk of celiac disease"),
                 }
             },
             "rs7454108": {
                 "gene": "HLA-DQ8",
-                "description": "Риск целиакии",
+                "description": "Celiac disease risk",
                 "interpretation": {
-                    "CC": ("moderate_risk", "HLA-DQ8 - умеренный риск целиакии"),
-                    "CT": ("low_risk", "Носитель"),
-                    "TT": ("low_risk", "Низкий риск"),
+                    "CC": ("moderate_risk", "HLA-DQ8 - moderate risk of celiac disease"),
+                    "CT": ("low_risk", "Carrier"),
+                    "TT": ("low_risk", "Low risk"),
                 }
             },
         }
     },
 
     "caffeine": {
-        "name": "Кофеин",
+        "name": "Caffeine",
         "snps": {
             "rs762551": {
                 "gene": "CYP1A2",
-                "description": "Метаболизм кофеина",
+                "description": "Caffeine metabolism",
                 "interpretation": {
-                    "AA": ("fast", "Быстрый метаболизатор - кофеин безопасен до 400мг/день"),
-                    "AC": ("medium", "Средний метаболизатор - умеренное потребление"),
-                    "CC": ("slow", "Медленный метаболизатор - риск для сердца при >200мг/день"),
+                    "AA": ("fast", "Fast metabolizer - caffeine is safe up to 400mg/day"),
+                    "AC": ("medium", "Average metabolizer - moderate intake"),
+                    "CC": ("slow", "Slow metabolizer - heart risk at >200mg/day"),
                 }
             },
             "rs5751876": {
                 "gene": "ADORA2A",
-                "description": "Тревожность от кофеина",
+                "description": "Caffeine-induced anxiety",
                 "interpretation": {
-                    "TT": ("low_anxiety", "Меньше тревожности от кофеина"),
-                    "CT": ("moderate_anxiety", "Умеренная чувствительность"),
-                    "CC": ("high_anxiety", "Больше тревожности от кофеина"),
+                    "TT": ("low_anxiety", "Less caffeine-induced anxiety"),
+                    "CT": ("moderate_anxiety", "Moderate sensitivity"),
+                    "CC": ("high_anxiety", "More caffeine-induced anxiety"),
                 }
             },
         }
     },
 
     "alcohol": {
-        "name": "Алкоголь",
+        "name": "Alcohol",
         "snps": {
             "rs671": {
                 "gene": "ALDH2",
-                "description": "Метаболизм алкоголя (азиатский румянец)",
+                "description": "Alcohol metabolism (Asian flush)",
                 "interpretation": {
-                    "GG": ("normal", "Нормальный метаболизм"),
-                    "AG": ("flush", "Asian flush - непереносимость, риск рака при употреблении"),
-                    "AA": ("severe", "Сильная непереносимость алкоголя"),
+                    "GG": ("normal", "Normal metabolism"),
+                    "AG": ("flush", "Asian flush - intolerance, cancer risk with consumption"),
+                    "AA": ("severe", "Severe alcohol intolerance"),
                 }
             },
             "rs1229984": {
                 "gene": "ADH1B",
-                "description": "Скорость метаболизма этанола",
+                "description": "Ethanol metabolism rate",
                 "interpretation": {
-                    "CC": ("slow", "Медленный метаболизм - выше риск алкоголизма"),
-                    "CT": ("fast", "Быстрый метаболизм - защита от алкоголизма"),
-                    "TT": ("fast", "Очень быстрый метаболизм - защита"),
+                    "CC": ("slow", "Slow metabolism - higher risk of alcoholism"),
+                    "CT": ("fast", "Fast metabolism - protection against alcoholism"),
+                    "TT": ("fast", "Very fast metabolism - protective"),
                 }
             },
         }
     },
 
     "vitamin_d": {
-        "name": "Витамин D",
+        "name": "Vitamin D",
         "snps": {
             "rs2282679": {
                 "gene": "GC (VDBP)",
-                "description": "Уровень витамина D в крови",
+                "description": "Blood vitamin D level",
                 "interpretation": {
-                    "CC": ("low", "Сниженный уровень витамина D - нужна добавка"),
-                    "AC": ("moderate", "Умеренно снижен - контроль уровня"),
-                    "GT": ("moderate", "Умеренно снижен"),
-                    "AA": ("normal", "Нормальный уровень"),
-                    "TT": ("normal", "Нормальный уровень"),
-                    "GG": ("normal", "Нормальный уровень"),
+                    "CC": ("low", "Reduced vitamin D level - supplement needed"),
+                    "AC": ("moderate", "Moderately reduced - monitor levels"),
+                    "GT": ("moderate", "Moderately reduced"),
+                    "AA": ("normal", "Normal level"),
+                    "TT": ("normal", "Normal level"),
+                    "GG": ("normal", "Normal level"),
                 }
             },
             "rs7041": {
                 "gene": "GC",
-                "description": "Витамин D связывающий белок",
+                "description": "Vitamin D binding protein",
                 "interpretation": {
-                    "TT": ("low", "Gc1F - сниженный витамин D"),
-                    "GT": ("moderate", "Умеренно снижен"),
-                    "AC": ("moderate", "Умеренно снижен"),
-                    "GG": ("normal", "Gc1S - нормальный уровень"),
-                    "AA": ("normal", "Нормальный уровень"),
-                    "CC": ("normal", "Нормальный"),
+                    "TT": ("low", "Gc1F - reduced vitamin D"),
+                    "GT": ("moderate", "Moderately reduced"),
+                    "AC": ("moderate", "Moderately reduced"),
+                    "GG": ("normal", "Gc1S - normal level"),
+                    "AA": ("normal", "Normal level"),
+                    "CC": ("normal", "Normal"),
                 }
             },
             "rs12785878": {
                 "gene": "DHCR7",
-                "description": "Синтез витамина D от солнца",
+                "description": "Sun-driven vitamin D synthesis",
                 "interpretation": {
-                    "TT": ("low", "Меньше синтез от солнца"),
-                    "GT": ("moderate", "Умеренно снижен синтез"),
-                    "GG": ("normal", "Нормальный синтез"),
+                    "TT": ("low", "Reduced synthesis from sunlight"),
+                    "GT": ("moderate", "Moderately reduced synthesis"),
+                    "GG": ("normal", "Normal synthesis"),
                 }
             },
         }
     },
 
     "vitamin_b": {
-        "name": "Витамины группы B",
+        "name": "B vitamins",
         "snps": {
             "rs1801133": {
                 "gene": "MTHFR C677T",
-                "description": "Метаболизм фолатов (B9)",
+                "description": "Folate (B9) metabolism",
                 "interpretation": {
-                    "TT": ("impaired", "Активность ~30% - нужен метилфолат"),
-                    "CT": ("moderate", "Активность ~65% - метилфолат предпочтителен"),
-                    "AG": ("moderate", "Активность ~65%"),
-                    "CC": ("normal", "Нормальная активность - фолиевая кислота OK"),
-                    "AA": ("normal", "Нормальная активность"),
+                    "TT": ("impaired", "~30% activity - methylfolate needed"),
+                    "CT": ("moderate", "~65% activity - methylfolate preferred"),
+                    "AG": ("moderate", "~65% activity"),
+                    "CC": ("normal", "Normal activity - folic acid OK"),
+                    "AA": ("normal", "Normal activity"),
                 }
             },
             "rs1801131": {
                 "gene": "MTHFR A1298C",
-                "description": "Метаболизм фолатов",
+                "description": "Folate metabolism",
                 "interpretation": {
-                    "CC": ("impaired", "Сниженная активность"),
-                    "AC": ("moderate", "Немного снижена"),
-                    "GT": ("normal", "Нормальная активность"),
-                    "AA": ("normal", "Нормальная активность"),
-                    "TT": ("normal", "Нормальная"),
+                    "CC": ("impaired", "Reduced activity"),
+                    "AC": ("moderate", "Slightly reduced"),
+                    "GT": ("normal", "Normal activity"),
+                    "AA": ("normal", "Normal activity"),
+                    "TT": ("normal", "Normal"),
                 }
             },
             "rs602662": {
                 "gene": "FUT2",
-                "description": "Всасывание витамина B12",
+                "description": "Vitamin B12 absorption",
                 "interpretation": {
-                    "AA": ("impaired", "Сниженное всасывание B12 - нужна добавка"),
-                    "AG": ("moderate", "Умеренно снижено"),
-                    "GG": ("normal", "Нормальное всасывание"),
+                    "AA": ("impaired", "Reduced B12 absorption - supplement needed"),
+                    "AG": ("moderate", "Moderately reduced"),
+                    "GG": ("normal", "Normal absorption"),
                 }
             },
         }
     },
 
     "vitamin_a": {
-        "name": "Витамин A",
+        "name": "Vitamin A",
         "snps": {
             "rs12934922": {
                 "gene": "BCMO1",
-                "description": "Конверсия бета-каротина в витамин A",
+                "description": "Beta-carotene to vitamin A conversion",
                 "interpretation": {
-                    "TT": ("impaired", "Плохая конверсия - нужен готовый витамин A (ретинол)"),
-                    "AT": ("moderate", "Умеренная конверсия"),
-                    "AA": ("normal", "Хорошая конверсия бета-каротина"),
+                    "TT": ("impaired", "Poor conversion - preformed vitamin A (retinol) needed"),
+                    "AT": ("moderate", "Moderate conversion"),
+                    "AA": ("normal", "Good beta-carotene conversion"),
                 }
             },
             "rs7501331": {
                 "gene": "BCMO1",
-                "description": "Конверсия бета-каротина",
+                "description": "Beta-carotene conversion",
                 "interpretation": {
-                    "TT": ("impaired", "Плохая конверсия"),
-                    "CT": ("moderate", "Умеренная"),
-                    "CC": ("normal", "Нормальная конверсия"),
+                    "TT": ("impaired", "Poor conversion"),
+                    "CT": ("moderate", "Moderate"),
+                    "CC": ("normal", "Normal conversion"),
                 }
             },
         }
     },
 
     "omega3": {
-        "name": "Омега-3 жирные кислоты",
+        "name": "Omega-3 fatty acids",
         "snps": {
             "rs174546": {
                 "gene": "FADS1",
-                "description": "Конверсия ALA в EPA/DHA",
+                "description": "ALA to EPA/DHA conversion",
                 "interpretation": {
-                    "TT": ("impaired", "Плохая конверсия - нужны готовые EPA/DHA (рыба, добавки)"),
-                    "CT": ("moderate", "Умеренная конверсия"),
-                    "CC": ("normal", "Хорошая конверсия из растительных источников"),
+                    "TT": ("impaired", "Poor conversion - preformed EPA/DHA needed (fish, supplements)"),
+                    "CT": ("moderate", "Moderate conversion"),
+                    "CC": ("normal", "Good conversion from plant sources"),
                 }
             },
             "rs174547": {
                 "gene": "FADS1",
-                "description": "Метаболизм омега-3",
+                "description": "Omega-3 metabolism",
                 "interpretation": {
-                    "TT": ("impaired", "Сниженная конверсия"),
-                    "CT": ("moderate", "Умеренная"),
-                    "CC": ("normal", "Хорошая конверсия"),
+                    "TT": ("impaired", "Reduced conversion"),
+                    "CT": ("moderate", "Moderate"),
+                    "CC": ("normal", "Good conversion"),
                 }
             },
         }
     },
 
     "salt": {
-        "name": "Соль и давление",
+        "name": "Salt and blood pressure",
         "snps": {
             "rs4961": {
                 "gene": "ADD1",
-                "description": "Чувствительность к соли",
+                "description": "Salt sensitivity",
                 "interpretation": {
-                    "TT": ("sensitive", "Соль-чувствительная гипертония - ограничить соль"),
-                    "GT": ("moderate", "Умеренная чувствительность"),
-                    "GG": ("normal", "Нормальная чувствительность к соли"),
+                    "TT": ("sensitive", "Salt-sensitive hypertension - limit salt"),
+                    "GT": ("moderate", "Moderate sensitivity"),
+                    "GG": ("normal", "Normal salt sensitivity"),
                 }
             },
             "rs699": {
                 "gene": "AGT",
-                "description": "Ангиотензиноген",
+                "description": "Angiotensinogen",
                 "interpretation": {
-                    "CC": ("sensitive", "Повышенное давление от соли"),
-                    "CT": ("moderate", "Умеренная чувствительность"),
-                    "TT": ("normal", "Нормальная реакция на соль"),
+                    "CC": ("sensitive", "Elevated blood pressure from salt"),
+                    "CT": ("moderate", "Moderate sensitivity"),
+                    "TT": ("normal", "Normal response to salt"),
                 }
             },
         }
     },
 
     "taste": {
-        "name": "Вкусовые особенности",
+        "name": "Taste traits",
         "snps": {
             "rs713598": {
                 "gene": "TAS2R38",
-                "description": "Чувствительность к горечи",
+                "description": "Bitter taste sensitivity",
                 "interpretation": {
-                    "GG": ("supertaster", "Супертастер - сильно чувствует горечь (брокколи, кофе)"),
-                    "CG": ("medium", "Средняя чувствительность к горечи"),
-                    "CC": ("non_taster", "Не чувствует горечь PROP/PTC"),
+                    "GG": ("supertaster", "Supertaster - strongly perceives bitterness (broccoli, coffee)"),
+                    "CG": ("medium", "Average bitter taste sensitivity"),
+                    "CC": ("non_taster", "Cannot taste PROP/PTC bitterness"),
                 }
             },
             "rs72921001": {
                 "gene": "OR6A2",
-                "description": "Восприятие кориандра",
+                "description": "Cilantro perception",
                 "interpretation": {
-                    "AA": ("soap", "Кориандр пахнет мылом"),
-                    "AC": ("mild", "Слабое восприятие мыльного вкуса"),
-                    "CC": ("normal", "Нормальное восприятие кориандра"),
+                    "AA": ("soap", "Cilantro smells like soap"),
+                    "AC": ("mild", "Mild perception of soapy taste"),
+                    "CC": ("normal", "Normal cilantro perception"),
                 }
             },
         }
     },
 
     "iron": {
-        "name": "Железо",
+        "name": "Iron",
         "snps": {
             "rs1800562": {
                 "gene": "HFE C282Y",
-                "description": "Гемохроматоз (накопление железа)",
+                "description": "Hemochromatosis (iron overload)",
                 "interpretation": {
-                    "AA": ("high_risk", "Гемохроматоз - избегать добавок железа!"),
-                    "AG": ("carrier", "Носитель - контроль уровня ферритина"),
-                    "GG": ("normal", "Нормальный метаболизм железа"),
+                    "AA": ("high_risk", "Hemochromatosis - avoid iron supplements!"),
+                    "AG": ("carrier", "Carrier - monitor ferritin levels"),
+                    "GG": ("normal", "Normal iron metabolism"),
                 }
             },
             "rs855791": {
                 "gene": "TMPRSS6",
-                "description": "Уровень железа",
+                "description": "Iron level",
                 "interpretation": {
-                    "TT": ("low", "Склонность к низкому железу"),
-                    "CT": ("moderate", "Умеренно снижен"),
-                    "AG": ("moderate", "Умеренно снижен уровень"),
-                    "CC": ("normal", "Нормальный уровень"),
-                    "AA": ("normal", "Нормальный"),
-                    "GG": ("normal", "Нормальный"),
+                    "TT": ("low", "Tendency toward low iron"),
+                    "CT": ("moderate", "Moderately reduced"),
+                    "AG": ("moderate", "Moderately reduced level"),
+                    "CC": ("normal", "Normal level"),
+                    "AA": ("normal", "Normal"),
+                    "GG": ("normal", "Normal"),
                 }
             },
         }
@@ -319,6 +319,10 @@ def load_genome():
             parts = line.strip().split('\t')
             if len(parts) >= 4:
                 rsid, chrom, pos, genotype = parts[0], parts[1], parts[2], parts[3]
+                if len(parts) >= 5:  # AncestryDNA format: separate allele columns
+                    if parts[3] + parts[4] == '00':
+                        continue  # Ancestry no-call: skip so it is not mistaken for a deletion ('--')
+                    genotype = parts[3] + parts[4]
                 genome[rsid] = {
                     'chromosome': chrom,
                     'position': pos,
@@ -364,12 +368,12 @@ def analyze_nutrition(genome):
 def generate_report(results):
     """Generate nutrition report"""
     report = []
-    report.append("# 🥗 Анализ питания и метаболизма")
-    report.append(f"\nДата анализа: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
+    report.append("# 🥗 Nutrition & Metabolism Analysis")
+    report.append(f"\nAnalysis date: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
     report.append("\n---\n")
 
     # Summary of key findings
-    report.append("## 📋 Ключевые находки\n")
+    report.append("## 📋 Key Findings\n")
 
     recommendations = []
     warnings = []
@@ -382,7 +386,7 @@ def generate_report(results):
                 pass  # Normal findings
 
     if warnings:
-        report.append("### Требуют внимания\n")
+        report.append("### Needs Attention\n")
         for w in warnings:
             report.append(f"- {w}")
         report.append("")
@@ -393,7 +397,7 @@ def generate_report(results):
     for category, cat_results in results.items():
         cat_name = NUTRITION_SNPS[category]['name']
         report.append(f"## {cat_name}\n")
-        report.append("| SNP | Ген | Генотип | Статус | Интерпретация |")
+        report.append("| SNP | Gene | Genotype | Status | Interpretation |")
         report.append("|-----|-----|---------|--------|---------------|")
 
         for r in cat_results:
@@ -419,50 +423,50 @@ def generate_report(results):
                     'non_taster': 'ℹ️',
                     'soap': 'ℹ️',
                 }.get(r['status'], '•')
-                interp = r['interpretation'] or 'Нет данных'
-                status = r['status'] or 'н/д'
+                interp = r['interpretation'] or 'No data'
+                status = r['status'] or 'n/a'
                 report.append(f"| {r['snp_id']} | {r['gene']} | **{r['genotype']}** | {status_emoji} {status} | {interp} |")
             else:
-                report.append(f"| {r['snp_id']} | {r['gene']} | - | - | Не найден |")
+                report.append(f"| {r['snp_id']} | {r['gene']} | - | - | Not found |")
         report.append("")
 
     # Recommendations section
     report.append("---\n")
-    report.append("## 💡 Персонализированные рекомендации\n")
+    report.append("## 💡 Personalized Recommendations\n")
 
     # Generate recommendations based on findings
     rec_map = {
         'lactose': {
-            'intolerant': "**Лактоза**: Избегайте молочных продуктов или используйте безлактозные альтернативы",
-            'partial': "**Лактоза**: Умеренное потребление молочных продуктов, можно использовать лактазу"
+            'intolerant': "**Lactose**: Avoid dairy products or use lactose-free alternatives",
+            'partial': "**Lactose**: Consume dairy in moderation; lactase supplements can help"
         },
         'caffeine': {
-            'slow': "**Кофеин**: Ограничьте до 1-2 чашек кофе в день, избегайте после обеда",
-            'high_anxiety': "**Кофеин**: Если испытываете тревожность от кофе - снизьте потребление"
+            'slow': "**Caffeine**: Limit to 1-2 cups of coffee per day, avoid after lunch",
+            'high_anxiety': "**Caffeine**: If coffee makes you anxious, reduce your intake"
         },
         'vitamin_d': {
-            'low': "**Витамин D**: Рекомендуется добавка 2000-4000 МЕ/день, особенно зимой",
-            'moderate': "**Витамин D**: Контролируйте уровень 25(OH)D, возможно нужна добавка"
+            'low': "**Vitamin D**: A supplement of 2000-4000 IU/day is recommended, especially in winter",
+            'moderate': "**Vitamin D**: Monitor 25(OH)D levels; a supplement may be needed"
         },
         'vitamin_b': {
-            'impaired': "**Фолаты**: Используйте метилфолат вместо фолиевой кислоты (400-800 мкг/день)"
+            'impaired': "**Folate**: Use methylfolate instead of folic acid (400-800 mcg/day)"
         },
         'vitamin_a': {
-            'impaired': "**Витамин A**: Получайте из животных источников (печень, яйца) или добавок ретинола"
+            'impaired': "**Vitamin A**: Get it from animal sources (liver, eggs) or retinol supplements"
         },
         'omega3': {
-            'impaired': "**Омега-3**: Употребляйте жирную рыбу 2-3 раза в неделю или добавки EPA/DHA"
+            'impaired': "**Omega-3**: Eat fatty fish 2-3 times per week or take EPA/DHA supplements"
         },
         'iron': {
-            'high_risk': "**Железо**: ИЗБЕГАЙТЕ добавок железа! Регулярно контролируйте ферритин",
-            'low': "**Железо**: Возможна склонность к анемии - контролируйте гемоглобин и ферритин"
+            'high_risk': "**Iron**: AVOID iron supplements! Monitor ferritin regularly",
+            'low': "**Iron**: Possible tendency toward anemia - monitor hemoglobin and ferritin"
         },
         'salt': {
-            'sensitive': "**Соль**: Ограничьте до 5г/день, избегайте переработанных продуктов"
+            'sensitive': "**Salt**: Limit to 5g/day, avoid processed foods"
         },
         'alcohol': {
-            'flush': "**Алкоголь**: Рекомендуется полный отказ - повышен риск рака пищевода",
-            'severe': "**Алкоголь**: Полный отказ от алкоголя"
+            'flush': "**Alcohol**: Complete abstinence recommended - increased risk of esophageal cancer",
+            'severe': "**Alcohol**: Complete abstinence from alcohol"
         }
     }
 
@@ -475,43 +479,44 @@ def generate_report(results):
                     has_recommendations = True
 
     if not has_recommendations:
-        report.append("- Нет критических находок, придерживайтесь сбалансированного питания")
+        report.append("- No critical findings; stick to a balanced diet")
 
     report.append("\n---\n")
-    report.append("## ⚠️ Важно\n")
-    report.append("- Генетика — это предрасположенность, не диагноз")
-    report.append("- Перед приёмом добавок проконсультируйтесь с врачом")
-    report.append("- Для витамина D и железа рекомендуется сдать анализы крови")
+    report.append("## ⚠️ Important\n")
+    report.append("- Genetics is a predisposition, not a diagnosis")
+    report.append("- Consult a doctor before taking supplements")
+    report.append("- Blood tests are recommended for vitamin D and iron")
 
     return '\n'.join(report)
 
 
 def main():
     print("=" * 60)
-    print("АНАЛИЗ ПИТАНИЯ И МЕТАБОЛИЗМА")
+    print("NUTRITION & METABOLISM ANALYSIS")
     print("=" * 60)
 
-    print("\n[1/3] Загрузка генома...")
+    print("\n[1/3] Loading genome...")
     genome = load_genome()
-    print(f"      Загружено {len(genome)} SNP")
+    print(f"      Loaded {len(genome)} SNP")
 
-    print("\n[2/3] Анализ маркеров...")
+    print("\n[2/3] Analyzing markers...")
     results = analyze_nutrition(genome)
 
     total = sum(len(r) for r in results.values())
     found = sum(sum(1 for x in r if x['found']) for r in results.values())
-    print(f"      Найдено: {found}/{total} маркеров")
+    print(f"      Found: {found}/{total} markers")
 
-    print("\n[3/3] Генерация отчёта...")
+    print("\n[3/3] Generating report...")
     report = generate_report(results)
 
     report_path = f"{REPORTS_PATH}/nutrition/report.md"
+    os.makedirs(os.path.dirname(report_path), exist_ok=True)
     with open(report_path, 'w', encoding='utf-8') as f:
         f.write(report)
     print(f"      → {report_path}")
 
     print("\n" + "=" * 60)
-    print("АНАЛИЗ ЗАВЕРШЁН")
+    print("ANALYSIS COMPLETE")
     print("=" * 60)
 
 

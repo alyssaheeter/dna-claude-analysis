@@ -21,268 +21,268 @@ REPORTS_PATH = f"{BASE_PATH}/reports"
 
 CARRIER_SNPS = {
     "cystic_fibrosis": {
-        "name": "Муковисцидоз (Cystic Fibrosis)",
-        "inheritance": "Аутосомно-рецессивное",
-        "frequency": "1/25 носителей среди европейцев",
+        "name": "Cystic Fibrosis",
+        "inheritance": "Autosomal recessive",
+        "frequency": "1 in 25 carriers among Europeans",
         "snps": {
             "rs113993960": {
                 "gene": "CFTR",
                 "mutation": "F508del (p.Phe508del)",
-                "description": "Наиболее частая мутация муковисцидоза (70% случаев)",
+                "description": "Most common cystic fibrosis mutation (70% of cases)",
                 "risk_allele": "del",
                 "interpretation": {
-                    "--": ("carrier", "Носитель F508del - делеция обнаружена"),
-                    "CTT": ("normal", "Норма - нет делеции"),
-                    "CT": ("carrier", "Возможный носитель (гетерозигота)"),
-                    "II": ("normal", "Инсерция - норма"),
-                    "DI": ("carrier", "Носитель делеции"),
-                    "DD": ("affected", "Гомозигота по делеции - возможен муковисцидоз"),
+                    "--": ("carrier", "F508del carrier - deletion detected"),
+                    "CTT": ("normal", "Normal - no deletion"),
+                    "CT": ("carrier", "Possible carrier (heterozygous)"),
+                    "II": ("normal", "Insertion - normal"),
+                    "DI": ("carrier", "Deletion carrier"),
+                    "DD": ("affected", "Homozygous for the deletion - cystic fibrosis possible"),
                 }
             },
             "rs121909005": {
                 "gene": "CFTR",
                 "mutation": "G542X (p.Gly542Ter)",
-                "description": "Стоп-мутация, 2-3% случаев муковисцидоза",
+                "description": "Nonsense (stop) mutation, 2-3% of cystic fibrosis cases",
                 "risk_allele": "A",
                 "interpretation": {
-                    "AA": ("affected", "Гомозигота G542X - муковисцидоз"),
-                    "AG": ("carrier", "Носитель G542X"),
-                    "GA": ("carrier", "Носитель G542X"),
-                    "GG": ("normal", "Норма - нет мутации G542X"),
+                    "AA": ("affected", "G542X homozygous - cystic fibrosis"),
+                    "AG": ("carrier", "G542X carrier"),
+                    "GA": ("carrier", "G542X carrier"),
+                    "GG": ("normal", "Normal - no G542X mutation"),
                 }
             },
         }
     },
 
     "sickle_cell": {
-        "name": "Серповидноклеточная анемия (Sickle Cell)",
-        "inheritance": "Аутосомно-рецессивное",
-        "frequency": "1/12 носителей среди афроамериканцев, редко у европейцев",
+        "name": "Sickle Cell Anemia",
+        "inheritance": "Autosomal recessive",
+        "frequency": "1 in 12 carriers among African Americans, rare in Europeans",
         "snps": {
             "rs334": {
                 "gene": "HBB",
                 "mutation": "HbS (p.Glu6Val)",
-                "description": "Мутация серповидноклеточной анемии",
+                "description": "Sickle cell anemia mutation",
                 "risk_allele": "T",
                 "interpretation": {
-                    "AA": ("normal", "Норма - нормальный гемоглобин HbA"),
-                    "AT": ("carrier", "Носитель HbS - серповидноклеточный признак (защита от малярии)"),
-                    "TA": ("carrier", "Носитель HbS - серповидноклеточный признак (защита от малярии)"),
-                    "TT": ("affected", "Серповидноклеточная анемия (HbSS) - требуется медицинское наблюдение"),
+                    "AA": ("normal", "Normal - normal hemoglobin HbA"),
+                    "AT": ("carrier", "HbS carrier - sickle cell trait (protection against malaria)"),
+                    "TA": ("carrier", "HbS carrier - sickle cell trait (protection against malaria)"),
+                    "TT": ("affected", "Sickle cell anemia (HbSS) - medical follow-up required"),
                 }
             },
         }
     },
 
     "tay_sachs": {
-        "name": "Болезнь Тея-Сакса (Tay-Sachs)",
-        "inheritance": "Аутосомно-рецессивное",
-        "frequency": "1/30 носителей среди ашкеназских евреев",
+        "name": "Tay-Sachs Disease",
+        "inheritance": "Autosomal recessive",
+        "frequency": "1 in 30 carriers among Ashkenazi Jews",
         "snps": {
             "rs80338939": {
                 "gene": "HEXA",
                 "mutation": "IVS12+1G>C / 1278insTATC",
-                "description": "Мутация болезни Тея-Сакса",
+                "description": "Tay-Sachs disease mutation",
                 "risk_allele": "T",
                 "interpretation": {
-                    "CC": ("normal", "Норма - нет мутации"),
-                    "CT": ("carrier", "Носитель мутации Тея-Сакса"),
-                    "TC": ("carrier", "Носитель мутации Тея-Сакса"),
-                    "TT": ("affected", "Гомозигота - болезнь Тея-Сакса"),
-                    "GG": ("normal", "Норма"),
-                    "AG": ("carrier", "Возможный носитель"),
-                    "GA": ("carrier", "Возможный носитель"),
-                    "AA": ("affected", "Возможна болезнь Тея-Сакса"),
+                    "CC": ("normal", "Normal - no mutation"),
+                    "CT": ("carrier", "Tay-Sachs mutation carrier"),
+                    "TC": ("carrier", "Tay-Sachs mutation carrier"),
+                    "TT": ("affected", "Homozygous - Tay-Sachs disease"),
+                    "GG": ("normal", "Normal"),
+                    "AG": ("carrier", "Possible carrier"),
+                    "GA": ("carrier", "Possible carrier"),
+                    "AA": ("affected", "Tay-Sachs disease possible"),
                 }
             },
         }
     },
 
     "gaucher": {
-        "name": "Болезнь Гоше (Gaucher Disease)",
-        "inheritance": "Аутосомно-рецессивное",
-        "frequency": "1/15 носителей среди ашкеназских евреев",
+        "name": "Gaucher Disease",
+        "inheritance": "Autosomal recessive",
+        "frequency": "1 in 15 carriers among Ashkenazi Jews",
         "snps": {
             "rs76763715": {
                 "gene": "GBA",
                 "mutation": "N370S (p.Asn409Ser)",
-                "description": "Наиболее частая мутация болезни Гоше тип 1",
+                "description": "Most common mutation in Gaucher disease type 1",
                 "risk_allele": "A",
                 "interpretation": {
-                    "GG": ("normal", "Норма - нет мутации N370S"),
-                    "AG": ("carrier", "Носитель N370S - болезнь Гоше тип 1"),
-                    "GA": ("carrier", "Носитель N370S - болезнь Гоше тип 1"),
-                    "AA": ("affected", "Гомозигота N370S - болезнь Гоше тип 1"),
-                    "CC": ("normal", "Норма"),
-                    "CT": ("carrier", "Возможный носитель"),
-                    "TC": ("carrier", "Возможный носитель"),
-                    "TT": ("affected", "Возможна болезнь Гоше"),
+                    "GG": ("normal", "Normal - no N370S mutation"),
+                    "AG": ("carrier", "N370S carrier - Gaucher disease type 1"),
+                    "GA": ("carrier", "N370S carrier - Gaucher disease type 1"),
+                    "AA": ("affected", "N370S homozygous - Gaucher disease type 1"),
+                    "CC": ("normal", "Normal"),
+                    "CT": ("carrier", "Possible carrier"),
+                    "TC": ("carrier", "Possible carrier"),
+                    "TT": ("affected", "Gaucher disease possible"),
                 }
             },
         }
     },
 
     "hearing_loss": {
-        "name": "Наследственная глухота (GJB2)",
-        "inheritance": "Аутосомно-рецессивное",
-        "frequency": "1/30-50 носителей в общей популяции",
+        "name": "Hereditary Deafness (GJB2)",
+        "inheritance": "Autosomal recessive",
+        "frequency": "1 in 30-50 carriers in the general population",
         "snps": {
             "rs80338939": {
                 "gene": "GJB2",
                 "mutation": "35delG (c.35delG)",
-                "description": "Наиболее частая причина наследственной глухоты у европейцев",
+                "description": "Most common cause of hereditary deafness in Europeans",
                 "risk_allele": "del",
                 "interpretation": {
-                    "--": ("carrier", "Носитель 35delG"),
-                    "GG": ("normal", "Норма - нет делеции 35delG"),
-                    "G-": ("carrier", "Носитель делеции 35delG"),
-                    "-G": ("carrier", "Носитель делеции 35delG"),
-                    "CC": ("normal", "Норма"),
-                    "CT": ("carrier", "Возможный носитель"),
-                    "TT": ("affected", "Возможна глухота"),
+                    "--": ("carrier", "35delG carrier"),
+                    "GG": ("normal", "Normal - no 35delG deletion"),
+                    "G-": ("carrier", "35delG deletion carrier"),
+                    "-G": ("carrier", "35delG deletion carrier"),
+                    "CC": ("normal", "Normal"),
+                    "CT": ("carrier", "Possible carrier"),
+                    "TT": ("affected", "Deafness possible"),
                 }
             },
         }
     },
 
     "hemochromatosis": {
-        "name": "Гемохроматоз (Hemochromatosis)",
-        "inheritance": "Аутосомно-рецессивное с неполной пенетрантностью",
-        "frequency": "1/8-10 носителей среди европейцев",
+        "name": "Hemochromatosis",
+        "inheritance": "Autosomal recessive with incomplete penetrance",
+        "frequency": "1 in 8-10 carriers among Europeans",
         "snps": {
             "rs1800562": {
                 "gene": "HFE",
                 "mutation": "C282Y (p.Cys282Tyr)",
-                "description": "Главная мутация наследственного гемохроматоза",
+                "description": "Main mutation in hereditary hemochromatosis",
                 "risk_allele": "A",
                 "interpretation": {
-                    "GG": ("normal", "Норма - нет мутации C282Y"),
-                    "AG": ("carrier", "Носитель C282Y - контроль ферритина рекомендован"),
-                    "GA": ("carrier", "Носитель C282Y - контроль ферритина рекомендован"),
-                    "AA": ("affected", "Гомозигота C282Y - высокий риск гемохроматоза, контроль железа обязателен"),
+                    "GG": ("normal", "Normal - no C282Y mutation"),
+                    "AG": ("carrier", "C282Y carrier - ferritin monitoring recommended"),
+                    "GA": ("carrier", "C282Y carrier - ferritin monitoring recommended"),
+                    "AA": ("affected", "C282Y homozygous - high risk of hemochromatosis, iron monitoring is essential"),
                 }
             },
             "rs1799945": {
                 "gene": "HFE",
                 "mutation": "H63D (p.His63Asp)",
-                "description": "Вторая по частоте мутация HFE (мягкий эффект)",
+                "description": "Second most common HFE mutation (mild effect)",
                 "risk_allele": "G",
                 "interpretation": {
-                    "CC": ("normal", "Норма - нет мутации H63D"),
-                    "CG": ("carrier", "Носитель H63D - обычно клинически незначим"),
-                    "GC": ("carrier", "Носитель H63D - обычно клинически незначим"),
-                    "GG": ("mild_risk", "Гомозигота H63D - небольшой риск накопления железа"),
+                    "CC": ("normal", "Normal - no H63D mutation"),
+                    "CG": ("carrier", "H63D carrier - usually clinically insignificant"),
+                    "GC": ("carrier", "H63D carrier - usually clinically insignificant"),
+                    "GG": ("mild_risk", "H63D homozygous - slight risk of iron accumulation"),
                 }
             },
         }
     },
 
     "alpha1_antitrypsin": {
-        "name": "Дефицит альфа-1-антитрипсина (Alpha-1 Antitrypsin)",
-        "inheritance": "Аутосомно-кодоминантное",
-        "frequency": "1/25 носителей Z-аллеля среди европейцев",
+        "name": "Alpha-1 Antitrypsin Deficiency",
+        "inheritance": "Autosomal codominant",
+        "frequency": "1 in 25 carriers of the Z allele among Europeans",
         "snps": {
             "rs28929474": {
                 "gene": "SERPINA1",
                 "mutation": "Z (p.Glu342Lys)",
-                "description": "Тяжелый дефицит - риск эмфиземы и цирроза",
+                "description": "Severe deficiency - risk of emphysema and cirrhosis",
                 "risk_allele": "T",
                 "interpretation": {
-                    "CC": ("normal", "MM генотип - норма (100% активности A1AT)"),
-                    "CT": ("carrier", "MZ генотип - носитель (~60% активности, избегать курения!)"),
-                    "TC": ("carrier", "MZ генотип - носитель (~60% активности, избегать курения!)"),
-                    "TT": ("affected", "ZZ генотип - тяжелый дефицит (~15% активности), риск эмфиземы/цирроза"),
-                    "GG": ("normal", "Норма"),
-                    "AG": ("carrier", "Носитель Z-аллеля"),
-                    "GA": ("carrier", "Носитель Z-аллеля"),
-                    "AA": ("affected", "ZZ генотип"),
+                    "CC": ("normal", "MM genotype - normal (100% A1AT activity)"),
+                    "CT": ("carrier", "MZ genotype - carrier (~60% activity, avoid smoking!)"),
+                    "TC": ("carrier", "MZ genotype - carrier (~60% activity, avoid smoking!)"),
+                    "TT": ("affected", "ZZ genotype - severe deficiency (~15% activity), risk of emphysema/cirrhosis"),
+                    "GG": ("normal", "Normal"),
+                    "AG": ("carrier", "Z allele carrier"),
+                    "GA": ("carrier", "Z allele carrier"),
+                    "AA": ("affected", "ZZ genotype"),
                 }
             },
             "rs17580": {
                 "gene": "SERPINA1",
                 "mutation": "S (p.Glu264Val)",
-                "description": "Умеренный дефицит A1AT",
+                "description": "Moderate A1AT deficiency",
                 "risk_allele": "T",
                 "interpretation": {
-                    "AA": ("normal", "Норма - нет S-аллеля"),
-                    "AT": ("carrier", "MS генотип - носитель S (~80% активности)"),
-                    "TA": ("carrier", "MS генотип - носитель S (~80% активности)"),
-                    "TT": ("mild_risk", "SS генотип - умеренный дефицит (~60% активности)"),
-                    "GG": ("normal", "Норма"),
-                    "GT": ("carrier", "Носитель S-аллеля"),
-                    "TG": ("carrier", "Носитель S-аллеля"),
+                    "AA": ("normal", "Normal - no S allele"),
+                    "AT": ("carrier", "MS genotype - S carrier (~80% activity)"),
+                    "TA": ("carrier", "MS genotype - S carrier (~80% activity)"),
+                    "TT": ("mild_risk", "SS genotype - moderate deficiency (~60% activity)"),
+                    "GG": ("normal", "Normal"),
+                    "GT": ("carrier", "S allele carrier"),
+                    "TG": ("carrier", "S allele carrier"),
                 }
             },
         }
     },
 
     "phenylketonuria": {
-        "name": "Фенилкетонурия (PKU)",
-        "inheritance": "Аутосомно-рецессивное",
-        "frequency": "1/50 носителей среди европейцев",
+        "name": "Phenylketonuria (PKU)",
+        "inheritance": "Autosomal recessive",
+        "frequency": "1 in 50 carriers among Europeans",
         "snps": {
             "rs5030858": {
                 "gene": "PAH",
                 "mutation": "R408W (p.Arg408Trp)",
-                "description": "Частая мутация фенилкетонурии в Восточной Европе",
+                "description": "Common phenylketonuria mutation in Eastern Europe",
                 "risk_allele": "A",
                 "interpretation": {
-                    "GG": ("normal", "Норма - нет мутации R408W"),
-                    "AG": ("carrier", "Носитель R408W - PKU"),
-                    "GA": ("carrier", "Носитель R408W - PKU"),
-                    "AA": ("affected", "Гомозигота R408W - фенилкетонурия"),
-                    "CC": ("normal", "Норма"),
-                    "CT": ("carrier", "Носитель мутации PAH"),
-                    "TC": ("carrier", "Носитель мутации PAH"),
-                    "TT": ("affected", "Фенилкетонурия"),
+                    "GG": ("normal", "Normal - no R408W mutation"),
+                    "AG": ("carrier", "R408W carrier - PKU"),
+                    "GA": ("carrier", "R408W carrier - PKU"),
+                    "AA": ("affected", "R408W homozygous - phenylketonuria"),
+                    "CC": ("normal", "Normal"),
+                    "CT": ("carrier", "PAH mutation carrier"),
+                    "TC": ("carrier", "PAH mutation carrier"),
+                    "TT": ("affected", "Phenylketonuria"),
                 }
             },
         }
     },
 
     "brca_hereditary_cancer": {
-        "name": "Наследственный рак (BRCA1/BRCA2)",
-        "inheritance": "Аутосомно-доминантное (одной копии достаточно для риска)",
-        "frequency": "1/40 среди ашкеназских евреев, 1/400-500 в общей популяции",
+        "name": "Hereditary Cancer (BRCA1/BRCA2)",
+        "inheritance": "Autosomal dominant (one copy is enough to confer risk)",
+        "frequency": "1 in 40 among Ashkenazi Jews, 1 in 400-500 in the general population",
         "snps": {
             "rs80357906": {
                 "gene": "BRCA1",
                 "mutation": "185delAG (c.68_69delAG)",
-                "description": "Основатель мутация BRCA1 - высокий риск рака груди/яичников",
+                "description": "BRCA1 founder mutation - high risk of breast/ovarian cancer",
                 "risk_allele": "del",
                 "interpretation": {
-                    "--": ("high_risk", "Носитель 185delAG - высокий риск рака груди (до 80%) и яичников (до 40%)"),
-                    "AG": ("normal", "Норма - нет мутации 185delAG"),
-                    "GA": ("normal", "Норма"),
-                    "AA": ("normal", "Норма"),
-                    "GG": ("normal", "Норма"),
-                    "A-": ("high_risk", "Носитель делеции BRCA1"),
-                    "-A": ("high_risk", "Носитель делеции BRCA1"),
-                    "G-": ("high_risk", "Носитель делеции BRCA1"),
-                    "-G": ("high_risk", "Носитель делеции BRCA1"),
-                    "II": ("normal", "Норма - инсерция"),
-                    "DI": ("high_risk", "Носитель делеции"),
-                    "ID": ("high_risk", "Носитель делеции"),
-                    "DD": ("high_risk", "Гомозигота - требуется генетическое консультирование"),
+                    "--": ("high_risk", "185delAG carrier - high risk of breast cancer (up to 80%) and ovarian cancer (up to 40%)"),
+                    "AG": ("normal", "Normal - no 185delAG mutation"),
+                    "GA": ("normal", "Normal"),
+                    "AA": ("normal", "Normal"),
+                    "GG": ("normal", "Normal"),
+                    "A-": ("high_risk", "BRCA1 deletion carrier"),
+                    "-A": ("high_risk", "BRCA1 deletion carrier"),
+                    "G-": ("high_risk", "BRCA1 deletion carrier"),
+                    "-G": ("high_risk", "BRCA1 deletion carrier"),
+                    "II": ("normal", "Normal - insertion"),
+                    "DI": ("high_risk", "Deletion carrier"),
+                    "ID": ("high_risk", "Deletion carrier"),
+                    "DD": ("high_risk", "Homozygous - genetic counseling required"),
                 }
             },
             "rs80359550": {
                 "gene": "BRCA2",
                 "mutation": "6174delT (c.5946delT)",
-                "description": "Основатель мутация BRCA2 - высокий риск рака груди",
+                "description": "BRCA2 founder mutation - high risk of breast cancer",
                 "risk_allele": "del",
                 "interpretation": {
-                    "--": ("high_risk", "Носитель 6174delT - высокий риск рака груди и простаты"),
-                    "TT": ("normal", "Норма - нет делеции 6174delT"),
-                    "T-": ("high_risk", "Носитель делеции BRCA2"),
-                    "-T": ("high_risk", "Носитель делеции BRCA2"),
-                    "AA": ("normal", "Норма"),
-                    "CC": ("normal", "Норма"),
-                    "GG": ("normal", "Норма"),
-                    "II": ("normal", "Норма"),
-                    "DI": ("high_risk", "Носитель делеции"),
-                    "ID": ("high_risk", "Носитель делеции"),
-                    "DD": ("high_risk", "Гомозигота по делеции"),
+                    "--": ("high_risk", "6174delT carrier - high risk of breast and prostate cancer"),
+                    "TT": ("normal", "Normal - no 6174delT deletion"),
+                    "T-": ("high_risk", "BRCA2 deletion carrier"),
+                    "-T": ("high_risk", "BRCA2 deletion carrier"),
+                    "AA": ("normal", "Normal"),
+                    "CC": ("normal", "Normal"),
+                    "GG": ("normal", "Normal"),
+                    "II": ("normal", "Normal"),
+                    "DI": ("high_risk", "Deletion carrier"),
+                    "ID": ("high_risk", "Deletion carrier"),
+                    "DD": ("high_risk", "Homozygous for the deletion"),
                 }
             },
         }
@@ -292,76 +292,76 @@ CARRIER_SNPS = {
 # Family planning notes for each condition
 FAMILY_PLANNING_NOTES = {
     "cystic_fibrosis": """
-    **Семейное планирование при носительстве муковисцидоза:**
-    - Если оба партнера носители: 25% риск рождения ребенка с муковисцидозом
-    - Рекомендуется тестирование партнера перед беременностью
-    - Доступны ПГД (преимплантационная диагностика) и пренатальная диагностика
-    - Заболевание серьезное, но лечение значительно улучшилось
+    **Family planning for cystic fibrosis carriers:**
+    - If both partners are carriers: 25% risk of having a child with cystic fibrosis
+    - Partner testing before pregnancy is recommended
+    - PGD (preimplantation genetic diagnosis) and prenatal diagnosis are available
+    - The disease is serious, but treatment has improved significantly
     """,
 
     "sickle_cell": """
-    **Семейное планирование при носительстве серповидноклеточной анемии:**
-    - Носительство (AT) дает защиту от малярии без симптомов болезни
-    - Если оба партнера носители: 25% риск серповидноклеточной анемии у ребенка
-    - Тестирование партнера обязательно рекомендуется
-    - Неонатальный скрининг выявляет болезнь при рождении
+    **Family planning for sickle cell anemia carriers:**
+    - Carrier status (AT) protects against malaria without disease symptoms
+    - If both partners are carriers: 25% risk of sickle cell anemia in the child
+    - Partner testing is strongly recommended
+    - Newborn screening detects the disease at birth
     """,
 
     "tay_sachs": """
-    **Семейное планирование при носительстве болезни Тея-Сакса:**
-    - Особенно важно для пар ашкеназского происхождения
-    - Если оба носители: 25% риск болезни Тея-Сакса (летальная в детстве)
-    - Обязательно тестирование партнера
-    - ПГД позволяет предотвратить рождение больного ребенка
+    **Family planning for Tay-Sachs disease carriers:**
+    - Especially important for couples of Ashkenazi descent
+    - If both are carriers: 25% risk of Tay-Sachs disease (fatal in childhood)
+    - Partner testing is essential
+    - PGD can prevent the birth of an affected child
     """,
 
     "gaucher": """
-    **Семейное планирование при носительстве болезни Гоше:**
-    - Тип 1 (N370S) - наиболее мягкий, совместим с нормальной жизнью
-    - Если оба носители: 25% риск болезни Гоше
-    - Существует эффективная ферментозаместительная терапия
-    - Тестирование партнера рекомендуется, особенно для ашкеназских евреев
+    **Family planning for Gaucher disease carriers:**
+    - Type 1 (N370S) is the mildest and is compatible with a normal life
+    - If both are carriers: 25% risk of Gaucher disease
+    - Effective enzyme replacement therapy is available
+    - Partner testing is recommended, especially for Ashkenazi Jews
     """,
 
     "hearing_loss": """
-    **Семейное планирование при носительстве наследственной глухоты:**
-    - Если оба партнера носители 35delG: 25% риск глухоты у ребенка
-    - Тестирование партнера рекомендуется
-    - Глухота не влияет на продолжительность жизни
-    - Кохлеарные импланты эффективны при раннем выявлении
+    **Family planning for hereditary deafness carriers:**
+    - If both partners carry 35delG: 25% risk of deafness in the child
+    - Partner testing is recommended
+    - Deafness does not affect life expectancy
+    - Cochlear implants are effective when detected early
     """,
 
     "hemochromatosis": """
-    **Семейное планирование при носительстве/наличии гемохроматоза:**
-    - C282Y гомозиготы должны регулярно контролировать ферритин
-    - Носители обычно не имеют клинических проявлений
-    - Болезнь хорошо поддается лечению (флеботомия)
-    - Низкий приоритет для ПГД, так как болезнь управляема
+    **Family planning for hemochromatosis carriers/affected individuals:**
+    - C282Y homozygotes should monitor ferritin regularly
+    - Carriers usually have no clinical manifestations
+    - The disease responds well to treatment (phlebotomy)
+    - Low priority for PGD, since the disease is manageable
     """,
 
     "alpha1_antitrypsin": """
-    **Семейное планирование при дефиците альфа-1-антитрипсина:**
-    - MZ носители: избегать курения и профессиональных вредностей!
-    - ZZ генотип: высокий риск эмфиземы, особенно при курении
-    - Тестирование партнера рекомендуется
-    - Болезнь проявляется во взрослом возрасте, есть терапия
+    **Family planning for alpha-1 antitrypsin deficiency:**
+    - MZ carriers: avoid smoking and occupational hazards!
+    - ZZ genotype: high risk of emphysema, especially with smoking
+    - Partner testing is recommended
+    - The disease manifests in adulthood; treatment is available
     """,
 
     "phenylketonuria": """
-    **Семейное планирование при носительстве фенилкетонурии:**
-    - Если оба носители: 25% риск ФКУ у ребенка
-    - Неонатальный скрининг обязателен во всех странах
-    - При ранней диагностике и диете - нормальное развитие
-    - Женщины с ФКУ должны соблюдать диету ДО и во время беременности
+    **Family planning for phenylketonuria carriers:**
+    - If both are carriers: 25% risk of PKU in the child
+    - Newborn screening is mandatory in all countries
+    - With early diagnosis and diet, development is normal
+    - Women with PKU must follow the diet BEFORE and during pregnancy
     """,
 
     "brca_hereditary_cancer": """
-    **Семейное планирование при мутациях BRCA1/BRCA2:**
-    - ВАЖНО: BRCA мутации доминантные - одной копии достаточно для риска
-    - 50% риск передачи мутации каждому ребенку
-    - Доступна ПГД для предотвращения передачи мутации
-    - Необходимо генетическое консультирование
-    - Для носителей: усиленный скрининг, профилактические опции
+    **Family planning for BRCA1/BRCA2 mutations:**
+    - IMPORTANT: BRCA mutations are dominant - one copy is enough to confer risk
+    - 50% risk of passing the mutation to each child
+    - PGD is available to prevent transmission of the mutation
+    - Genetic counseling is necessary
+    - For carriers: enhanced screening, preventive options
     """,
 }
 
@@ -376,6 +376,10 @@ def load_genome():
             parts = line.strip().split('\t')
             if len(parts) >= 4:
                 rsid, chrom, pos, genotype = parts[0], parts[1], parts[2], parts[3]
+                if len(parts) >= 5:  # AncestryDNA format: separate allele columns
+                    if parts[3] + parts[4] == '00':
+                        continue  # Ancestry no-call: skip so it is not mistaken for a deletion ('--')
+                    genotype = parts[3] + parts[4]
                 genome[rsid] = {
                     'chromosome': chrom,
                     'position': pos,
@@ -439,18 +443,18 @@ def analyze_carriers(genome):
                             risk = snp_info['risk_allele']
                             if raw_genotype == '--' or 'del' in raw_genotype.lower():
                                 result['carrier_status'] = 'possible_carrier'
-                                result['interpretation'] = 'Делеция обнаружена - требуется подтверждение'
+                                result['interpretation'] = 'Deletion detected - confirmation required'
                             elif risk in raw_genotype:
                                 risk_count = raw_genotype.count(risk)
                                 if risk_count == 2:
                                     result['carrier_status'] = 'affected'
-                                    result['interpretation'] = f'Гомозигота по риск-аллелю {risk}'
+                                    result['interpretation'] = f'Homozygous for risk allele {risk}'
                                 else:
                                     result['carrier_status'] = 'carrier'
-                                    result['interpretation'] = f'Гетерозигота - носитель аллеля {risk}'
+                                    result['interpretation'] = f'Heterozygous - carrier of allele {risk}'
                             else:
                                 result['carrier_status'] = 'normal'
-                                result['interpretation'] = 'Риск-аллель не обнаружен'
+                                result['interpretation'] = 'Risk allele not detected'
 
             results.append(result)
 
@@ -493,28 +497,28 @@ def generate_report(results):
     report = []
 
     report.append("# Carrier Status Analysis Report")
-    report.append("# Otchyot o statuse nositelya geneticheskikh zabolevaniy")
+    report.append("# Genetic Disease Carrier Status Report")
     report.append("")
-    report.append(f"**Data analiza:** {datetime.now().strftime('%Y-%m-%d %H:%M')}")
+    report.append(f"**Analysis date:** {datetime.now().strftime('%Y-%m-%d %H:%M')}")
     report.append("")
     report.append("---")
     report.append("")
 
     # Important warnings
-    report.append("## VAZHNYE PREDUPREZHDENIYA")
+    report.append("## IMPORTANT WARNINGS")
     report.append("")
-    report.append("1. **Eto NE medicinskiy diagnoz** - tolko informacionnyy analiz")
-    report.append("2. **Nositelstvo =/= bolezn** - nositeli obychno zdorovy")
-    report.append("3. **Dlya recessivnykh bolezney** - risk dlya rebenka tolko esli OBA roditelya nositeli")
-    report.append("4. **BRCA mutacii - DOMINANTNYE** - odna kopiya sozdaet risk raka")
-    report.append("5. **23andMe testiruet ogranichennyy nabor mutaciy** - otricatelnyy rezultat ne garantiruet otsutstviya nositelstva")
-    report.append("6. **Dlya semeynogo planirovaniya** - konsultaciya genetika OBYAZATELNA")
+    report.append("1. **This is NOT a medical diagnosis** - informational analysis only")
+    report.append("2. **Carrier status =/= disease** - carriers are usually healthy")
+    report.append("3. **For recessive diseases** - the child is at risk only if BOTH parents are carriers")
+    report.append("4. **BRCA mutations are DOMINANT** - one copy creates cancer risk")
+    report.append("5. **23andMe tests a limited set of mutations** - a negative result does not guarantee the absence of carrier status")
+    report.append("6. **For family planning** - consultation with a geneticist is ESSENTIAL")
     report.append("")
     report.append("---")
     report.append("")
 
     # Summary section
-    report.append("## SVODKA PO NOSITELSTVU")
+    report.append("## CARRIER STATUS SUMMARY")
     report.append("")
 
     carriers_found = []
@@ -538,42 +542,42 @@ def generate_report(results):
 
     # Alert section for significant findings
     if affected_found or high_risk_found:
-        report.append("### !!! KRITICHESKIYE NAKHODKI !!!")
+        report.append("### !!! CRITICAL FINDINGS !!!")
         report.append("")
         for condition_id, r in affected_found + high_risk_found:
             condition_name = results[condition_id]['info']['name']
             report.append(f"- **{condition_name}**: {r['gene']} {r['mutation']}")
-            report.append(f"  - Genotip: **{r['genotype']}**")
+            report.append(f"  - Genotype: **{r['genotype']}**")
             report.append(f"  - Status: **{get_status_icon_md(r['carrier_status'])}**")
             report.append(f"  - {r['interpretation']}")
             report.append("")
-        report.append("**NEOBKHODIMA KONSULTACIYA GENETIKA!**")
+        report.append("**GENETIC COUNSELING IS NEEDED!**")
         report.append("")
 
     if carriers_found:
-        report.append("### Obnaruzheno nositelstvo")
+        report.append("### Carrier status detected")
         report.append("")
         for condition_id, r in carriers_found:
             condition_name = results[condition_id]['info']['name']
             report.append(f"- **{condition_name}**: {r['gene']} {r['mutation']}")
-            report.append(f"  - Genotip: **{r['genotype']}**")
+            report.append(f"  - Genotype: **{r['genotype']}**")
             report.append(f"  - {r['interpretation']}")
         report.append("")
 
     # Statistics
-    report.append("### Statistika")
+    report.append("### Statistics")
     report.append("")
-    report.append(f"- Vsego proanalizirovano zabolevaniy: {len(results)}")
-    report.append(f"- Normalnykh rezultatov: {normal_count}")
-    report.append(f"- Nositelstvo obnaruzheno: {len(carriers_found)}")
-    report.append(f"- Povyshennyy risk/bolezn: {len(affected_found) + len(high_risk_found)}")
-    report.append(f"- SNP ne naydeno v genome: {not_found_count}")
+    report.append(f"- Total conditions analyzed: {len(results)}")
+    report.append(f"- Normal results: {normal_count}")
+    report.append(f"- Carrier status detected: {len(carriers_found)}")
+    report.append(f"- Elevated risk/disease: {len(affected_found) + len(high_risk_found)}")
+    report.append(f"- SNPs not found in genome: {not_found_count}")
     report.append("")
     report.append("---")
     report.append("")
 
     # Detailed results by condition
-    report.append("## PODROBNYE REZULTATY PO ZABOLEVANIYAM")
+    report.append("## DETAILED RESULTS BY CONDITION")
     report.append("")
 
     for condition_id, data in results.items():
@@ -582,11 +586,11 @@ def generate_report(results):
 
         report.append(f"### {info['name']}")
         report.append("")
-        report.append(f"- **Tip nasledovaniya:** {info['inheritance']}")
-        report.append(f"- **Chastota nositelstva:** {info['frequency']}")
+        report.append(f"- **Inheritance type:** {info['inheritance']}")
+        report.append(f"- **Carrier frequency:** {info['frequency']}")
         report.append("")
 
-        report.append("| SNP | Gen | Mutaciya | Genotip | Status | Interpretaciya |")
+        report.append("| SNP | Gene | Mutation | Genotype | Status | Interpretation |")
         report.append("|-----|-----|----------|---------|--------|----------------|")
 
         for r in condition_results:
@@ -594,7 +598,7 @@ def generate_report(results):
                 status = get_status_icon_md(r['carrier_status'])
                 report.append(f"| {r['snp_id']} | {r['gene']} | {r['mutation']} | **{r['genotype']}** | {status} | {r['interpretation']} |")
             else:
-                report.append(f"| {r['snp_id']} | {r['gene']} | {r['mutation']} | - | - | Ne nayden v genome |")
+                report.append(f"| {r['snp_id']} | {r['gene']} | {r['mutation']} | - | - | Not found in genome |")
 
         report.append("")
 
@@ -603,7 +607,7 @@ def generate_report(results):
                          for r in condition_results if r['found'])
 
         if has_findings and condition_id in FAMILY_PLANNING_NOTES:
-            report.append("#### Semeynoye planirovaniye")
+            report.append("#### Family Planning")
             # Convert notes to Latin transliteration
             notes = FAMILY_PLANNING_NOTES[condition_id]
             report.append(notes.replace("**", "**"))
@@ -613,64 +617,64 @@ def generate_report(results):
         report.append("")
 
     # General family planning section
-    report.append("## OBSHCHIYE REKOMENDACII PO SEMEYNOMU PLANIROVANIYU")
+    report.append("## GENERAL FAMILY PLANNING RECOMMENDATIONS")
     report.append("")
-    report.append("### Esli vy nositel recessivnogo zabolevaniya:")
+    report.append("### If you are a carrier of a recessive condition:")
     report.append("")
-    report.append("1. **Testirovanie partnera** - samyy vazhnyy shag")
-    report.append("   - Esli partner NE nositel - risk dlya detey minimalen")
-    report.append("   - Esli partner tozhe nositel - 25% risk u kazhdogo rebenka")
+    report.append("1. **Partner testing** - the most important step")
+    report.append("   - If the partner is NOT a carrier - risk to children is minimal")
+    report.append("   - If the partner is also a carrier - 25% risk for each child")
     report.append("")
-    report.append("2. **Dostupnye opcii pri dvoinom nositelstve:**")
-    report.append("   - PGD (preimplantacionnaya diagnostika) pri EKO")
-    report.append("   - Prenatalnaya diagnostika (CVS, amniocentez)")
-    report.append("   - Donorskiye gamety")
-    report.append("   - Usynovlenie")
+    report.append("2. **Options available for two carriers:**")
+    report.append("   - PGD (preimplantation genetic diagnosis) with IVF")
+    report.append("   - Prenatal diagnosis (CVS, amniocentesis)")
+    report.append("   - Donor gametes")
+    report.append("   - Adoption")
     report.append("")
-    report.append("3. **Geneticheskoye konsultirovaniye:**")
-    report.append("   - Rekomenduetsya vsem nositelyam")
-    report.append("   - Obyazatelno pri planirovanii beremennosti")
-    report.append("   - Pomozhyet poniat realnye riski i opcii")
-    report.append("")
-
-    report.append("### Esli u vas BRCA mutaciya:")
-    report.append("")
-    report.append("1. **BRCA - dominantnaya mutaciya:**")
-    report.append("   - 50% risk peredachi kazhdomu rebenku")
-    report.append("   - Odna kopiya dostatochna dlya povyshennogo riska raka")
-    report.append("")
-    report.append("2. **Rekomendacii dlya nositeley:**")
-    report.append("   - Usilenniy skrining (MRI, mammografiya)")
-    report.append("   - Obsuzhdenie profilakticheskikh operaciy")
-    report.append("   - Geneticheskoye konsultirovaniye semi")
-    report.append("")
-    report.append("3. **Opcii dlya semeynogo planirovaniya:**")
-    report.append("   - PGD pozvolyayet vybrat embriony bez mutacii")
-    report.append("   - Testirovanie detey vozmozhno vo vzroslom vozraste")
+    report.append("3. **Genetic counseling:**")
+    report.append("   - Recommended for all carriers")
+    report.append("   - Essential when planning a pregnancy")
+    report.append("   - Helps clarify real risks and options")
     report.append("")
 
-    report.append("---")
+    report.append("### If you have a BRCA mutation:")
     report.append("")
-    report.append("## OGRANICHYENIYA ANALIZA")
+    report.append("1. **BRCA is a dominant mutation:**")
+    report.append("   - 50% risk of passing it to each child")
+    report.append("   - One copy is enough for increased cancer risk")
     report.append("")
-    report.append("1. **23andMe testiruyet tolko opredelenniye mutacii:**")
-    report.append("   - Ne vse mutacii dannogo gena")
-    report.append("   - Otricatelnyy rezultat ne garantiruyet otsutstviya nositelstva")
+    report.append("2. **Recommendations for carriers:**")
+    report.append("   - Enhanced screening (MRI, mammography)")
+    report.append("   - Discussion of preventive surgery")
+    report.append("   - Genetic counseling for the family")
     report.append("")
-    report.append("2. **Dlya polnogo analiza nositelstva:**")
-    report.append("   - Rekomenduetsya rasshirennyy panel nositelya (100+ zabolevaniy)")
-    report.append("   - Klinicheskiye laboratorii (Invitae, Natera, GeneDx)")
-    report.append("")
-    report.append("3. **Etot otchyot:**")
-    report.append("   - Tolko dlya informacionykh celey")
-    report.append("   - Ne zamenyayet klinicheskoye testirovaniye")
-    report.append("   - Trebuyet interpretatcii genetikom")
+    report.append("3. **Family planning options:**")
+    report.append("   - PGD allows selection of embryos without the mutation")
+    report.append("   - Testing of children is possible in adulthood")
     report.append("")
 
     report.append("---")
     report.append("")
-    report.append("*Otchyot sgenirirovan avtomaticheski*")
-    report.append(f"*Data: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}*")
+    report.append("## LIMITATIONS OF THIS ANALYSIS")
+    report.append("")
+    report.append("1. **23andMe tests only specific mutations:**")
+    report.append("   - Not all mutations of a given gene")
+    report.append("   - A negative result does not guarantee the absence of carrier status")
+    report.append("")
+    report.append("2. **For a complete carrier analysis:**")
+    report.append("   - An expanded carrier panel (100+ conditions) is recommended")
+    report.append("   - Clinical laboratories (Invitae, Natera, GeneDx)")
+    report.append("")
+    report.append("3. **This report:**")
+    report.append("   - For informational purposes only")
+    report.append("   - Does not replace clinical testing")
+    report.append("   - Requires interpretation by a geneticist")
+    report.append("")
+
+    report.append("---")
+    report.append("")
+    report.append("*Report generated automatically*")
+    report.append(f"*Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}*")
 
     return '\n'.join(report)
 
@@ -678,19 +682,19 @@ def generate_report(results):
 def main():
     print("=" * 60)
     print("CARRIER STATUS ANALYSIS")
-    print("Analiz nositelstva geneticheskikh zabolevaniy")
+    print("Genetic disease carrier status analysis")
     print("=" * 60)
 
-    print("\n[1/3] Zagruzka genoma...")
+    print("\n[1/3] Loading genome...")
     genome = load_genome()
-    print(f"      Zagruzheno {len(genome)} SNP")
+    print(f"      Loaded {len(genome)} SNPs")
 
-    print("\n[2/3] Analiz nositelstva...")
+    print("\n[2/3] Analyzing carrier status...")
     results = analyze_carriers(genome)
 
     # Print summary to console
     print("\n" + "-" * 60)
-    print("REZULTATY ANALIZA:")
+    print("ANALYSIS RESULTS:")
     print("-" * 60)
 
     for condition_id, data in results.items():
@@ -705,9 +709,9 @@ def main():
                 print(f"  {status} {r['snp_id']} ({r['gene']}): {r['genotype']}")
                 print(f"           {r['interpretation']}")
             else:
-                print(f"  [----] {r['snp_id']} ({r['gene']}): Ne nayden")
+                print(f"  [----] {r['snp_id']} ({r['gene']}): Not found")
 
-    print("\n[3/3] Generaciya otchyota...")
+    print("\n[3/3] Generating report...")
 
     # Ensure directory exists
     report_dir = f"{REPORTS_PATH}/carrier_status"
@@ -716,13 +720,15 @@ def main():
     report = generate_report(results)
     report_path = f"{report_dir}/report.md"
 
+    os.makedirs(os.path.dirname(report_path), exist_ok=True)
+
     with open(report_path, 'w', encoding='utf-8') as f:
         f.write(report)
 
     print(f"      -> {report_path}")
 
     print("\n" + "=" * 60)
-    print("ANALIZ ZAVERSHEN")
+    print("ANALYSIS COMPLETE")
     print("=" * 60)
 
     # Print key findings
@@ -738,22 +744,22 @@ def main():
                     affected.append((data['info']['name'], r))
 
     if affected:
-        print("\n!!! KRITICHESKIYE NAKHODKI !!!\n")
+        print("\n!!! CRITICAL FINDINGS !!!\n")
         for name, r in affected:
             print(f"  {name}: {r['gene']} {r['genotype']}")
             print(f"  -> {r['interpretation']}")
             print()
 
     if carriers:
-        print("\nOBNARUZHENO NOSITELSTVO:\n")
+        print("\nCARRIER STATUS DETECTED:\n")
         for name, r in carriers:
             print(f"  {name}: {r['gene']} {r['genotype']}")
             print(f"  -> {r['interpretation']}")
             print()
 
     if not carriers and not affected:
-        print("\nNi odnogo nositelstva ne obnaruzheno po proverennymi SNP.")
-        print("VNIMANIE: 23andMe proveryaet ogranichenniy nabor mutaciy.")
+        print("\nNo carrier status detected in the SNPs checked.")
+        print("WARNING: 23andMe tests only a limited set of mutations.")
 
 
 if __name__ == "__main__":
