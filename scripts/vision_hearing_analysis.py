@@ -284,7 +284,12 @@ def load_genome():
             parts = line.strip().split('\t')
             if len(parts) >= 4:
                 rsid = parts[0]
-                genotype = parts[3]
+                if len(parts) >= 5:  # AncestryDNA format: separate allele columns
+                    if parts[3] + parts[4] == '00':
+                        continue  # no-call
+                    genotype = parts[3] + parts[4]
+                else:
+                    genotype = parts[3]
                 genome[rsid] = genotype
     return genome
 

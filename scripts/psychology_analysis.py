@@ -18,20 +18,20 @@ REPORTS_PATH = f"{BASE_PATH}/reports"
 # =============================================================================
 
 DISCLAIMER = """
-**ВАЖНЫЙ ДИСКЛЕЙМЕР**
+**IMPORTANT DISCLAIMER**
 
-Гены - это предрасположенность, а НЕ судьба.
+Genes are a predisposition, NOT destiny.
 
-1. Генетические варианты влияют на склонности, но НЕ определяют поведение
-2. Окружающая среда, воспитание и личный выбор играют огромную роль
-3. Нейропластичность позволяет мозгу меняться на протяжении всей жизни
-4. Один SNP редко определяет сложную черту - это всегда взаимодействие множества генов
-5. Эффект большинства вариантов очень мал (обычно <1% влияния)
-6. Этот анализ носит ТОЛЬКО информационный характер
-7. Для психологической помощи обращайтесь к квалифицированному специалисту
+1. Genetic variants influence tendencies, but do NOT determine behavior
+2. Environment, upbringing and personal choice play a huge role
+3. Neuroplasticity allows the brain to change throughout life
+4. A single SNP rarely determines a complex trait - it is always an interaction of many genes
+5. The effect of most variants is very small (usually <1% of influence)
+6. This analysis is for INFORMATIONAL purposes ONLY
+7. For psychological help, consult a qualified professional
 
-Помните: вы НЕ раб своих генов. Осознание предрасположенностей может помочь
-выработать более эффективные стратегии адаптации и развития.
+Remember: you are NOT a slave to your genes. Awareness of predispositions can help
+you develop more effective strategies for coping and growth.
 """
 
 # =============================================================================
@@ -40,266 +40,266 @@ DISCLAIMER = """
 
 PSYCHOLOGY_SNPS = {
     "serotonin": {
-        "name": "Серотониновая система",
-        "description": "Регулирует настроение, тревожность, сон и импульсивность",
+        "name": "Serotonin system",
+        "description": "Regulates mood, anxiety, sleep and impulsivity",
         "snps": {
             "rs25531": {
                 "gene": "SLC6A4 (5-HTTLPR)",
-                "description": "Транспортер серотонина - чувствительность к стрессу",
+                "description": "Serotonin transporter - stress sensitivity",
                 "interpretation": {
-                    "AA": ("high_sensitivity", "L/L - Высокая экспрессия транспортера, более устойчив к стрессу"),
-                    "AG": ("moderate_sensitivity", "L/S - Умеренная чувствительность к стрессу"),
-                    "GG": ("low_sensitivity", "S/S - Сниженная экспрессия, повышенная чувствительность к стрессу и негативным событиям"),
+                    "AA": ("high_sensitivity", "L/L - High transporter expression, more resilient to stress"),
+                    "AG": ("moderate_sensitivity", "L/S - Moderate stress sensitivity"),
+                    "GG": ("low_sensitivity", "S/S - Reduced expression, increased sensitivity to stress and negative events"),
                 },
-                "impact": "Влияет на эмоциональную реактивность и восприимчивость к среде"
+                "impact": "Affects emotional reactivity and susceptibility to the environment"
             },
             "rs6295": {
                 "gene": "HTR1A",
-                "description": "Рецептор серотонина 1A - тревожность и депрессия",
+                "description": "Serotonin 1A receptor - anxiety and depression",
                 "interpretation": {
-                    "CC": ("higher_risk", "Повышенный риск тревожности и депрессии"),
-                    "CG": ("moderate", "Умеренный риск"),
-                    "GG": ("lower_risk", "Пониженный риск тревожности"),
+                    "CC": ("higher_risk", "Increased risk of anxiety and depression"),
+                    "CG": ("moderate", "Moderate risk"),
+                    "GG": ("lower_risk", "Reduced risk of anxiety"),
                 },
-                "impact": "Влияет на базовый уровень тревожности"
+                "impact": "Affects baseline anxiety level"
             },
         }
     },
 
     "dopamine": {
-        "name": "Дофаминовая система",
-        "description": "Регулирует мотивацию, вознаграждение, внимание и исполнительные функции",
+        "name": "Dopamine system",
+        "description": "Regulates motivation, reward, attention and executive function",
         "snps": {
             "rs4680": {
                 "gene": "COMT Val158Met",
-                "description": "Катехол-О-метилтрансфераза - разрушение дофамина в префронтальной коре",
+                "description": "Catechol-O-methyltransferase - dopamine breakdown in the prefrontal cortex",
                 "interpretation": {
-                    "GG": ("warrior", "Val/Val - 'Воин' (Warrior): быстрое разрушение дофамина, устойчив к стрессу, но ниже базовый дофамин, импульсивнее"),
-                    "AG": ("balanced", "Val/Met - Сбалансированный тип: средняя скорость, адаптивность к разным ситуациям"),
-                    "AA": ("worrier", "Met/Met - 'Мыслитель' (Worrier): медленное разрушение, выше дофамин, лучше когнитивно, но выше тревожность"),
+                    "GG": ("warrior", "Val/Val - 'Warrior': fast dopamine breakdown, stress-resistant, but lower baseline dopamine, more impulsive"),
+                    "AG": ("balanced", "Val/Met - Balanced type: intermediate speed, adaptable to different situations"),
+                    "AA": ("worrier", "Met/Met - 'Worrier': slow breakdown, higher dopamine, better cognition, but higher anxiety"),
                 },
-                "impact": "Ключевой маркер когнитивного стиля и стрессоустойчивости"
+                "impact": "Key marker of cognitive style and stress resilience"
             },
             "rs1800497": {
                 "gene": "DRD2/ANKK1 Taq1A",
-                "description": "Плотность D2 рецепторов дофамина",
+                "description": "Dopamine D2 receptor density",
                 "interpretation": {
-                    "AA": ("low_d2", "A1/A1 - Меньше D2 рецепторов: поиск новизны, риск зависимостей"),
-                    "AG": ("moderate_d2", "A1/A2 - Умеренно снижены D2 рецепторы"),
-                    "GG": ("normal_d2", "A2/A2 - Нормальное количество D2 рецепторов"),
+                    "AA": ("low_d2", "A1/A1 - Fewer D2 receptors: novelty seeking, addiction risk"),
+                    "AG": ("moderate_d2", "A1/A2 - Moderately reduced D2 receptors"),
+                    "GG": ("normal_d2", "A2/A2 - Normal number of D2 receptors"),
                 },
-                "impact": "Влияет на чувствительность к вознаграждению"
+                "impact": "Affects reward sensitivity"
             },
             "rs1800955": {
                 "gene": "DRD4 -521C/T",
-                "description": "Рецептор дофамина D4 - новизна и СДВГ",
+                "description": "Dopamine D4 receptor - novelty and ADHD",
                 "interpretation": {
-                    "TT": ("high_novelty", "Повышенный поиск новизны и стимуляции"),
-                    "CT": ("moderate_novelty", "Умеренный поиск новизны"),
-                    "CC": ("normal_novelty", "Стандартный уровень поиска новизны"),
+                    "TT": ("high_novelty", "Increased novelty and stimulation seeking"),
+                    "CT": ("moderate_novelty", "Moderate novelty seeking"),
+                    "CC": ("normal_novelty", "Standard level of novelty seeking"),
                 },
-                "impact": "Влияет на потребность в стимуляции и новых впечатлениях"
+                "impact": "Affects the need for stimulation and new experiences"
             },
         }
     },
 
     "neuroplasticity": {
-        "name": "Нейропластичность",
-        "description": "Способность мозга к изменениям, обучению и восстановлению",
+        "name": "Neuroplasticity",
+        "description": "The brain's capacity for change, learning and recovery",
         "snps": {
             "rs6265": {
                 "gene": "BDNF Val66Met",
-                "description": "Нейротрофический фактор мозга - обучение и память",
+                "description": "Brain-derived neurotrophic factor - learning and memory",
                 "interpretation": {
-                    "CC": ("val_val", "Val/Val - Нормальная секреция BDNF, хорошая нейропластичность"),
-                    "GG": ("val_val", "Val/Val - Нормальная секреция BDNF, хорошая нейропластичность"),
-                    "CT": ("val_met", "Val/Met - Немного сниженная секреция, умеренное влияние на память"),
-                    "AG": ("val_met", "Val/Met - Немного сниженная секреция, умеренное влияние на память"),
-                    "TT": ("met_met", "Met/Met - Сниженная секреция BDNF, хуже эпизодическая память, выше риск депрессии при стрессе"),
-                    "AA": ("met_met", "Met/Met - Сниженная секреция BDNF, хуже эпизодическая память, выше риск депрессии при стрессе"),
+                    "CC": ("val_val", "Val/Val - Normal BDNF secretion, good neuroplasticity"),
+                    "GG": ("val_val", "Val/Val - Normal BDNF secretion, good neuroplasticity"),
+                    "CT": ("val_met", "Val/Met - Slightly reduced secretion, moderate effect on memory"),
+                    "AG": ("val_met", "Val/Met - Slightly reduced secretion, moderate effect on memory"),
+                    "TT": ("met_met", "Met/Met - Reduced BDNF secretion, poorer episodic memory, higher risk of depression under stress"),
+                    "AA": ("met_met", "Met/Met - Reduced BDNF secretion, poorer episodic memory, higher risk of depression under stress"),
                 },
-                "impact": "Ключевой фактор обучения, памяти и восстановления после стресса"
+                "impact": "Key factor in learning, memory and recovery from stress"
             },
         }
     },
 
     "oxytocin": {
-        "name": "Окситоциновая система",
-        "description": "Регулирует социальное поведение, доверие и эмпатию",
+        "name": "Oxytocin system",
+        "description": "Regulates social behavior, trust and empathy",
         "snps": {
             "rs53576": {
                 "gene": "OXTR",
-                "description": "Рецептор окситоцина - социальность и эмпатия",
+                "description": "Oxytocin receptor - sociability and empathy",
                 "interpretation": {
-                    "GG": ("high_empathy", "Высокая эмпатия: лучше распознают эмоции, более социальны, чувствительнее к социальной поддержке"),
-                    "AG": ("moderate_empathy", "Умеренная эмпатия: средний уровень социальной чувствительности"),
-                    "AA": ("lower_empathy", "Пониженная эмпатия: менее чувствительны к социальным сигналам, но более независимы"),
+                    "GG": ("high_empathy", "High empathy: better at recognizing emotions, more social, more responsive to social support"),
+                    "AG": ("moderate_empathy", "Moderate empathy: average level of social sensitivity"),
+                    "AA": ("lower_empathy", "Lower empathy: less sensitive to social cues, but more independent"),
                 },
-                "impact": "Влияет на качество социальных связей и эмоциональный интеллект"
+                "impact": "Affects the quality of social bonds and emotional intelligence"
             },
             "rs2254298": {
                 "gene": "OXTR",
-                "description": "Рецептор окситоцина - привязанность",
+                "description": "Oxytocin receptor - attachment",
                 "interpretation": {
-                    "AA": ("secure", "Более безопасный стиль привязанности"),
-                    "AG": ("mixed", "Смешанный стиль"),
-                    "GG": ("anxious", "Может быть склонность к тревожной привязанности"),
+                    "AA": ("secure", "More secure attachment style"),
+                    "AG": ("mixed", "Mixed style"),
+                    "GG": ("anxious", "May have a tendency toward anxious attachment"),
                 },
-                "impact": "Влияет на паттерны привязанности в отношениях"
+                "impact": "Affects attachment patterns in relationships"
             },
         }
     },
 
     "addiction_risk": {
-        "name": "Риск зависимостей",
-        "description": "Генетические факторы предрасположенности к аддиктивному поведению",
+        "name": "Addiction risk",
+        "description": "Genetic factors of predisposition to addictive behavior",
         "snps": {
             "rs1799971": {
                 "gene": "OPRM1 A118G",
-                "description": "Мю-опиоидный рецептор - реакция на опиоиды и алкоголь",
+                "description": "Mu-opioid receptor - response to opioids and alcohol",
                 "interpretation": {
-                    "AA": ("normal", "Стандартная чувствительность к опиоидам и алкоголю"),
-                    "AG": ("altered", "Изменённая реакция: возможно нужна бОльшая доза обезболивающих, иная реакция на алкоголь"),
-                    "GG": ("high_risk", "Повышенный риск алкогольной зависимости, сниженная чувствительность к опиоидам"),
+                    "AA": ("normal", "Standard sensitivity to opioids and alcohol"),
+                    "AG": ("altered", "Altered response: may need a larger dose of painkillers, different reaction to alcohol"),
+                    "GG": ("high_risk", "Increased risk of alcohol dependence, reduced sensitivity to opioids"),
                 },
-                "impact": "Влияет на эндорфиновую систему вознаграждения"
+                "impact": "Affects the endorphin reward system"
             },
             "rs16969968": {
                 "gene": "CHRNA5",
-                "description": "Никотиновый рецептор - риск никотиновой зависимости",
+                "description": "Nicotinic receptor - risk of nicotine dependence",
                 "interpretation": {
-                    "AA": ("high_risk", "Повышенный риск никотиновой зависимости и тяжёлого курения"),
-                    "AG": ("moderate_risk", "Умеренно повышенный риск"),
-                    "GG": ("normal_risk", "Стандартный риск никотиновой зависимости"),
+                    "AA": ("high_risk", "Increased risk of nicotine dependence and heavy smoking"),
+                    "AG": ("moderate_risk", "Moderately increased risk"),
+                    "GG": ("normal_risk", "Standard risk of nicotine dependence"),
                 },
-                "impact": "Влияет на чувствительность к никотину"
+                "impact": "Affects sensitivity to nicotine"
             },
             "rs1800497": {
                 "gene": "DRD2/ANKK1",
-                "description": "D2 рецепторы - общий риск зависимостей",
+                "description": "D2 receptors - overall addiction risk",
                 "interpretation": {
-                    "AA": ("high_risk", "Повышенный риск различных зависимостей (алкоголь, азартные игры)"),
-                    "AG": ("moderate_risk", "Умеренно повышенный риск"),
-                    "GG": ("normal_risk", "Стандартный риск"),
+                    "AA": ("high_risk", "Increased risk of various addictions (alcohol, gambling)"),
+                    "AG": ("moderate_risk", "Moderately increased risk"),
+                    "GG": ("normal_risk", "Standard risk"),
                 },
-                "impact": "Ключевой маркер аддиктивной уязвимости"
+                "impact": "Key marker of addiction vulnerability"
             },
         }
     },
 
     "depression_anxiety": {
-        "name": "Риск депрессии и тревожности",
-        "description": "Генетические факторы психического здоровья",
+        "name": "Depression and anxiety risk",
+        "description": "Genetic factors of mental health",
         "snps": {
             "rs25531": {
                 "gene": "SLC6A4",
-                "description": "Транспортер серотонина - депрессия при стрессе",
+                "description": "Serotonin transporter - depression under stress",
                 "interpretation": {
-                    "GG": ("higher_risk", "S/S - Повышенный риск депрессии при жизненных стрессах"),
-                    "AG": ("moderate_risk", "L/S - Умеренный риск"),
-                    "AA": ("lower_risk", "L/L - Более устойчив к депрессии"),
+                    "GG": ("higher_risk", "S/S - Increased risk of depression under life stress"),
+                    "AG": ("moderate_risk", "L/S - Moderate risk"),
+                    "AA": ("lower_risk", "L/L - More resilient to depression"),
                 },
-                "impact": "Взаимодействие генов и среды в развитии депрессии"
+                "impact": "Gene-environment interaction in the development of depression"
             },
             "rs6265": {
                 "gene": "BDNF",
-                "description": "Нейропластичность - депрессия",
+                "description": "Neuroplasticity - depression",
                 "interpretation": {
-                    "TT": ("higher_risk", "Met/Met - Повышенный риск депрессии, особенно при стрессе"),
-                    "AA": ("higher_risk", "Met/Met - Повышенный риск депрессии, особенно при стрессе"),
-                    "CT": ("moderate_risk", "Val/Met - Умеренно повышенный риск"),
-                    "AG": ("moderate_risk", "Val/Met - Умеренно повышенный риск"),
-                    "CC": ("lower_risk", "Val/Val - Стандартный риск"),
-                    "GG": ("lower_risk", "Val/Val - Стандартный риск"),
+                    "TT": ("higher_risk", "Met/Met - Increased risk of depression, especially under stress"),
+                    "AA": ("higher_risk", "Met/Met - Increased risk of depression, especially under stress"),
+                    "CT": ("moderate_risk", "Val/Met - Moderately increased risk"),
+                    "AG": ("moderate_risk", "Val/Met - Moderately increased risk"),
+                    "CC": ("lower_risk", "Val/Val - Standard risk"),
+                    "GG": ("lower_risk", "Val/Val - Standard risk"),
                 },
-                "impact": "Влияет на восстановление после стресса"
+                "impact": "Affects recovery from stress"
             },
             "rs4680": {
                 "gene": "COMT",
-                "description": "Тревожность и руминация",
+                "description": "Anxiety and rumination",
                 "interpretation": {
-                    "AA": ("higher_anxiety", "Met/Met - Выше базовая тревожность, склонность к руминации"),
-                    "AG": ("moderate", "Val/Met - Умеренный уровень"),
-                    "GG": ("lower_anxiety", "Val/Val - Ниже базовая тревожность"),
+                    "AA": ("higher_anxiety", "Met/Met - Higher baseline anxiety, tendency toward rumination"),
+                    "AG": ("moderate", "Val/Met - Moderate level"),
+                    "GG": ("lower_anxiety", "Val/Val - Lower baseline anxiety"),
                 },
-                "impact": "Влияет на уровень тревоги в покое"
+                "impact": "Affects resting anxiety level"
             },
         }
     },
 
     "stress_resilience": {
-        "name": "Стрессоустойчивость",
-        "description": "Генетические факторы реакции на стресс",
+        "name": "Stress resilience",
+        "description": "Genetic factors of stress response",
         "snps": {
             "rs1360780": {
                 "gene": "FKBP5",
-                "description": "Регулятор кортизола - ПТСР и стрессовая реакция",
+                "description": "Cortisol regulator - PTSD and stress response",
                 "interpretation": {
-                    "TT": ("sensitive", "Повышенная чувствительность к стрессу и травме, риск ПТСР"),
-                    "CT": ("moderate", "Умеренная чувствительность"),
-                    "CC": ("resilient", "Более устойчив к стрессу"),
+                    "TT": ("sensitive", "Increased sensitivity to stress and trauma, PTSD risk"),
+                    "CT": ("moderate", "Moderate sensitivity"),
+                    "CC": ("resilient", "More resilient to stress"),
                 },
-                "impact": "Ключевой регулятор стрессовой оси HPA"
+                "impact": "Key regulator of the HPA stress axis"
             },
             "rs4680": {
                 "gene": "COMT",
-                "description": "Острый стресс",
+                "description": "Acute stress",
                 "interpretation": {
-                    "GG": ("stress_resistant", "Warrior - хорошо работает под давлением"),
-                    "AG": ("balanced", "Адаптивен к разным условиям"),
-                    "AA": ("stress_sensitive", "Worrier - хуже работает под острым стрессом, лучше в спокойной обстановке"),
+                    "GG": ("stress_resistant", "Warrior - performs well under pressure"),
+                    "AG": ("balanced", "Adaptable to different conditions"),
+                    "AA": ("stress_sensitive", "Worrier - performs worse under acute stress, better in a calm environment"),
                 },
-                "impact": "Определяет реакцию на острый стресс"
+                "impact": "Determines the response to acute stress"
             },
             "rs53576": {
                 "gene": "OXTR",
-                "description": "Социальная поддержка как буфер стресса",
+                "description": "Social support as a stress buffer",
                 "interpretation": {
-                    "GG": ("benefits_support", "Сильно выигрывает от социальной поддержки в стрессе"),
-                    "AG": ("moderate_benefit", "Умеренная польза от поддержки"),
-                    "AA": ("independent", "Менее зависим от социальной поддержки"),
+                    "GG": ("benefits_support", "Benefits strongly from social support under stress"),
+                    "AG": ("moderate_benefit", "Moderate benefit from support"),
+                    "AA": ("independent", "Less dependent on social support"),
                 },
-                "impact": "Влияет на эффективность социальных стратегий совладания"
+                "impact": "Affects the effectiveness of social coping strategies"
             },
         }
     },
 
     "memory_cognition": {
-        "name": "Память и когнитивные способности",
-        "description": "Генетические факторы познавательных функций",
+        "name": "Memory and cognitive abilities",
+        "description": "Genetic factors of cognitive function",
         "snps": {
             "rs17070145": {
                 "gene": "KIBRA",
-                "description": "Эпизодическая память",
+                "description": "Episodic memory",
                 "interpretation": {
-                    "TT": ("better_memory", "Лучшая эпизодическая память"),
-                    "CT": ("average_memory", "Средняя память"),
-                    "CC": ("lower_memory", "Немного сниженная эпизодическая память"),
+                    "TT": ("better_memory", "Better episodic memory"),
+                    "CT": ("average_memory", "Average memory"),
+                    "CC": ("lower_memory", "Slightly reduced episodic memory"),
                 },
-                "impact": "Влияет на запоминание событий и фактов"
+                "impact": "Affects memorization of events and facts"
             },
             "rs6265": {
                 "gene": "BDNF",
-                "description": "Рабочая память и обучение",
+                "description": "Working memory and learning",
                 "interpretation": {
-                    "CC": ("normal", "Val/Val - Нормальная рабочая память"),
-                    "GG": ("normal", "Val/Val - Нормальная рабочая память"),
-                    "CT": ("reduced", "Val/Met - Немного снижена"),
-                    "AG": ("reduced", "Val/Met - Немного снижена"),
-                    "TT": ("lower", "Met/Met - Сниженная рабочая память"),
-                    "AA": ("lower", "Met/Met - Сниженная рабочая память"),
+                    "CC": ("normal", "Val/Val - Normal working memory"),
+                    "GG": ("normal", "Val/Val - Normal working memory"),
+                    "CT": ("reduced", "Val/Met - Slightly reduced"),
+                    "AG": ("reduced", "Val/Met - Slightly reduced"),
+                    "TT": ("lower", "Met/Met - Reduced working memory"),
+                    "AA": ("lower", "Met/Met - Reduced working memory"),
                 },
-                "impact": "Влияет на способность удерживать информацию"
+                "impact": "Affects the ability to hold information"
             },
             "rs4680": {
                 "gene": "COMT",
-                "description": "Когнитивная гибкость vs стабильность",
+                "description": "Cognitive flexibility vs stability",
                 "interpretation": {
-                    "AA": ("stability", "Met/Met - Лучше когнитивная стабильность и рабочая память"),
-                    "AG": ("balanced", "Val/Met - Баланс гибкости и стабильности"),
-                    "GG": ("flexibility", "Val/Val - Лучше когнитивная гибкость и переключение"),
+                    "AA": ("stability", "Met/Met - Better cognitive stability and working memory"),
+                    "AG": ("balanced", "Val/Met - Balance of flexibility and stability"),
+                    "GG": ("flexibility", "Val/Val - Better cognitive flexibility and task switching"),
                 },
-                "impact": "Определяет когнитивный стиль"
+                "impact": "Determines cognitive style"
             },
         }
     },
@@ -312,138 +312,138 @@ PSYCHOLOGY_SNPS = {
 
 COPING_STRATEGIES = {
     "warrior": {
-        "title": "Стратегии для 'Воина' (Val/Val COMT)",
+        "title": "Strategies for the 'Warrior' (Val/Val COMT)",
         "strengths": [
-            "Хорошо работаете под давлением и в стрессовых ситуациях",
-            "Быстро принимаете решения в критических условиях",
-            "Устойчивы к эмоциональному выгоранию",
+            "You perform well under pressure and in stressful situations",
+            "You make decisions quickly in critical conditions",
+            "You are resistant to emotional burnout",
         ],
         "challenges": [
-            "Можете быть импульсивны в спокойной обстановке",
-            "Труднее концентрироваться на длительных когнитивных задачах",
-            "Можете недооценивать эмоциональные нюансы",
+            "You may be impulsive in calm environments",
+            "It is harder to concentrate on prolonged cognitive tasks",
+            "You may underestimate emotional nuances",
         ],
         "strategies": [
-            "Используйте дедлайны и умеренное давление для повышения продуктивности",
-            "Разбивайте длинные задачи на короткие интенсивные сессии",
-            "Практикуйте замедление перед важными решениями в спокойной обстановке",
-            "Физические упражнения помогут канализировать энергию",
-            "Медитация осознанности поможет развить внимание к деталям",
+            "Use deadlines and moderate pressure to boost productivity",
+            "Break long tasks into short, intensive sessions",
+            "Practice slowing down before important decisions in a calm setting",
+            "Physical exercise will help channel your energy",
+            "Mindfulness meditation will help develop attention to detail",
         ],
     },
     "worrier": {
-        "title": "Стратегии для 'Мыслителя' (Met/Met COMT)",
+        "title": "Strategies for the 'Worrier' (Met/Met COMT)",
         "strengths": [
-            "Отличная рабочая память и когнитивные способности",
-            "Внимательны к деталям и нюансам",
-            "Глубокий анализ и продумывание решений",
+            "Excellent working memory and cognitive abilities",
+            "You are attentive to details and nuances",
+            "Deep analysis and careful consideration of decisions",
         ],
         "challenges": [
-            "Склонность к тревоге и руминации",
-            "Хуже работаете под острым стрессом и давлением",
-            "Можете 'застревать' в размышлениях",
+            "Tendency toward anxiety and rumination",
+            "You perform worse under acute stress and pressure",
+            "You may get 'stuck' in thought",
         ],
         "strategies": [
-            "Создавайте спокойную рабочую среду без внезапных дедлайнов",
-            "Практикуйте техники управления тревогой (дыхание, прогрессивная релаксация)",
-            "Готовьтесь к стрессовым ситуациям заранее через визуализацию",
-            "Регулярные физические упражнения снижают базовый уровень тревоги",
-            "Когнитивно-поведенческие техники для прерывания руминации",
-            "L-теанин и магний могут помочь (после консультации с врачом)",
+            "Create a calm work environment without sudden deadlines",
+            "Practice anxiety management techniques (breathing, progressive relaxation)",
+            "Prepare for stressful situations in advance through visualization",
+            "Regular physical exercise lowers baseline anxiety",
+            "Cognitive-behavioral techniques for interrupting rumination",
+            "L-theanine and magnesium may help (after consulting a doctor)",
         ],
     },
     "balanced": {
-        "title": "Стратегии для сбалансированного типа (Val/Met COMT)",
+        "title": "Strategies for the balanced type (Val/Met COMT)",
         "strengths": [
-            "Адаптивны к разным условиям работы",
-            "Хороший баланс скорости и точности",
-            "Можете переключаться между режимами",
+            "You adapt well to different working conditions",
+            "A good balance of speed and accuracy",
+            "You can switch between modes",
         ],
         "challenges": [
-            "Можете недоиспользовать свою адаптивность",
-            "Иногда сложно определить оптимальный режим",
+            "You may underuse your adaptability",
+            "It can sometimes be hard to identify the optimal mode",
         ],
         "strategies": [
-            "Используйте свою гибкость - меняйте условия под задачу",
-            "Экспериментируйте с разными рабочими режимами",
-            "Развивайте оба навыка - и стрессоустойчивость, и глубокое мышление",
+            "Use your flexibility - adjust conditions to the task",
+            "Experiment with different working modes",
+            "Develop both skills - stress resilience and deep thinking",
         ],
     },
     "high_empathy": {
-        "title": "Стратегии для высокоэмпатичных (GG OXTR)",
+        "title": "Strategies for highly empathic people (GG OXTR)",
         "strengths": [
-            "Отличное понимание эмоций других людей",
-            "Сильные социальные связи служат буфером стресса",
-            "Хорошие коммуникативные навыки",
+            "Excellent understanding of other people's emotions",
+            "Strong social bonds serve as a stress buffer",
+            "Good communication skills",
         ],
         "challenges": [
-            "Риск эмоционального истощения от чужих проблем",
-            "Сложнее ставить личные границы",
-            "Чувствительность к социальному отвержению",
+            "Risk of emotional exhaustion from other people's problems",
+            "It is harder to set personal boundaries",
+            "Sensitivity to social rejection",
         ],
         "strategies": [
-            "Практикуйте установку здоровых границ",
-            "Выделяйте время на восстановление после интенсивного общения",
-            "Используйте свои социальные сети как ресурс, но не перегружайте их",
-            "Развивайте самосострадание наряду с состраданием к другим",
+            "Practice setting healthy boundaries",
+            "Set aside time to recover after intense social interaction",
+            "Use your social networks as a resource, but do not overload them",
+            "Develop self-compassion alongside compassion for others",
         ],
     },
     "lower_empathy": {
-        "title": "Стратегии для независимого типа (AA OXTR)",
+        "title": "Strategies for the independent type (AA OXTR)",
         "strengths": [
-            "Независимость от социального одобрения",
-            "Меньше риск эмоционального истощения",
-            "Способность к объективным решениям",
+            "Independence from social approval",
+            "Lower risk of emotional exhaustion",
+            "Ability to make objective decisions",
         ],
         "challenges": [
-            "Можете упускать социальные сигналы",
-            "Труднее строить глубокие связи",
-            "Меньше выигрываете от социальной поддержки",
+            "You may miss social cues",
+            "It is harder to build deep connections",
+            "You benefit less from social support",
         ],
         "strategies": [
-            "Сознательно практикуйте 'чтение' эмоций других",
-            "Развивайте навыки активного слушания",
-            "Выбирайте качество связей над количеством",
-            "Используйте другие стратегии совладания помимо социальных",
+            "Consciously practice 'reading' other people's emotions",
+            "Develop active listening skills",
+            "Choose quality of connections over quantity",
+            "Use coping strategies other than social ones",
         ],
     },
     "stress_sensitive": {
-        "title": "Стратегии при повышенной чувствительности к стрессу",
-        "description": "Для носителей рисковых вариантов FKBP5, 5-HTTLPR, BDNF Met",
+        "title": "Strategies for increased stress sensitivity",
+        "description": "For carriers of risk variants of FKBP5, 5-HTTLPR, BDNF Met",
         "strategies": [
-            "Приоритизируйте профилактику стресса над его преодолением",
-            "Создавайте предсказуемую и стабильную среду",
-            "Регулярный сон, питание и физическая активность критически важны",
-            "Ограничьте воздействие негативных новостей и токсичных людей",
-            "Рассмотрите регулярную работу с психологом как профилактику",
-            "Практики осознанности особенно полезны для вас",
-            "Избегайте алкоголя и других депрессантов в стрессе",
+            "Prioritize stress prevention over stress recovery",
+            "Create a predictable and stable environment",
+            "Regular sleep, nutrition and physical activity are critically important",
+            "Limit exposure to negative news and toxic people",
+            "Consider regular work with a psychologist as prevention",
+            "Mindfulness practices are especially useful for you",
+            "Avoid alcohol and other depressants when stressed",
         ],
     },
     "addiction_prone": {
-        "title": "Стратегии при повышенном риске зависимостей",
-        "description": "Для носителей рисковых вариантов DRD2, OPRM1, CHRNA5",
+        "title": "Strategies for increased addiction risk",
+        "description": "For carriers of risk variants of DRD2, OPRM1, CHRNA5",
         "strategies": [
-            "Знание риска - это сила. Вы предупреждены.",
-            "Избегайте 'попробовать' вещества с высоким аддиктивным потенциалом",
-            "Развивайте здоровые источники дофамина: спорт, хобби, социальные связи",
-            "Структурируйте свою жизнь - хаос увеличивает риск",
-            "Обратите внимание на поведенческие зависимости (игры, соцсети, азарт)",
-            "При назначении опиоидных обезболивающих - минимальный курс",
-            "Рассмотрите профилактическую работу с аддиктологом",
+            "Knowing your risk is power. You are forewarned.",
+            "Avoid 'just trying' substances with high addictive potential",
+            "Cultivate healthy sources of dopamine: sports, hobbies, social connections",
+            "Structure your life - chaos increases risk",
+            "Watch for behavioral addictions (gaming, social media, gambling)",
+            "If prescribed opioid painkillers - use the minimum course",
+            "Consider preventive work with an addiction specialist",
         ],
     },
     "depression_risk": {
-        "title": "Стратегии при повышенном риске депрессии",
-        "description": "Для носителей S/S SLC6A4 + Met BDNF",
+        "title": "Strategies for increased depression risk",
+        "description": "For carriers of S/S SLC6A4 + Met BDNF",
         "strategies": [
-            "Регулярные физические упражнения - доказанный антидепрессант",
-            "Поддерживайте социальные связи, даже когда не хочется",
-            "Структура дня и рутины защищают от провалов",
-            "Обратите внимание на ранние признаки: сон, аппетит, энергия",
-            "Рассмотрите профилактическую терапию в периоды высокого стресса",
-            "Омега-3 жирные кислоты и витамин D могут быть полезны",
-            "При первых признаках депрессии - не ждите, обращайтесь за помощью",
+            "Regular physical exercise - a proven antidepressant",
+            "Maintain social connections, even when you don't feel like it",
+            "Daily structure and routines protect against downward spirals",
+            "Watch for early signs: sleep, appetite, energy",
+            "Consider preventive therapy during periods of high stress",
+            "Omega-3 fatty acids and vitamin D may be helpful",
+            "At the first signs of depression - don't wait, seek help",
         ],
     },
 }
@@ -460,7 +460,9 @@ def load_genome():
             if len(parts) >= 4:
                 rsid, chrom, pos, genotype = parts[0], parts[1], parts[2], parts[3]
                 if len(parts) >= 5:  # AncestryDNA format: separate allele columns
-                    genotype = '--' if parts[3] + parts[4] == '00' else parts[3] + parts[4]
+                    if parts[3] + parts[4] == '00':
+                        continue  # Ancestry no-call: skip so it is not mistaken for a deletion ('--')
+                    genotype = parts[3] + parts[4]
                 genome[rsid] = {
                     'chromosome': chrom,
                     'position': pos,
@@ -581,28 +583,28 @@ def determine_profile(results):
         gt = comt_result['genotype']
         if gt == 'GG':
             profile['comt_type'] = 'warrior'
-            profile['personality_traits'].append('Стрессоустойчивость')
-            profile['personality_traits'].append('Импульсивность')
-            profile['protective_factors'].append('Устойчивость к острому стрессу')
+            profile['personality_traits'].append('Stress resilience')
+            profile['personality_traits'].append('Impulsivity')
+            profile['protective_factors'].append('Resilience to acute stress')
         elif gt == 'AA':
             profile['comt_type'] = 'worrier'
-            profile['personality_traits'].append('Высокие когнитивные способности')
-            profile['personality_traits'].append('Склонность к тревожности')
-            profile['risk_factors'].append('Повышенная тревожность')
+            profile['personality_traits'].append('High cognitive abilities')
+            profile['personality_traits'].append('Tendency toward anxiety')
+            profile['risk_factors'].append('Increased anxiety')
         else:
             profile['comt_type'] = 'balanced'
-            profile['personality_traits'].append('Адаптивность')
+            profile['personality_traits'].append('Adaptability')
 
     # Determine OXTR type
     if oxtr_result:
         gt = oxtr_result['genotype']
         if gt == 'GG':
             profile['oxtr_type'] = 'high_empathy'
-            profile['personality_traits'].append('Высокая эмпатия')
-            profile['protective_factors'].append('Сильные социальные связи')
+            profile['personality_traits'].append('High empathy')
+            profile['protective_factors'].append('Strong social bonds')
         elif gt == 'AA':
             profile['oxtr_type'] = 'lower_empathy'
-            profile['personality_traits'].append('Независимость')
+            profile['personality_traits'].append('Independence')
         else:
             profile['oxtr_type'] = 'moderate_empathy'
 
@@ -610,29 +612,29 @@ def determine_profile(results):
     if comt_result:
         gt = comt_result['genotype']
         if gt == 'AA':
-            profile['cognitive_style'] = 'Стабильность и глубокое мышление'
+            profile['cognitive_style'] = 'Stability and deep thinking'
         elif gt == 'GG':
-            profile['cognitive_style'] = 'Гибкость и быстрое переключение'
+            profile['cognitive_style'] = 'Flexibility and quick switching'
         else:
-            profile['cognitive_style'] = 'Баланс гибкости и стабильности'
+            profile['cognitive_style'] = 'Balance of flexibility and stability'
 
     # Stress sensitivity
     stress_risk_score = 0
     if slc6a4_result and slc6a4_result['genotype'] == 'GG':
         stress_risk_score += 2
-        profile['risk_factors'].append('Чувствительность к негативным событиям (5-HTTLPR S/S)')
+        profile['risk_factors'].append('Sensitivity to negative events (5-HTTLPR S/S)')
     elif slc6a4_result and 'G' in slc6a4_result['genotype']:
         stress_risk_score += 1
 
     if fkbp5_result and fkbp5_result['genotype'] == 'TT':
         stress_risk_score += 2
-        profile['risk_factors'].append('Повышенная реактивность стрессовой оси (FKBP5)')
+        profile['risk_factors'].append('Increased reactivity of the stress axis (FKBP5)')
     elif fkbp5_result and 'T' in fkbp5_result['genotype']:
         stress_risk_score += 1
 
     if bdnf_result and bdnf_result['genotype'] in ['TT', 'AA']:
         stress_risk_score += 1
-        profile['risk_factors'].append('Сниженная нейропластичность (BDNF Met/Met)')
+        profile['risk_factors'].append('Reduced neuroplasticity (BDNF Met/Met)')
 
     if stress_risk_score >= 3:
         profile['stress_sensitivity'] = 'high'
@@ -643,19 +645,19 @@ def determine_profile(results):
     addiction_score = 0
     if drd2_result and drd2_result['genotype'] == 'AA':
         addiction_score += 2
-        profile['risk_factors'].append('Сниженные D2 рецепторы (DRD2 A1/A1)')
+        profile['risk_factors'].append('Reduced D2 receptors (DRD2 A1/A1)')
     elif drd2_result and 'A' in drd2_result['genotype']:
         addiction_score += 1
 
     if oprm1_result and oprm1_result['genotype'] == 'GG':
         addiction_score += 2
-        profile['risk_factors'].append('Изменённая опиоидная система (OPRM1 G/G)')
+        profile['risk_factors'].append('Altered opioid system (OPRM1 G/G)')
     elif oprm1_result and 'G' in oprm1_result['genotype']:
         addiction_score += 1
 
     if chrna5_result and chrna5_result['genotype'] == 'AA':
         addiction_score += 2
-        profile['risk_factors'].append('Повышенный риск никотиновой зависимости (CHRNA5)')
+        profile['risk_factors'].append('Increased risk of nicotine dependence (CHRNA5)')
     elif chrna5_result and 'A' in chrna5_result['genotype']:
         addiction_score += 1
 
@@ -686,7 +688,7 @@ def determine_profile(results):
 
     # Memory traits
     if kibra_result and kibra_result['genotype'] == 'TT':
-        profile['protective_factors'].append('Хорошая эпизодическая память (KIBRA T/T)')
+        profile['protective_factors'].append('Good episodic memory (KIBRA T/T)')
 
     return profile
 
@@ -696,93 +698,93 @@ def generate_report(results, profile):
     report = []
 
     # Header
-    report.append("# Психологический и поведенческий анализ генома")
-    report.append(f"\nДата анализа: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
+    report.append("# Psychological and Behavioral Genome Analysis")
+    report.append(f"\nAnalysis date: {datetime.now().strftime('%Y-%m-%d %H:%M')}")
     report.append("\n---\n")
 
     # Disclaimer
-    report.append("## Важный дисклеймер")
+    report.append("## Important Disclaimer")
     report.append(DISCLAIMER)
     report.append("\n---\n")
 
     # Profile Summary
-    report.append("## Психологический профиль\n")
+    report.append("## Psychological Profile\n")
 
     # COMT Type
     if profile['comt_type']:
         comt_labels = {
-            'warrior': 'Воин (Warrior) - Val/Val',
-            'worrier': 'Мыслитель (Worrier) - Met/Met',
-            'balanced': 'Сбалансированный - Val/Met'
+            'warrior': 'Warrior - Val/Val',
+            'worrier': 'Worrier - Met/Met',
+            'balanced': 'Balanced - Val/Met'
         }
-        report.append(f"### Тип по COMT: **{comt_labels.get(profile['comt_type'], profile['comt_type'])}**\n")
+        report.append(f"### COMT type: **{comt_labels.get(profile['comt_type'], profile['comt_type'])}**\n")
 
         if profile['comt_type'] == 'warrior':
-            report.append("Характеристики типа 'Воин':")
-            report.append("- Быстрое разрушение дофамина в префронтальной коре")
-            report.append("- Хорошо работаете под давлением")
-            report.append("- Более импульсивны в спокойной обстановке")
-            report.append("- Быстрее восстанавливаетесь от стресса")
+            report.append("Characteristics of the 'Warrior' type:")
+            report.append("- Fast dopamine breakdown in the prefrontal cortex")
+            report.append("- You perform well under pressure")
+            report.append("- More impulsive in calm environments")
+            report.append("- You recover from stress faster")
         elif profile['comt_type'] == 'worrier':
-            report.append("Характеристики типа 'Мыслитель':")
-            report.append("- Медленное разрушение дофамина - выше базовый уровень")
-            report.append("- Лучше рабочая память и когнитивные функции")
-            report.append("- Склонность к тревоге и руминации")
-            report.append("- Хуже переносите острый стресс")
+            report.append("Characteristics of the 'Worrier' type:")
+            report.append("- Slow dopamine breakdown - higher baseline level")
+            report.append("- Better working memory and cognitive function")
+            report.append("- Tendency toward anxiety and rumination")
+            report.append("- You tolerate acute stress worse")
         else:
-            report.append("Характеристики сбалансированного типа:")
-            report.append("- Адаптивны к разным условиям")
-            report.append("- Можете переключаться между режимами")
+            report.append("Characteristics of the balanced type:")
+            report.append("- Adaptable to different conditions")
+            report.append("- You can switch between modes")
         report.append("")
 
     # OXTR Type
     if profile['oxtr_type']:
         oxtr_labels = {
-            'high_empathy': 'Высокая эмпатия (GG)',
-            'moderate_empathy': 'Умеренная эмпатия (AG)',
-            'lower_empathy': 'Независимый тип (AA)'
+            'high_empathy': 'High empathy (GG)',
+            'moderate_empathy': 'Moderate empathy (AG)',
+            'lower_empathy': 'Independent type (AA)'
         }
-        report.append(f"### Социальный тип по OXTR: **{oxtr_labels.get(profile['oxtr_type'], profile['oxtr_type'])}**\n")
+        report.append(f"### Social type by OXTR: **{oxtr_labels.get(profile['oxtr_type'], profile['oxtr_type'])}**\n")
 
     # Cognitive Style
     if profile['cognitive_style']:
-        report.append(f"### Когнитивный стиль: **{profile['cognitive_style']}**\n")
+        report.append(f"### Cognitive style: **{profile['cognitive_style']}**\n")
 
     # Risk levels
-    report.append("### Уровни риска\n")
+    report.append("### Risk Levels\n")
 
-    stress_labels = {'high': 'Повышенный', 'moderate': 'Умеренный', 'low': 'Пониженный'}
-    addiction_labels = {'elevated': 'Повышенный', 'average': 'Средний', 'low': 'Пониженный'}
-    depression_labels = {'elevated': 'Повышенный', 'average': 'Средний', 'low': 'Пониженный'}
+    stress_labels = {'high': 'Elevated', 'moderate': 'Moderate', 'low': 'Reduced'}
+    addiction_labels = {'elevated': 'Elevated', 'average': 'Average', 'low': 'Reduced'}
+    depression_labels = {'elevated': 'Elevated', 'average': 'Average', 'low': 'Reduced'}
 
     stress_emoji = {'high': '🔴', 'moderate': '🟡', 'low': '🟢'}
     addiction_emoji = {'elevated': '🔴', 'average': '🟡', 'low': '🟢'}
     depression_emoji = {'elevated': '🔴', 'average': '🟡', 'low': '🟢'}
 
-    report.append(f"| Параметр | Уровень |")
+    report.append(f"| Parameter | Level |")
     report.append(f"|----------|---------|")
-    report.append(f"| Чувствительность к стрессу | {stress_emoji[profile['stress_sensitivity']]} {stress_labels[profile['stress_sensitivity']]} |")
-    report.append(f"| Риск зависимостей | {addiction_emoji[profile['addiction_risk']]} {addiction_labels[profile['addiction_risk']]} |")
-    report.append(f"| Риск депрессии | {depression_emoji[profile['depression_risk']]} {depression_labels[profile['depression_risk']]} |")
+    report.append(f"| Stress sensitivity | {stress_emoji[profile['stress_sensitivity']]} {stress_labels[profile['stress_sensitivity']]} |")
+    report.append(f"| Addiction risk | {addiction_emoji[profile['addiction_risk']]} {addiction_labels[profile['addiction_risk']]} |")
+    report.append(f"| Depression risk | {depression_emoji[profile['depression_risk']]} {depression_labels[profile['depression_risk']]} |")
     report.append("")
 
     # Personality traits
     if profile['personality_traits']:
-        report.append("### Личностные черты (генетическая предрасположенность)\n")
+        report.append("### Personality Traits (Genetic Predisposition)\n")
         for trait in profile['personality_traits']:
             report.append(f"- {trait}")
         report.append("")
 
     # Risk factors
     if profile['risk_factors']:
-        report.append("### Факторы риска\n")
+        report.append("### Risk Factors\n")
         for factor in profile['risk_factors']:
             report.append(f"- ⚠️ {factor}")
         report.append("")
 
     # Protective factors
     if profile['protective_factors']:
-        report.append("### Защитные факторы\n")
+        report.append("### Protective Factors\n")
         for factor in profile['protective_factors']:
             report.append(f"- 🛡️ {factor}")
         report.append("")
@@ -790,29 +792,29 @@ def generate_report(results, profile):
     report.append("\n---\n")
 
     # Detailed Results by Category
-    report.append("## Детальные результаты по категориям\n")
+    report.append("## Detailed Results by Category\n")
 
     for category, cat_results in results.items():
         cat_info = PSYCHOLOGY_SNPS[category]
         report.append(f"### {cat_info['name']}")
         report.append(f"*{cat_info['description']}*\n")
 
-        report.append("| SNP | Ген | Генотип | Интерпретация |")
+        report.append("| SNP | Gene | Genotype | Interpretation |")
         report.append("|-----|-----|---------|---------------|")
 
         for r in cat_results:
             if r['found']:
-                interp = r['interpretation'] or 'Данные не интерпретированы'
+                interp = r['interpretation'] or 'Data not interpreted'
                 report.append(f"| {r['snp_id']} | {r['gene']} | **{r['genotype']}** | {interp} |")
             else:
-                report.append(f"| {r['snp_id']} | {r['gene']} | - | *Не найден в геноме* |")
+                report.append(f"| {r['snp_id']} | {r['gene']} | - | *Not found in genome* |")
 
         report.append("")
 
     report.append("\n---\n")
 
     # Coping Strategies
-    report.append("## Рекомендуемые стратегии адаптации\n")
+    report.append("## Recommended Coping Strategies\n")
 
     # Add relevant strategies based on profile
     strategies_to_include = []
@@ -841,18 +843,18 @@ def generate_report(results, profile):
                 report.append(f"*{strategy['description']}*\n")
 
             if 'strengths' in strategy:
-                report.append("**Ваши сильные стороны:**")
+                report.append("**Your strengths:**")
                 for s in strategy['strengths']:
                     report.append(f"- ✅ {s}")
                 report.append("")
 
             if 'challenges' in strategy:
-                report.append("**Возможные сложности:**")
+                report.append("**Possible challenges:**")
                 for c in strategy['challenges']:
                     report.append(f"- ⚠️ {c}")
                 report.append("")
 
-            report.append("**Рекомендуемые стратегии:**")
+            report.append("**Recommended strategies:**")
             for s in strategy['strategies']:
                 report.append(f"- 💡 {s}")
             report.append("")
@@ -860,7 +862,7 @@ def generate_report(results, profile):
     report.append("\n---\n")
 
     # Statistics
-    report.append("## Статистика анализа\n")
+    report.append("## Analysis Statistics\n")
 
     total_snps = 0
     found_snps = 0
@@ -868,33 +870,33 @@ def generate_report(results, profile):
         total_snps += len(cat_results)
         found_snps += sum(1 for r in cat_results if r['found'])
 
-    report.append(f"- Всего проанализировано SNP: {total_snps}")
-    report.append(f"- Найдено в геноме: {found_snps}")
-    report.append(f"- Не найдено: {total_snps - found_snps}")
+    report.append(f"- Total SNPs analyzed: {total_snps}")
+    report.append(f"- Found in genome: {found_snps}")
+    report.append(f"- Not found: {total_snps - found_snps}")
 
     report.append("\n---\n")
 
     # Final reminder
-    report.append("## Заключение\n")
-    report.append("**Помните:** Генетика определяет склонности, но не судьбу. ")
-    report.append("Осознание своих генетических предрасположенностей - это инструмент ")
-    report.append("для более эффективной работы над собой, а не приговор.\n")
-    report.append("\nВсе рекомендации носят общий характер. Для персонализированной ")
-    report.append("помощи обратитесь к квалифицированному психологу или психотерапевту.")
+    report.append("## Conclusion\n")
+    report.append("**Remember:** Genetics determines tendencies, not destiny. ")
+    report.append("Awareness of your genetic predispositions is a tool ")
+    report.append("for working on yourself more effectively, not a verdict.\n")
+    report.append("\nAll recommendations are general in nature. For personalized ")
+    report.append("help, consult a qualified psychologist or psychotherapist.")
 
     return '\n'.join(report)
 
 
 def main():
     print("=" * 60)
-    print("ПСИХОЛОГИЧЕСКИЙ АНАЛИЗ ГЕНОМА")
+    print("PSYCHOLOGICAL GENOME ANALYSIS")
     print("=" * 60)
 
-    print("\n[1/4] Загрузка генома...")
+    print("\n[1/4] Loading genome...")
     genome = load_genome()
-    print(f"      Загружено {len(genome)} SNP")
+    print(f"      Loaded {len(genome)} SNPs")
 
-    print("\n[2/4] Анализ психологических маркеров...")
+    print("\n[2/4] Analyzing psychological markers...")
     results = analyze_psychology(genome)
 
     for category, cat_results in results.items():
@@ -902,23 +904,23 @@ def main():
         found = sum(1 for r in cat_results if r['found'])
         print(f"      → {cat_name}: {found}/{len(cat_results)}")
 
-    print("\n[3/4] Определение психологического профиля...")
+    print("\n[3/4] Determining psychological profile...")
     profile = determine_profile(results)
 
     # Print profile summary
-    comt_labels = {'warrior': 'Воин', 'worrier': 'Мыслитель', 'balanced': 'Сбалансированный'}
+    comt_labels = {'warrior': 'Warrior', 'worrier': 'Worrier', 'balanced': 'Balanced'}
     if profile['comt_type']:
-        print(f"      COMT тип: {comt_labels.get(profile['comt_type'], profile['comt_type'])}")
+        print(f"      COMT type: {comt_labels.get(profile['comt_type'], profile['comt_type'])}")
 
-    oxtr_labels = {'high_empathy': 'Высокая эмпатия', 'moderate_empathy': 'Умеренная', 'lower_empathy': 'Независимый'}
+    oxtr_labels = {'high_empathy': 'High empathy', 'moderate_empathy': 'Moderate', 'lower_empathy': 'Independent'}
     if profile['oxtr_type']:
-        print(f"      OXTR тип: {oxtr_labels.get(profile['oxtr_type'], profile['oxtr_type'])}")
+        print(f"      OXTR type: {oxtr_labels.get(profile['oxtr_type'], profile['oxtr_type'])}")
 
-    print(f"      Стрессочувствительность: {profile['stress_sensitivity']}")
-    print(f"      Риск зависимостей: {profile['addiction_risk']}")
-    print(f"      Риск депрессии: {profile['depression_risk']}")
+    print(f"      Stress sensitivity: {profile['stress_sensitivity']}")
+    print(f"      Addiction risk: {profile['addiction_risk']}")
+    print(f"      Depression risk: {profile['depression_risk']}")
 
-    print("\n[4/4] Генерация отчёта...")
+    print("\n[4/4] Generating report...")
     report = generate_report(results, profile)
 
     # Ensure directory exists
@@ -931,32 +933,32 @@ def main():
     print(f"      → {report_path}")
 
     print("\n" + "=" * 60)
-    print("АНАЛИЗ ЗАВЕРШЁН")
+    print("ANALYSIS COMPLETE")
     print("=" * 60)
 
     # Print key findings
-    print("\n🔑 КЛЮЧЕВЫЕ НАХОДКИ:\n")
+    print("\n🔑 KEY FINDINGS:\n")
 
     if profile['comt_type']:
         comt_desc = {
-            'warrior': 'Warrior - устойчивы к стрессу, хорошо работаете под давлением',
-            'worrier': 'Worrier - высокие когнитивные способности, но склонность к тревоге',
-            'balanced': 'Сбалансированный - адаптивны к разным условиям'
+            'warrior': 'Warrior - stress-resistant, performs well under pressure',
+            'worrier': 'Worrier - high cognitive abilities, but tendency toward anxiety',
+            'balanced': 'Balanced - adaptable to different conditions'
         }
-        print(f"  📊 Тип COMT: {comt_desc.get(profile['comt_type'], profile['comt_type'])}")
+        print(f"  📊 COMT type: {comt_desc.get(profile['comt_type'], profile['comt_type'])}")
 
     if profile['risk_factors']:
-        print("\n  ⚠️  Факторы риска:")
+        print("\n  ⚠️  Risk factors:")
         for factor in profile['risk_factors']:
             print(f"      • {factor}")
 
     if profile['protective_factors']:
-        print("\n  🛡️  Защитные факторы:")
+        print("\n  🛡️  Protective factors:")
         for factor in profile['protective_factors']:
             print(f"      • {factor}")
 
-    print(f"\n  📄 Полный отчёт: {report_path}")
-    print("\n  ℹ️  Помните: гены - это предрасположенность, а НЕ судьба!")
+    print(f"\n  📄 Full report: {report_path}")
+    print("\n  ℹ️  Remember: genes are a predisposition, NOT destiny!")
 
 
 if __name__ == "__main__":

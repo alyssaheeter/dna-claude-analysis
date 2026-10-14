@@ -17,11 +17,24 @@ OUT_FILE = f"{BASE_PATH}/webpage/dna_terminal.html"
 STYLE_SRC = f"{BASE_PATH}/webpage/example.html"
 
 
+META = {'source': 'Unknown', 'chip': 'Unknown', 'y_calls': 0, 'x_calls': 0}
+
+
 def load_genome():
     genome = {}
     with open(GENOME_FILE) as f:
         for line in f:
-            if line.startswith('#') or line.startswith('rsid'):
+            if line.startswith('#'):
+                low = line.lower()
+                if 'ancestrydna' in low:
+                    META['source'] = 'AncestryDNA'
+                elif '23andme' in low:
+                    META['source'] = '23andMe'
+                m = re.search(r'array version:\s*(\S+)', line, re.I)
+                if m:
+                    META['chip'] = f"array v{m.group(1).lstrip('Vv')}"
+                continue
+            if line.startswith('rsid'):
                 continue
             p = line.rstrip('\n').split('\t')
             if len(p) >= 5:
@@ -30,11 +43,17 @@ def load_genome():
                 gt = p[3]
             else:
                 continue
-            genome[p[0]] = None if gt in ('00', '--') else gt
+            called = gt not in ('00', '--', '0')
+            genome[p[0]] = gt if called else None
+            if called and p[1] in ('24', 'Y'):
+                META['y_calls'] += 1
+            if called and p[1] in ('23', 'X'):
+                META['x_calls'] += 1
     return genome
 
 
 GENOME = load_genome()
+RESULTS = []
 STATS = {'found': 0, 'total': 0}
 
 
@@ -53,9 +72,11 @@ def row(rsid, gene, table):
     STATS['total'] += 1
     g = geno(rsid)
     if g is None:
+        RESULTS.append({'section': None, 'rsid': rsid, 'gene': gene, 'g': None, 'st': 'na', 'text': ''})
         return f'<tr><td>{rsid}</td><td>{escape(gene)}</td><td class="geno">--</td><td class="status-na">NOT ON CHIP</td><td>Not covered by this array</td></tr>'
     STATS['found'] += 1
     st, text = table.get(norm(g), ('na', 'No interpretation available for this genotype'))
+    RESULTS.append({'section': None, 'rsid': rsid, 'gene': gene, 'g': g, 'st': st, 'text': text})
     return (f'<tr><td>{rsid}</td><td>{escape(gene)}</td><td class="geno">{g}</td>'
             f'<td class="status-{st}">{ {"normal":"NORMAL","moderate":"MODERATE","risk":"HIGH","info":"INFO","na":"N/A"}[st] }</td>'
             f'<td>{escape(text)}</td></tr>')
@@ -88,6 +109,20 @@ def disclaimer(text, critical=False):
 
 
 def section(sid, title, badge_cls, badge, content):
+    mine = [r for r in RESULTS if r['section'] is None]
+    for r in mine:
+        r['section'] = sid
+    found_rows = [r for r in mine if r['g']]
+    n_risk = sum(r['st'] == 'risk' for r in found_rows)
+    n_mod = sum(r['st'] == 'moderate' for r in found_rows)
+    if mine and not found_rows:
+        badge_cls, badge = 'moderate', 'NO DATA ON THIS CHIP'
+    elif n_risk:
+        badge_cls, badge = 'risk', f'{n_risk} HIGH, {n_mod} MODERATE'
+    elif n_mod:
+        badge_cls, badge = 'moderate', f'{n_mod} MODERATE MARKER{"S" if n_mod > 1 else ""}'
+    elif mine:
+        badge_cls, badge = 'good', 'NO FLAGS'
     return (f'<section id="{sid}"><div class="section-header"><span class="section-title">// {escape(title)}</span>'
             f'<span class="section-badge {badge_cls}">{escape(badge)}</span></div>'
             f'<div class="section-content">{content}</div></section>')
@@ -156,8 +191,11 @@ n = sub('Diet and nutrients', [
 sections.append(section('nutrition', 'NUTRITION', 'good', 'MOSTLY NORMAL', n))
 
 # SPORTS
-s = '<div class="two-cols">' + profile('Athlete profile', 'ALL-ROUNDER', 'Balanced strength / endurance (strength 42%, endurance 50%)', 'var(--green)') \
-    + profile('VO2max potential', 'GOOD', 'Estimated 67% from available markers (rough heuristic)', 'var(--green)') + '</div>'
+_actn3 = geno('rs1815739')
+s = ''
+if _actn3:
+    _prof = {'CC': ('POWER-LEANING (RR)', 'Two functional ACTN3 copies'), 'CT': ('ALL-ROUNDER (RX)', 'One functional ACTN3 copy; versatile fiber mix'), 'TT': ('ENDURANCE-LEANING (XX)', 'No functional ACTN3; slow-twitch bias')}.get(norm(_actn3), (_actn3, 'ACTN3 rs1815739'))
+    s += '<div class="two-cols">' + profile('Athlete profile (ACTN3)', _prof[0], _prof[1], 'var(--green)') + '</div>'
 s += sub('Performance markers', [
     row('rs1815739', 'ACTN3', {'CT': ('info', 'RX: one functional copy; versatile fiber mix')}),
     row('rs8192678', 'PPARGC1A', {'CT': ('normal', 'Gly/Ser; moderate endurance potential')}),
@@ -171,14 +209,22 @@ sections.append(section('sports', 'SPORTS / FITNESS', 'good', 'BALANCED', s))
 
 # PSYCHOLOGY
 p = disclaimer("Psychological genetics has small effect sizes. Do not read these as personality or diagnosis.")
-p += '<div class="two-cols">' + profile('COMT type', 'VAL/MET (AG)', 'Balanced dopamine clearance; flexible under varying conditions') \
-     + profile('BDNF', 'MET/MET (TT)', 'Lower activity-dependent BDNF release; exercise helps', 'var(--amber)') + '</div>'
+_comt, _bdnf = geno('rs4680'), geno('rs6265')
+_boxes = []
+if _comt:
+    _boxes.append(profile('COMT type', {'AG': 'VAL/MET (AG)', 'GG': 'VAL/VAL (GG)', 'AA': 'MET/MET (AA)'}[norm(_comt)] if norm(_comt) in ('AG', 'GG', 'AA') else _comt, 'rs4680: dopamine clearance in prefrontal cortex'))
+if _bdnf:
+    _boxes.append(profile('BDNF', {'CC': 'VAL/VAL (CC)', 'CT': 'VAL/MET (CT)', 'TT': 'MET/MET (TT)'}.get(norm(_bdnf), _bdnf), 'rs6265: activity-dependent BDNF release; exercise helps', 'var(--amber)' if norm(_bdnf) == 'TT' else 'var(--cyan)'))
+if _boxes:
+    p += '<div class="two-cols">' + ''.join(_boxes) + '</div>'
 p += sub('Markers', [
     row('rs4680', 'COMT Val158Met', {'AG': ('info', 'Balanced warrior/worrier profile')}),
     row('rs6265', 'BDNF Val66Met', {'TT': ('moderate', 'Reduced BDNF secretion; small increased stress-linked mood risk')}),
     row('rs16969968', 'CHRNA5', {'GG': ('normal', 'Standard nicotine dependence risk')}),
 ])
-p += finding('info', 'i', 'Not covered', '5-HTTLPR, DRD2, OXTR, OPRM1 and FKBP5 markers are not on this array.')
+_missing = [g for r, g in (('rs25531', '5-HTTLPR'), ('rs1800497', 'DRD2'), ('rs53576', 'OXTR'), ('rs1799971', 'OPRM1'), ('rs1360780', 'FKBP5')) if geno(r) is None]
+if _missing:
+    p += finding('info', 'i', 'Not covered', ', '.join(_missing) + ' markers are not on this array.')
 sections.append(section('psychology', 'PSYCHOLOGY', 'moderate', 'MIXED', p))
 
 # COGNITIVE
@@ -190,7 +236,8 @@ c += sub('Cognitive markers', [
     row('rs759178', 'FOXP2', {'AA': ('info', 'Speech-gene variant, no known effect')}),
     row('rs1800795', 'IL-6', {'CC': ('moderate', 'Higher inflammatory tone')}),
 ])
-c += finding('info', 'i', 'APOE', 'APOE (rs429358 / rs7412) is NOT on this array, so Alzheimer-risk APOE status is unknown here.')
+if geno('rs429358') is None or geno('rs7412') is None:
+    c += finding('info', 'i', 'APOE', 'APOE (rs429358 / rs7412) is NOT on this array, so APOE status is unknown here.')
 sections.append(section('cognitive', 'COGNITIVE', 'good', 'NO MAJOR FLAGS', c))
 
 # LONGEVITY
@@ -201,12 +248,20 @@ lg = sub('Longevity markers', [
     row('rs2736100', 'TERT', {'CC': ('normal', 'Associated with telomerase activity')}),
     row('rs1001179', 'CAT', {'CT': ('info', 'Average catalase activity')}),
 ])
-lg += finding('info', 'i', 'Note', 'The generated report scores this 8.2/10 ("95th percentile"); that rests on a few SNPs and has no real population basis. Not shown here. FOXO3 and APOE are not on this array.')
+lg += finding('info', 'i', 'Note', 'Longevity genetics is weakly predictive; any overall score from a few SNPs has no real population basis.')
+if geno('rs2802292') is None:
+    lg += finding('info', 'i', 'Not covered', 'FOXO3 (rs2802292) is not on this array.')
 sections.append(section('longevity', 'LONGEVITY', 'good', 'FAVORABLE MARKERS', lg))
 
 # SLEEP
-sl = '<div class="two-cols">' + profile('Chronotype', 'EVENING-LEANING', 'Moderate evening preference (delayed melatonin onset)', 'var(--amber)') \
-    + profile('Restless legs', 'ELEVATED RISK', 'BTBD9 risk genotype; keep iron (ferritin) adequate', 'var(--amber)') + '</div>'
+sl = ''
+_boxes = []
+if geno('rs4753426'):
+    _boxes.append(profile('Chronotype', {'CC': 'EVENING-LEANING', 'TT': 'MORNING-LEANING'}.get(norm(geno('rs4753426')), 'INTERMEDIATE'), 'From MTNR1B rs4753426 (one marker; weak evidence)', 'var(--amber)'))
+if geno('rs3923809'):
+    _boxes.append(profile('Restless legs (BTBD9)', {'AA': 'ELEVATED RISK', 'GG': 'NOT ELEVATED'}.get(norm(geno('rs3923809')), 'INTERMEDIATE'), 'From rs3923809; if symptomatic, check iron (ferritin) with a clinician', 'var(--amber)'))
+if _boxes:
+    sl += '<div class="two-cols">' + ''.join(_boxes) + '</div>'
 sl += sub('Sleep markers', [
     row('rs4753426', 'MTNR1B', {'CC': ('moderate', 'Delayed melatonin onset; later natural sleep time')}),
     row('rs10830963', 'MTNR1B', {'CG': ('moderate', 'Slightly reduced melatonin sensitivity')}),
@@ -215,7 +270,8 @@ sl += sub('Sleep markers', [
     row('rs1801260', 'CLOCK', {'AG': ('na', 'No interpretation available for this genotype')}),
     row('rs1823125', 'PAX8', {'AG': ('normal', 'Average sleep need (~7-8h)')}),
 ])
-sl += finding('info', 'i', 'Caffeine', 'CYP1A2 and ADORA2A are not on this array, so caffeine sensitivity is unknown.')
+if geno('rs762551') is None or geno('rs5751876') is None:
+    sl += finding('info', 'i', 'Caffeine', 'CYP1A2 and/or ADORA2A are not on this array, so caffeine sensitivity is unknown.')
 sections.append(section('sleep', 'SLEEP', 'moderate', 'EVENING TYPE', sl))
 
 # IMMUNITY
@@ -227,7 +283,8 @@ im = sub('Immune markers', [
     row('rs1800629', 'TNF-alpha', {'GG': ('normal', 'Standard')}),
     row('rs7454108', 'HLA-DQ8', {'TT': ('normal', 'Low celiac risk via DQ8')}),
 ])
-im += finding('warning', '!', 'Overall', 'Moderate-inflammation profile. Anti-inflammatory habits (sleep, Mediterranean diet, omega-3) are the generic advice.')
+if any(r['st'] in ('moderate', 'risk') and r['section'] is None for r in RESULTS):
+    im += finding('warning', '!', 'Overall', 'One or more inflammation/autoimmune markers are flagged. Generic advice: sleep, Mediterranean diet, omega-3.')
 sections.append(section('immunity', 'IMMUNITY', 'moderate', 'MODERATE INFLAMMATION', im))
 
 # PAIN
@@ -263,7 +320,8 @@ sk = sub('Skin markers', [
     row('rs1695', 'GSTP1', {'AA': ('normal', 'Good antioxidant capacity')}),
     row('rs4880', 'SOD2', {'AG': ('normal', 'Average')}),
 ])
-sk += finding('warning', '!', 'MC1R D294H (rs1805009)', 'See TRAITS: this genotype may carry a red-hair-associated variant, which also matters for UV sensitivity. Use sun protection regardless.')
+if geno('rs1805009') == 'CC':
+    sk += finding('warning', '!', 'MC1R D294H (rs1805009)', 'See TRAITS: this genotype may carry a red-hair-associated variant, which also matters for UV sensitivity. Use sun protection regardless.')
 sections.append(section('skin', 'SKIN', 'moderate', 'ACNE / INFLAMMATION TENDENCY', sk))
 
 # VISION
@@ -287,7 +345,8 @@ tr = sub('Physical traits', [
     row('rs2180439', 'HDAC9', {'CT': ('moderate', 'Moderate hair-loss association')}),
     row('rs17822931', 'ABCC11', {'CT': ('info', 'Intermediate earwax type')}),
 ])
-tr += finding('warning', '?', 'Hair color not reliable', 'The generated report predicts red hair with "high" confidence from one MC1R marker. That is a single-variant guess; treat it as unconfirmed.')
+if geno('rs1805009') == 'CC':
+    tr += finding('warning', '?', 'Hair color not reliable', 'Single-variant MC1R hair-color guesses are unconfirmed; compare with your actual hair color.')
 sections.append(section('traits', 'PHYSICAL TRAITS', 'good', 'INFORMATIONAL', tr))
 
 # PHARMA
@@ -315,32 +374,52 @@ sections.append(section('carrier', 'CARRIER STATUS', 'good', 'NO CARRIER VARIANT
 total = STATS['total']
 found = STATS['found']
 snps = len(GENOME)
+def _dedupe(rows):
+    seen, out = set(), []
+    for r in rows:
+        k = (r['gene'], r['g'])
+        if k not in seen:
+            seen.add(k)
+            out.append(r)
+    return out
+
+
+_found_rows = [r for r in RESULTS if r['g']]
+_alerts = _dedupe([r for r in _found_rows if r['st'] == 'risk'] + [r for r in _found_rows if r['st'] == 'moderate'])[:10]
+_good = _dedupe([r for r in _found_rows if r['st'] == 'normal' and r['section'] in ('longevity', 'health', 'sports', 'pain', 'nutrition')])[:6]
+_missing_key = [name for rs, name in (('rs429358', 'APOE'), ('rs762551', 'CYP1A2')) if geno(rs) is None]
+if META['y_calls'] > 100:
+    _sex = 'Male (XY)'
+elif META['x_calls'] > 1000:
+    _sex = 'Female (XX)'
+else:
+    _sex = 'Unknown'
+
+
+def _alert(cls, icon, text):
+    return f'<div class="alert-item {cls}"><span class="alert-icon">{icon}</span><span>{escape(text)}</span></div>'
+
+
+alerts_html = ''.join(_alert('warning', '!', f"{r['gene']} {r['g']}: {r['text']}") for r in _alerts)
+if _missing_key:
+    alerts_html += _alert('warning', '!', ', '.join(_missing_key) + ' not on this chip: unknown')
+if not alerts_html:
+    alerts_html = _alert('success', '+', 'No flagged markers among those displayed')
+good_html = ''.join(_alert('success', '+', f"{r['gene']} {r['g']}: {r['text']}") for r in _good) \
+    or _alert('warning', '!', 'No highlighted markers')
+
 status = f'''
 <div class="status-box" id="status">
   <div class="status-header">// SYSTEM STATUS</div>
   <div class="status-grid">
-    <div class="status-item"><span class="status-label">GENOME:</span><span class="status-value">AncestryDNA</span></div>
-    <div class="status-item"><span class="status-label">SEX:</span><span class="status-value">Female (XX)</span></div>
+    <div class="status-item"><span class="status-label">GENOME:</span><span class="status-value">{escape(META['source'])}</span></div>
+    <div class="status-item"><span class="status-label">SEX:</span><span class="status-value">{_sex}</span></div>
     <div class="status-item"><span class="status-label">SNPs:</span><span class="status-value">{snps:,}</span></div>
-    <div class="status-item"><span class="status-label">CHIP:</span><span class="status-value">AncestryDNA array v2.0</span></div>
+    <div class="status-item"><span class="status-label">CHIP:</span><span class="status-value">{escape(META['chip'])}</span></div>
   </div>
   <div class="alerts-grid">
-    <div class="alerts-column warnings"><h3>// ALERTS</h3>
-      <div class="alert-item warning"><span class="alert-icon">!</span><span>BTBD9 AA: elevated restless-legs risk</span></div>
-      <div class="alert-item warning"><span class="alert-icon">!</span><span>9p21 AG: mildly increased coronary risk</span></div>
-      <div class="alert-item warning"><span class="alert-icon">!</span><span>TCF7L2 CT: moderately increased type 2 diabetes risk</span></div>
-      <div class="alert-item warning"><span class="alert-icon">!</span><span>CYP2C19*2 AG: intermediate drug metabolizer</span></div>
-      <div class="alert-item warning"><span class="alert-icon">!</span><span>IL-6 CC: higher inflammatory tone</span></div>
-      <div class="alert-item warning"><span class="alert-icon">!</span><span>Migraine-associated variants (MTDH CC)</span></div>
-      <div class="alert-item warning"><span class="alert-icon">!</span><span>APOE, CYP1A2 not on chip: unknown</span></div>
-    </div>
-    <div class="alerts-column highlights"><h3>// HIGHLIGHTS</h3>
-      <div class="alert-item success"><span class="alert-icon">+</span><span>KLOTHO heterozygote, CETP and telomere-length variants favorable</span></div>
-      <div class="alert-item success"><span class="alert-icon">+</span><span>No Factor V Leiden, no HFE C282Y</span></div>
-      <div class="alert-item success"><span class="alert-icon">+</span><span>Lactose tolerant; low celiac risk (DQ8)</span></div>
-      <div class="alert-item success"><span class="alert-icon">+</span><span>Efficient lactate clearance (MCT1 AA)</span></div>
-      <div class="alert-item success"><span class="alert-icon">+</span><span>Protective GCH1 pain variants</span></div>
-    </div>
+    <div class="alerts-column warnings"><h3>// ALERTS</h3>{alerts_html}</div>
+    <div class="alerts-column highlights"><h3>// HIGHLIGHTS</h3>{good_html}</div>
   </div>
   <div class="progress-bar"><div class="progress-track">
     <div class="progress-fill" style="flex: {found};"></div><div class="progress-empty" style="flex: {total - found};"></div></div>
