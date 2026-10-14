@@ -15,11 +15,53 @@ BASE_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 GENOME_FILE = os.environ.get('GENOME_FILE', f"{BASE_PATH}/data/my_dna_file.txt")
 OUT_FILE = os.environ.get('OUT_FILE', f"{BASE_PATH}/webpage/dna_terminal.html")
 CSS_FILE = f"{BASE_PATH}/webpage/brand.css"
+ASSET_DIR = f"{BASE_PATH}/webpage/assets"
+OWNER_NAME = os.environ.get('OWNER_NAME', '').strip() or 'Genome notes'
 
 
 def load_css():
     with open(CSS_FILE, encoding='utf-8') as f:
         return f.read()
+
+
+def inline_svg(name):
+    """Return webpage/assets/<name>.svg as an inline fragment (XML prolog and comments stripped)."""
+    with open(f"{ASSET_DIR}/{name}.svg", encoding='utf-8') as f:
+        svg = f.read()
+    svg = re.sub(r'<\?xml[^>]*\?>|<!--.*?-->|<!DOCTYPE[^>]*>', '', svg, flags=re.S)
+    return svg.strip()
+
+
+def wordmark(owner):
+    first, _, rest = owner.partition(' ')
+    caps = f'<span class="caps">{escape(rest.strip().upper())}</span>' if rest.strip() else ''
+    return f'<span class="wordmark"><span class="script">{escape(first)}</span>{caps}</span>'
+
+
+HEART = ('<svg viewBox="0 0 60 56" aria-hidden="true" focusable="false"><path d="M30 54C8 38 2 20 14 10C22 4 29 9 30 16'
+         'C31 9 38 4 46 10C58 20 52 38 30 54Z" fill="#8F2638" stroke="#C9A66B" stroke-width="1.5" stroke-linejoin="round"/></svg>')
+
+
+def hero(owner, flagged, ask, found, has_questions=None):
+    """Compact introduction above the summary. Counts only; zero-safe when no markers were readable."""
+    if has_questions is None:
+        has_questions = ask > 0
+    if found == 0:
+        sentence = 'No markers were readable in this file, so there is nothing to report.'
+    else:
+        sentence = (f'{found} marker{"s" if found != 1 else ""} could be read on this chip, {flagged} differ'
+                    f'{"s" if flagged == 1 else ""} from the typical result, and {ask} {"has" if ask == 1 else "have"} '
+                    f'a sensible follow-up.')
+    secondary = '<a class="btn btn-secondary" href="#questions">Questions for my clinician</a>' if has_questions else ''
+    botanical = (f'<div class="botanical" aria-hidden="true"><span class="leaf l1">{inline_svg("leaf")}</span>'
+                 f'<span class="leaf l2">{inline_svg("leaf")}</span><span class="heart h1">{HEART}</span>'
+                 f'<span class="heart h2">{HEART}</span></div>')
+    return (f'<div id="hero" class="hero" role="region" aria-labelledby="hero-title"><div class="hero-body">'
+            f'<p class="kicker">{escape(owner.upper())} &middot; THE SHORT VERSION</p>'
+            f'<h1 id="hero-title">What your DNA can, and can\'t,<br><em>tell you.</em></h1>'
+            f'<p class="hero-sentence">{escape(sentence)}</p>'
+            f'<p class="hero-actions"><a class="btn btn-primary" href="#status">See key takeaways</a>{secondary}</p>'
+            f"</div>{botanical}</div>")
 
 
 META = {'source': 'Unknown', 'chip': 'Unknown', 'y_calls': 0, 'x_calls': 0}
@@ -493,7 +535,7 @@ nt_items = [li('–', 'gray', escape(', '.join(not_tested)) + ' are not on this 
                'ask a clinician about clinical testing if it matters to you.')] if not_tested else []
 
 questions = ''.join(f'<li>{escape(r["q"])}</li>' for r in by_gene(ask) if r['q'])
-questions_html = (f'<div class="tier questions"><h3 class="tier-title">Questions to bring to a clinician or pharmacist</h3>'
+questions_html = (f'<div class="tier questions" id="questions"><h3 class="tier-title">Questions to bring to a clinician or pharmacist</h3>'
                   f'<ol>{questions}</ol></div>') if questions else ''
 
 n_flag_rows = len({r['rsid'] for r in FLAGGED})
@@ -514,6 +556,8 @@ toolbar = '''<div class="toolbar" role="search"><label class="sr" for="q">Search
 <button type="button" id="flagonly" aria-pressed="false">Flagged only</button>
 <button type="button" id="expandall">Expand all</button><button type="button" id="collapseall">Collapse all</button>
 <span id="count" role="status" aria-live="polite"></span></div>'''
+
+hero_html = hero(OWNER_NAME, n_flag_rows, len(ask), found, has_questions=bool(questions))
 
 status = f'''
 <div class="status-box" id="status" tabindex="-1">
@@ -633,18 +677,19 @@ html = f'''<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DNA Terminal: genome summary</title>
+<title>{escape(OWNER_NAME)} | genome summary</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Jost:wght@400;500&family=Pinyon+Script&display=swap" rel="stylesheet">
 <style>{load_css()}</style>
 </head>
 <body>
 <a class="skip" href="#status">Skip to summary</a>
 <header>
-  <div class="header-top"><div class="logo">DNA TERMINAL v1.0</div>
+  <div class="header-top"><div class="logo">{inline_svg("mark").replace("<svg ", '<svg data-brand="mark" role="img" aria-label="Three of Swords mark" ', 1)}{wordmark(OWNER_NAME)}</div>
   <div class="timestamp">{datetime.now():%Y-%m-%d %H:%M}</div></div>
   <nav aria-label="Sections">{nav}</nav>
 </header>
 <main id="main">
+{hero_html}
 {status}
 {body}
 {footer}

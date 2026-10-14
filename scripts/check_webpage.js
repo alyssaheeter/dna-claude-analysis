@@ -164,6 +164,40 @@ async function main() {
   const ctlBad = Object.entries(cc.ctl).filter(([, v]) => v < 3);
   check('B1', 'toolbar input and button borders reach 3:1 against --ground', ctlBad.length === 0, JSON.stringify(cc.ctl));
 
+  // B2 header, hero and brand mark
+  const h = await page.evaluate(() => {
+    const hero = document.querySelector('#hero'), st = document.querySelector('#status');
+    const mark = document.querySelector('svg[data-brand="mark"][role="img"]');
+    const btn = document.querySelector('.btn-primary');
+    const bcs = btn && getComputedStyle(btn);
+    const all = [...document.querySelectorAll('body *')];
+    return {
+      heroBeforeStatus: !!hero && !!st && !!(hero.compareDocumentPosition(st) & Node.DOCUMENT_POSITION_FOLLOWING),
+      heroHeight: hero ? Math.round(hero.getBoundingClientRect().height) : 9999,
+      mark: mark ? mark.getAttribute('role') : null, markLabel: mark ? mark.getAttribute('aria-label') : null,
+      pinyonCount: all.filter(e => getComputedStyle(e).fontFamily.startsWith('"Pinyon Script"')).length,
+      scriptCount: document.querySelectorAll('.wordmark .script').length,
+      btnBg: bcs ? bcs.backgroundColor : null, btnColor: bcs ? bcs.color : null, btnH: btn ? btn.getBoundingClientRect().height : 0,
+      botanicalAria: document.querySelector('.botanical') ? document.querySelector('.botanical').getAttribute('aria-hidden') : null,
+    };
+  });
+  check('B2', 'hero precedes the summary and stays compact', h.heroBeforeStatus && h.heroHeight <= 240, `${h.heroHeight}px`);
+  check('B2', 'brand mark is an accessible image', h.mark === 'img' && h.markLabel === 'Three of Swords mark', '');
+  check('B2', 'Pinyon Script is used only by the wordmark name', h.pinyonCount === h.scriptCount && h.scriptCount >= 1, `${h.pinyonCount}/${h.scriptCount}`);
+  check('B2', 'primary button is garnet with ivory text, 44px tall', h.btnBg === 'rgb(143, 38, 56)' && h.btnColor === 'rgb(241, 233, 214)' && h.btnH >= 44, JSON.stringify(h));
+  const hb = await page.evaluate(() => [...document.querySelectorAll('#hero a[href^="#"]')].map(a => ({ href: a.getAttribute('href'), ok: !!document.querySelector(a.getAttribute('href')) })));
+  check('B2', 'hero links all resolve to an element', hb.length >= 1 && hb.every(x => x.ok), JSON.stringify(hb));
+  const mob = await browser.newPage({ viewport: { width: 390, height: 844 } });
+  await mob.goto(FILE); await mob.waitForTimeout(300);
+  const m = await mob.evaluate(() => { const b = document.querySelector('.botanical'); return { botanicalDisplay: b ? getComputedStyle(b).display : null }; });
+  await mob.close();
+  check('B2', 'botanical art hidden and aria-hidden at 390px', m.botanicalDisplay === 'none' && h.botanicalAria === 'true', '');
+  const p320 = await browser.newPage({ viewport: { width: 320, height: 844 } });
+  await p320.goto(FILE); await p320.waitForTimeout(300);
+  const m320 = await p320.evaluate(() => ({ sw: document.documentElement.scrollWidth, iw: innerWidth }));
+  await p320.close();
+  check('B2', 'no horizontal scroll at 320px with the hero', m320.sw <= m320.iw, '');
+
   // keyboard: first Tab reaches the skip link
   await page.keyboard.press('Tab');
   const tabbed = await page.evaluate(() => document.activeElement.className);
