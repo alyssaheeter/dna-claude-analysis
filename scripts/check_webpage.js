@@ -95,7 +95,12 @@ async function main() {
     return {
       fails, small, bodyFs,
       askN: ask.length, askGenes: genes, askAllAct: ask.every(l => l.querySelector('.tk-act')),
-      secs: secs.length, evs: document.querySelectorAll('section[id] .ev').length,
+      secs: secs.length, dividers: document.querySelectorAll('.divider').length,
+      dividersHidden: [...document.querySelectorAll('.divider')].every(x => x.getAttribute('aria-hidden') === 'true'),
+      swordDefs: document.querySelectorAll('symbol#sword').length, heartDefs: document.querySelectorAll('symbol#heart').length,
+      secBg: getComputedStyle(secs[0]).backgroundColor, secBorder: getComputedStyle(secs[0]).borderTopColor,
+      titleFs: getComputedStyle(document.querySelector('.section-title')).fontSize,
+      evs: document.querySelectorAll('section[id] .ev').length,
       disclaimers: document.querySelectorAll('.disclaimer').length,
       legend: !!document.querySelector('details.legend'),
       rowsWithIcon: rows.filter(r => r.querySelector('.st [aria-hidden="true"]') && r.querySelector('.st').textContent.trim().length > 3).length,
@@ -232,6 +237,17 @@ async function main() {
   check('B3', 'garnet is never used as text on a dark ground', b3.scanned > 50 && b3.garnetText.length === 0, b3.garnetText.join(', ') || `${b3.scanned} text elements scanned`);
   check('B3', 'top tier has a 3px gold rule and spaced Jost capitals title', b3.askBorder === 'rgb(201, 166, 107)' && b3.askBorderW === '3px' && /^"?Jost/.test(b3.askTitleFont) && b3.askTitleLs > 0, `${b3.askBorder} ${b3.askBorderW} ${b3.askTitleFont} ls=${b3.askTitleLs}`);
   check('B3', 'flagged rows keep weight 500 over typical 400 and an icon (R6 still holds)', Number(d.flaggedBold) === 500 && Number(d.typicalBold) === 400 && d.flaggedIcon, `${d.flaggedBold}/${d.typicalBold}`);
+
+  // ---------- B4 section panels, dividers, motion
+  check('B4', 'one divider between each pair of sections, all aria-hidden', d.dividers === d.secs - 1 && d.dividersHidden, `${d.dividers}`);
+  check('B4', 'sprite symbols defined exactly once', d.swordDefs === 1 && d.heartDefs === 1, `${d.swordDefs}/${d.heartDefs}`);
+  check('B4', 'section panels use panel colour with a gold-alpha border', d.secBg === 'rgb(30, 46, 37)' && /rgba\(201, 166, 107/.test(d.secBorder), JSON.stringify({ bg: d.secBg, border: d.secBorder }));
+  check('B4', 'section headings are 26px', d.titleFs === '26px', d.titleFs);
+  const rm = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+  await rm.emulateMedia({ reducedMotion: 'reduce' });
+  await rm.goto(FILE); await rm.waitForTimeout(300);
+  check('B4', 'reduced motion: no element has an animation', await rm.evaluate(() => [...document.querySelectorAll('*')].every(e => getComputedStyle(e).animationName === 'none')), '');
+  await rm.close();
 
   // keyboard: first Tab reaches the skip link
   await page.keyboard.press('Tab');

@@ -38,8 +38,27 @@ def wordmark(owner):
     return f'<span class="wordmark"><span class="script">{escape(first)}</span>{caps}</span>'
 
 
-HEART = ('<svg viewBox="0 0 60 56" aria-hidden="true" focusable="false"><path d="M30 54C8 38 2 20 14 10C22 4 29 9 30 16'
-         'C31 9 38 4 46 10C58 20 52 38 30 54Z" fill="#8F2638" stroke="#C9A66B" stroke-width="1.5" stroke-linejoin="round"/></svg>')
+def decorative(name):
+    """An asset as an inline decorative graphic."""
+    return inline_svg(name).replace('<svg ', '<svg aria-hidden="true" focusable="false" ', 1)
+
+
+def sprite():
+    """One hidden SVG sprite: `sword` (line art) and `heart` (built from webpage/assets/heart.svg)."""
+    heart = inline_svg('heart')
+    box = re.search(r'viewBox="([^"]+)"', heart).group(1)
+    shapes = re.sub(r'^<svg[^>]*>|</svg>$', '', heart).strip()
+    sword = ('<symbol id="sword" viewBox="0 0 130 30"><g fill="none" stroke="currentColor" stroke-width="2.2" '
+             'stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="15" r="3.4"/><path d="M8.4 15H20M21 2V28"/>'
+             '<path d="M23 12.4L128 15L23 17.6Z"/></g></symbol>')
+    return (f'<svg style="display:none" aria-hidden="true" focusable="false">{sword}'
+            f'<symbol id="heart" viewBox="{box}">{shapes}</symbol></svg>')
+
+
+def divider(i):
+    """Decorative gilded rule with a small centred sword (a heart on every third)."""
+    glyph = 'heart' if i % 3 == 2 else 'sword'
+    return (f'<div class="divider {glyph}" aria-hidden="true"><svg focusable="false"><use href="#{glyph}"/></svg></div>')
 
 
 def hero(owner, flagged, ask, found, has_questions=None):
@@ -54,8 +73,8 @@ def hero(owner, flagged, ask, found, has_questions=None):
                     f'a sensible follow-up.')
     secondary = '<a class="btn btn-secondary" href="#questions">Questions for my clinician</a>' if has_questions else ''
     botanical = (f'<div class="botanical" aria-hidden="true"><span class="leaf l1">{inline_svg("leaf")}</span>'
-                 f'<span class="leaf l2">{inline_svg("leaf")}</span><span class="heart h1">{HEART}</span>'
-                 f'<span class="heart h2">{HEART}</span></div>')
+                 f'<span class="leaf l2">{inline_svg("leaf")}</span><span class="heart h1">{decorative("heart")}</span>'
+                 f'<span class="heart h2">{decorative("heart")}</span></div>')
     return (f'<div id="hero" class="hero" role="region" aria-labelledby="hero-title"><div class="hero-body">'
             f'<p class="kicker">{escape(owner.upper())} &middot; THE SHORT VERSION</p>'
             f'<h1 id="hero-title">What your DNA can, and can\'t,<br><em>tell you.</em></h1>'
@@ -589,7 +608,7 @@ NAV = [('status', 'SUMMARY'), ('ancestry', 'ANCESTRY'), ('health', 'HEALTH'), ('
        ('traits', 'TRAITS'), ('pharma', 'PHARMA'), ('carrier', 'CARRIER')]
 nav = '\n'.join(f'<a href="#{i}">{t}</a>' for i, t in NAV)
 
-body = '\n'.join(sections)
+body = '\n'.join(sec + (divider(i) if i < len(sections) - 1 else '') for i, sec in enumerate(sections))
 # cross-references: a marker that also appears in other sections says where
 for idx, r in enumerate(RESULTS):
     others = [SEC_TITLE[x['section']] for j, x in enumerate(RESULTS)
@@ -682,6 +701,7 @@ html = f'''<!DOCTYPE html>
 <style>{load_css()}</style>
 </head>
 <body>
+{sprite()}
 <a class="skip" href="#status">Skip to summary</a>
 <header>
   <div class="header-top"><div class="logo">{inline_svg("mark").replace("<svg ", '<svg data-brand="mark" role="img" aria-label="Three of Swords mark" ', 1)}{wordmark(OWNER_NAME)}</div>
