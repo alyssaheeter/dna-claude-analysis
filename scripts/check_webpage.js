@@ -20,7 +20,8 @@ async function main() {
   const hosts = new Set();
   const auditPage = await browser.newPage({ viewport: { width: 1280, height: 900 } });
   auditPage.on('request', req => { try { hosts.add(new URL(req.url()).hostname); } catch (e) { hosts.add(req.url()); } });
-  await auditPage.goto(FILE); await auditPage.waitForTimeout(400);
+  await auditPage.goto(FILE);
+  await auditPage.waitForLoadState('networkidle', { timeout: 5000 }).catch(() => {});
   const badHosts = [...hosts].filter(h => !['', 'fonts.googleapis.com', 'fonts.gstatic.com'].includes(h));
   check('B1', 'requests only go to file or Google Fonts hosts', badHosts.length === 0, badHosts.join(', ') || [...hosts].join(','));
   await auditPage.close();
@@ -107,6 +108,7 @@ async function main() {
       reduceCss: [...document.styleSheets].filter(s => !s.href).some(s => [...s.cssRules].some(r => r.media && r.media.mediaText.includes('reduced-motion'))),
       focusCss: [...document.styleSheets].filter(s => !s.href).some(s => [...s.cssRules].some(r => r.selectorText && r.selectorText.includes(':focus-visible'))),
       flaggedBold: getComputedStyle(document.querySelector('tr.flag td.c-mean')).fontWeight,
+      typicalBold: getComputedStyle(document.querySelector('tr.r:not(.flag) td.c-mean')).fontWeight,
       flaggedIcon: !!document.querySelector('tr.flag .st [aria-hidden]'),
     };
   });
@@ -122,7 +124,7 @@ async function main() {
   check('R3', 'every row has status icon + word', d.rowsWithIcon === d.rows, `${d.rowsWithIcon}/${d.rows}`);
   check('R4', 'one evidence badge per section', d.evs === d.secs && d.secs >= 16, `${d.evs} badges / ${d.secs} sections`);
   check('R4', 'at most 3 disclaimer boxes (1 general + pharma + carrier)', d.disclaimers <= 3, `${d.disclaimers}`);
-  check('R6', 'flagged rows are emphasised by weight and an icon (not colour alone)', Number(d.flaggedBold) >= 700 && d.flaggedIcon, `weight ${d.flaggedBold}`);
+  check('R6', 'flagged rows are emphasised by weight and an icon (not colour alone)', Number(d.flaggedBold) >= 500 && Number(d.flaggedBold) > Number(d.typicalBold) && d.flaggedIcon, `flagged ${d.flaggedBold} vs typical ${d.typicalBold}`);
   check('R7', 'all visible text meets 4.5:1 contrast', d.fails.length === 0, d.fails.slice(0, 6).join('; '));
   check('R7', 'no text under 12px', d.small.length === 0, d.small.slice(0, 4).join('; '));
   check('R7', 'table body text >= 13px', d.bodyFs >= 13, `${d.bodyFs}px`);
@@ -140,6 +142,27 @@ async function main() {
     && tok.gold === '#c9a66b' && tok.garnet === '#8f2638' && tok.blush === '#e8c3bc', JSON.stringify(tok));
   check('B1', 'body is Jost, titles are Cormorant Garamond', /^"?Jost/.test(tok.body) && /^"?Cormorant Garamond/.test(tok.title), `${tok.body} | ${tok.title}`);
   check('B1', 'ground colour is the page background', await page.evaluate(() => getComputedStyle(document.body).backgroundColor) === 'rgb(18, 29, 23)', '');
+
+  // B1 derived-token and control contrast
+  const cc = await page.evaluate(() => {
+    const lum = ([r, g, b]) => { const f = c => { c /= 255; return c <= .03928 ? c / 12.92 : Math.pow((c + .055) / 1.055, 2.4); }; return .2126 * f(r) + .7152 * f(g) + .0722 * f(b); };
+    const ratio = (a, b) => (Math.max(lum(a), lum(b)) + .05) / (Math.min(lum(a), lum(b)) + .05);
+    const hex = h => { h = h.trim().replace('#', ''); return [0, 2, 4].map(i => parseInt(h.substr(i, 2), 16)); };
+    const root = getComputedStyle(document.documentElement), tk = n => hex(root.getPropertyValue(n));
+    const rgba = s => s.match(/[\d.]+/g).map(Number);
+    const ground = tk('--ground'), out = {};
+    for (const t of ['--sage', '--rose', '--muted']) out[t] = [ratio(tk(t), ground), ratio(tk(t), tk('--panel'))];
+    const ctl = {};
+    for (const sel of ['.toolbar input', '.toolbar button']) {
+      const c = rgba(getComputedStyle(document.querySelector(sel)).borderTopColor), a = c[3] === undefined ? 1 : c[3];
+      ctl[sel] = ratio([0, 1, 2].map(i => c[i] * a + ground[i] * (1 - a)), ground);
+    }
+    return { out, ctl };
+  });
+  const tokBad = Object.entries(cc.out).filter(([, v]) => v[0] < 4.5 || v[1] < 4.5).map(([k, v]) => `${k} ${v.map(x => x.toFixed(2))}`);
+  check('B1', '--sage, --rose, --muted reach 4.5:1 on --ground and --panel', tokBad.length === 0, tokBad.join('; ') || JSON.stringify(cc.out));
+  const ctlBad = Object.entries(cc.ctl).filter(([, v]) => v < 3);
+  check('B1', 'toolbar input and button borders reach 3:1 against --ground', ctlBad.length === 0, JSON.stringify(cc.ctl));
 
   // keyboard: first Tab reaches the skip link
   await page.keyboard.press('Tab');
