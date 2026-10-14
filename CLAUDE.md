@@ -76,6 +76,6 @@ reports/*.md → Parse findings → HTML sections → webpage/dna_terminal.html
 1. **Privacy first** — Never commit DNA data
 2. **Not medical advice** — Always include disclaimers
 3. **Single HTML output** — No external dependencies except Google Fonts
-4. **Russian language** — Webpage output in Russian
+4. **English language** — Webpage output in English
 5. **Highlight risks** — Use red for critical findings
 

@@ -9,8 +9,8 @@ from datetime import datetime
 from collections import defaultdict
 
 # Paths
-BASE_PATH = "/Users/sh/Library/Mobile Documents/com~apple~CloudDocs/dna"
-GENOME_FILE = f"{BASE_PATH}/data/genome_Andre_Sh_v5_Full_20260106100611.txt"
+BASE_PATH = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+GENOME_FILE = f"{BASE_PATH}/data/my_dna_file.txt"
 REPORTS_PATH = f"{BASE_PATH}/reports"
 
 # =============================================================================
